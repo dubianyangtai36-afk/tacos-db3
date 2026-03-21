@@ -4,6 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>タコスDB - 全国タコス専門口コミサイト</title>
+  <meta name="description" content="全国のタコス専門店を口コミとスコアで探せるグルメサイト。100点満点の評価、ランキング、店舗検索。" />
+  <meta name="google-site-verification" content="_WpyCGhpVnAUmus3XGoXrpcKDHeJxykWKBU0ziBrHtY" />
+  <!-- Google AdSense: 審査通過後にca-pub-XXXXXXXXXXXXXXXXを自分のIDに置き換えてください -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif; font-size: 13px; background: #f5f5f5; color: #333; min-height: 100vh; }
@@ -451,6 +455,27 @@
     .badge-a { background: #ffe5d0; color: #c04800; }
     .badge-b { background: #fff0e0; color: #c07000; }
     .badge-c { background: #f5f5f5; color: #666; }
+
+    /* ========= ADS ========= */
+    .ad-slot {
+      background: #f9f9f9; border: 1px dashed #ddd; border-radius: 4px;
+      text-align: center; padding: 10px; margin-bottom: 12px;
+      min-height: 90px; display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .ad-slot-placeholder {
+      color: #bbb; font-size: 11px;
+    }
+    .ad-slot-sidebar {
+      min-height: 250px; margin-bottom: 12px;
+    }
+    .ad-slot-inline {
+      margin: 12px 0;
+    }
+    .ad-slot-footer {
+      max-width: 980px; margin: 12px auto; min-height: 90px;
+    }
+
     /* ========= RESPONSIVE / MOBILE ========= */
     @media (max-width: 768px) {
       /* HEADER */
@@ -696,6 +721,12 @@
         </div>
       </div>
 
+      <!-- AD: Top Banner -->
+      <div class="ad-slot" id="ad-top">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="1111111111" data-ad-format="auto" data-full-width-responsive="true"></ins>
+        <span class="ad-slot-placeholder" id="ad-top-ph">📢 広告スペース（AdSense審査通過後に表示されます）</span>
+      </div>
+
       <!-- Result -->
       <div id="result-header">
         <div id="result-count">検索結果：<strong id="countNum">0</strong> 件</div>
@@ -743,6 +774,12 @@
       </div>
     </div>
 
+    <!-- AD: Sidebar -->
+    <div class="ad-slot ad-slot-sidebar" id="ad-sidebar">
+      <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="2222222222" data-ad-format="auto"></ins>
+      <span class="ad-slot-placeholder" id="ad-side-ph">📢 広告スペース</span>
+    </div>
+
     <!-- Score Guide -->
     <div class="sidebar-box">
       <div class="sidebar-box-title">📊 スコアについて</div>
@@ -759,6 +796,12 @@
   </div><!-- /sidebar -->
 
 </div><!-- /main -->
+
+<!-- AD: Footer Banner -->
+<div class="ad-slot ad-slot-footer" id="ad-footer">
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" data-ad-slot="3333333333" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+  <span class="ad-slot-placeholder" id="ad-foot-ph">📢 広告スペース（フッター）</span>
+</div>
 
 <!-- ========= MODAL ========= -->
 <div id="modal-overlay" onclick="closeModalOutside(event)">
@@ -1925,6 +1968,17 @@ if (loaded) {
 })();
 applyFilters();
 renderSidebarTop5();
+
+// Initialize ads (placeholders hidden when real ads load)
+try {
+  if (window.adsbygoogle) {
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    (adsbygoogle = window.adsbygoogle || []).push({});
+    // Hide placeholders when ads are active
+    document.querySelectorAll('.ad-slot-placeholder').forEach(el => el.style.display = 'none');
+  }
+} catch(e) {}
 </script>
 </body>
 </html>
