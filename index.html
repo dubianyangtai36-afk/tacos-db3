@@ -33,6 +33,17 @@
       });
     }
   </script>
+  <script>
+    window.addEventListener("load", function() {
+      var s = document.createElement("script");
+      s.src = "/stores-all.js";
+      s.onload = function() {
+        var chip = document.querySelector(".fchip.active");
+        if (chip) chip.click();
+      };
+      document.body.appendChild(s);
+    });
+  </script>
   <!-- 構造化データ (JSON-LD) -->
   <script type="application/ld+json">
   {
