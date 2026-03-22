@@ -20,6 +20,19 @@
   <meta name="twitter:title" content="タコスDB - 日本初のタコス専門レビューサイト" />
   <meta name="twitter:description" content="全国のタコス専門店を口コミとスコアで探せるグルメサイト" />
   <meta name="google-site-verification" content="_WpyCGhpVnAUmus3XGoXrpcKDHeJxykWKBU0ziBrHtY" />
+  <!-- PWA -->
+  <meta name="theme-color" content="#0d7377" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="apple-touch-icon" href="/icon-192.png" />
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => console.log('SW registered:', reg.scope))
+          .catch(err => console.log('SW registration failed:', err));
+      });
+    }
+  </script>
   <!-- 構造化データ (JSON-LD) -->
   <script type="application/ld+json">
   {
