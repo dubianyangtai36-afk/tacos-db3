@@ -29,6 +29,10 @@
       "dest": "/icon-512.png"
     },
     {
+      "src": "/stores-all.js",
+      "dest": "/stores-all.js"
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
