@@ -9,6 +9,10 @@
                 "dest": "/robots.txt"
         },
     {
+      "src": "/ogp.png",
+      "dest": "/ogp.png"
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
