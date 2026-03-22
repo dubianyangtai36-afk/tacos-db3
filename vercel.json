@@ -4,6 +4,14 @@
       "src": "/sitemap.xml",
       "dest": "/sitemap.xml"
     },
+    {
+      "src": "/stores-extra.js",
+      "dest": "/stores-extra.js"
+    },
+    {
+      "src": "/stores-extra2.js",
+      "dest": "/stores-extra2.js"
+    },
         {
                 "src": "/robots.txt",
                 "dest": "/robots.txt"
