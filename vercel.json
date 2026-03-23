@@ -45,6 +45,14 @@
       "dest": "/icon-512.png"
     },
     {
+      "src": "/stores-extra3.js",
+      "dest": "/stores-extra3.js"
+    },
+    {
+      "src": "/stores-extra4.js",
+      "dest": "/stores-extra4.js"
+    },
+    {
       "src": "/stores-all.js",
       "dest": "/stores-all.js"
     },
