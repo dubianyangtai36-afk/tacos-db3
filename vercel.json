@@ -1,6 +1,14 @@
 {
   "routes": [
     {
+      "src": "/favicon.ico",
+      "dest": "/favicon.ico"
+    },
+    {
+      "src": "/taco-icon.svg",
+      "dest": "/taco-icon.svg"
+    },
+    {
       "src": "/sitemap.xml",
       "dest": "/sitemap.xml"
     },
@@ -12,10 +20,10 @@
       "src": "/stores-extra2.js",
       "dest": "/stores-extra2.js"
     },
-        {
-                "src": "/robots.txt",
-                "dest": "/robots.txt"
-        },
+    {
+      "src": "/robots.txt",
+      "dest": "/robots.txt"
+    },
     {
       "src": "/ogp.png",
       "dest": "/ogp.png"
