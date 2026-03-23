@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>\u30bf\u30b3\u30b9DB - \u5168\u56fd\u30de\u30c3\u30d7</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"><\/script>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:-apple-system,BlinkMacSystemFont,sans-serif; }
+#map { width:100%; height:100vh; }
+.map-header { position:fixed; top:0; left:50%; transform:translateX(-50%); z-index:1000; background:rgba(255,255,255,0.95); padding:8px 24px; border-radius:0 0 12px 12px; box-shadow:0 2px 12px rgba(0,0,0,0.15); display:flex; align-items:center; gap:12px; }
+.map-header h1 { font-size:18px; color:#0d7377; }
+.map-header a { color:#0d7377; text-decoration:none; font-size:14px; }
+.map-header a:hover { text-decoration:underline; }
+.map-header .count { background:#0d7377; color:#fff; padding:2px 10px; border-radius:12px; font-size:13px; }
+.store-popup { min-width:200px; }
+.store-popup h3 { color:#0d7377; margin-bottom:4px; font-size:15px; }
+.store-popup .area { color:#666; font-size:12px; margin-bottom:4px; }
+.store-popup .tags { display:flex; flex-wrap:wrap; gap:4px; margin:6px 0; }
+.store-popup .tag { background:#e6f7f5; color:#0d7377; padding:1px 8px; border-radius:10px; font-size:11px; }
+.store-popup .score { font-weight:bold; font-size:16px; }
+.store-popup .score.s-s { color:#e8a000; }
+.store-popup .score.s-a { color:#0d7377; }
+.store-popup .score.s-b { color:#4a9; }
+.store-popup .score.s-c { color:#888; }
+.store-popup .score.s-d { color:#c66; }
+.legend { position:fixed; bottom:20px; right:10px; z-index:1000; background:rgba(255,255,255,0.95); padding:12px 16px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.15); font-size:12px; }
+.legend h4 { margin-bottom:6px; color:#333; }
+.legend-item { display:flex; align-items:center; gap:6px; margin:3px 0; }
+.legend-dot { width:12px; height:12px; border-radius:50%; }
+</style>
+</head>
+<body>
+<div class="map-header">
+<span style="font-size:24px">\ud83c\udf2e</span>
+<h1>\u30bf\u30b3\u30b9DB \u5168\u56fd\u30de\u30c3\u30d7</h1>
+<span class="count" id="pin-count">0\u5e97\u8217</span>
+<a href="/">\u2190 \u30c8\u30c3\u30d7\u306b\u623b\u308b</a>
+</div>
+<div id="map"></div>
+<div class="legend">
+<h4>\u30b9\u30b3\u30a2</h4>
+<div class="legend-item"><div class="legend-dot" style="background:#e8a000"></div> 4.5+ \u6bbf\u5802\u5165\u308a</div>
+<div class="legend-item"><div class="legend-dot" style="background:#0d7377"></div> 4.0\u301c \u8d85\u304a\u3059\u3059\u3081</div>
+<div class="legend-item"><div class="legend-dot" style="background:#4a9"></div> 3.5\u301c \u304a\u3059\u3059\u3081</div>
+<div class="legend-item"><div class="legend-dot" style="background:#888"></div> 3.0\u301c \u666e\u901a</div>
+<div class="legend-item"><div class="legend-dot" style="background:#c66"></div> \u301c3.0 \u8981\u6539\u5584</div>
+</div>
+<script src="stores-all.js"><\/script>
+<script src="stores-extra.js"><\/script>
+<script src="stores-extra2.js"><\/script>
+<script src="stores-extra3.js"><\/script>
+<script src="stores-extra4.js"><\/script>
+<script>
+var AREA_COORDS = {
+  "東京": [35.6812,139.7671],
+  "大阪": [34.6937,135.5023],
+  "名古屋": [35.1815,136.9066],
+  "福岡": [33.5902,130.4017],
+  "京都": [35.0116,135.7681],
+  "北海道": [43.0621,141.3544],
+  "沖縄": [26.3344,127.8056],
+  "広島": [34.3853,132.4553],
+  "神奈川": [35.4437,139.638],
+  "兵庫": [34.6913,135.183],
+  "宮城": [38.2688,140.8721],
+  "奈良": [34.6851,135.805],
+  "滋賀": [35.0045,135.8686],
+  "愛知": [35.1802,136.9066],
+  "静岡": [34.9756,138.3828],
+  "石川": [36.5613,136.6562],
+  "山形": [38.2404,140.3633],
+  "新潟": [37.9026,139.0232],
+  "岩手": [39.7036,141.1527],
+  "岡山": [34.6618,133.9344],
+  "香川": [34.3401,134.0434],
+  "愛媛": [33.8416,132.7657],
+  "徳島": [34.0658,134.5593],
+  "熊本": [32.7898,130.7417],
+  "鹿児島": [31.5602,130.5581],
+  "長崎": [32.7503,129.8777],
+  "宮崎": [31.9111,131.4239],
+  "大分": [33.2382,131.6126],
+  "千葉": [35.6073,140.1063],
+  "埼玉": [35.8617,139.6455],
+  "長野": [36.2378,138.1812],
+  "群馬": [36.3911,139.0608],
+  "栃木": [36.5657,139.8836],
+  "茨城": [36.3415,140.4468],
+  "三重": [34.7303,136.5086],
+  "岐阜": [35.3912,136.7223],
+  "和歌山": [34.226,135.1675],
+  "山口": [34.186,131.4714],
+  "佐賀": [33.2494,130.2988],
+  "富山": [36.6953,137.2113],
+  "福島": [37.75,140.4676],
+  "秋田": [39.7186,140.1024],
+  "青森": [40.8244,140.74],
+  "高知": [33.5597,133.5311],
+};
+
+var NB_COORDS = {
+  "世田谷区三軒茶屋": [35.6439,139.67],
+  "品川区西中延": [35.6098,139.713],
+  "中野区新中野": [35.7079,139.6628],
+  "千代田区東京駅": [35.6812,139.7671],
+  "渋谷区原宿・神宮前": [35.6702,139.7095],
+  "目黒区中目黒": [35.634,139.7036],
+  "世田谷区尾山台": [35.6328,139.6624],
+  "渋谷区恵比寿": [35.6469,139.7101],
+  "渋谷区広尾": [35.6513,139.7231],
+  "渋谷区神宮前": [35.6702,139.7095],
+  "渋谷区代々木上原": [35.6685,139.678],
+  "渋谷区道玄坂": [35.6506,139.682],
+  "新宿区新宿": [35.6938,139.7034],
+  "新宿区四谷": [35.6875,139.7197],
+  "港区外苑前": [35.6674,139.7432],
+  "港区六本木": [35.6627,139.7311],
+  "港区赤坂": [35.6555,139.737],
+  "台東区浅草": [35.7115,139.7966],
+  "台東区上野": [35.7141,139.7774],
+  "豊島区池袋": [35.7295,139.7109],
+  "文京区後楽": [35.7079,139.7524],
+  "杉並区高円寺": [35.7052,139.6505],
+  "杯並区西荘": [35.7009,139.5982],
+  "武蔵野市吉祥寺": [35.7028,139.5801],
+  "中央区銀座": [35.6717,139.7637],
+  "中央区日本橋": [35.6839,139.7745],
+  "千代田区水道橋": [35.696,139.7614],
+  "墨田区押上": [35.7148,139.8111],
+  "大田区蒲田": [35.5625,139.7164],
+  "足立区北千住": [35.7461,139.805],
+  "世田谷区下北沢": [35.6614,139.6681],
+  "板橋区大山": [35.746,139.7178],
+  "練馬区江古田": [35.7322,139.6583],
+  "豊島区大塚": [35.733,139.7282],
+  "多摩市": [35.6368,139.4462],
+  "立川市": [35.694,139.4079],
+  "町田市": [35.5507,139.4466],
+  "国分寺市": [35.6854,139.4543],
+  "三鷹市": [35.6835,139.5607],
+  "港区新橋": [35.6659,139.7583],
+  "港区白金台": [35.6434,139.727],
+  "中野区中野": [35.7059,139.6621],
+  "杉並区阿佐ヶ谷": [35.7052,139.6355],
+  "千代田区神田": [35.6932,139.7707],
+  "目黒区自由が丘": [35.607,139.6684],
+  "世田谷区経堂": [35.6279,139.6697],
+  "赤羽橋駅": [35.6782,139.7385],
+  "渋谷区渋谷": [35.658,139.7016],
+  "港区台場": [35.6267,139.7404],
+  "北区梅田・大阪駅": [34.7024,135.4959],
+  "中央区心斎橋": [34.6748,135.5014],
+  "中央区難波": [34.6627,135.5005],
+  "浪速区アメリカ村": [34.6687,135.4978],
+  "天王寺区": [34.6532,135.5156],
+  "福島区": [34.6861,135.4726],
+  "此花区": [34.713,135.4686],
+  "西成区": [34.6508,135.4831],
+  "生野区": [34.673,135.5202],
+  "堆市": [34.5733,135.483],
+  "豊中市": [34.7814,135.4581],
+  "吹田市": [34.761,135.5199],
+  "高槻市": [34.8508,135.6194],
+  "大阪市中央区": [34.6838,135.5023],
+  "北区中崎": [34.7054,135.5029],
+  "天満橋": [34.6938,135.5327],
+  "新世界": [34.6521,135.5062],
+  "梅田": [34.7006,135.4985],
+  "南船場": [34.6598,135.5074],
+  "堂島": [34.6843,135.4873],
+  "江坂区": [34.6493,135.5271],
+  "中京区三条": [35.0093,135.7641],
+  "下京区四条": [35.001,135.7604],
+  "左京区岡崎": [35.0117,135.7859],
+  "東山区祇園": [35.0032,135.7753],
+  "伏見区": [34.9417,135.7737],
+  "山科区": [34.972,135.7566],
+  "南区": [34.986,135.7586],
+  "右京区": [35.013,135.7192],
+  "北区上賀茂": [35.0622,135.753],
+  "東山区八坂神社前": [35.0032,135.7811],
+  "中央区天神": [33.5921,130.3986],
+  "博多区中洲": [33.5903,130.4082],
+  "博多区博多駅": [33.5897,130.4207],
+  "早良区西新": [33.5842,130.372],
+  "久留米市": [33.3192,130.5083],
+  "北九州市小倉": [33.8868,130.882],
+  "福岡市中央区": [33.5902,130.4017],
+  "天神南": [33.5885,130.3991],
+  "大名": [33.5884,130.3948],
+  "薬院": [33.583,130.3917],
+  "春吉": [33.5281,130.4522],
+  "糸島市": [33.7419,130.4348],
+};
+
+
+function getCoords(store) {
+  var nb = store.neighborhood;
+  if (NB_COORDS[nb]) return NB_COORDS[nb];
+  var area = store.area;
+  var base = AREA_COORDS[area] || [36.2, 138.2];
+  var hash = 0;
+  for (var i = 0; i < nb.length; i++) hash = ((hash << 5) - hash) + nb.charCodeAt(i);
+  var r1 = ((hash & 0xFF) / 255 - 0.5) * 0.08;
+  var r2 = (((hash >> 8) & 0xFF) / 255 - 0.5) * 0.08;
+  return [base[0] + r1, base[1] + r2];
+}
+
+function getScoreColor(sc) {
+  var five = sc / 20;
+  if (five >= 4.5) return "#e8a000";
+  if (five >= 4.0) return "#0d7377";
+  if (five >= 3.5) return "#4a9";
+  if (five >= 3.0) return "#888";
+  return "#c66";
+}
+
+function getScoreLabel(sc) {
+  var five = sc / 20;
+  if (five >= 4.5) return "\u6bbf\u5802\u5165\u308a";
+  if (five >= 4.0) return "\u8d85\u304a\u3059\u3059\u3081";
+  if (five >= 3.5) return "\u304a\u3059\u3059\u3081";
+  if (five >= 3.0) return "\u666e\u901a";
+  return "\u8981\u6539\u5584";
+}
+
+function initMap() {
+  var map = L.map("map", {zoomControl:true}).setView([36.5, 137.5], 6);
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "\u00a9 OpenStreetMap contributors",
+    maxZoom: 18
+  }).addTo(map);
+
+  var markers = L.markerClusterGroup ? L.markerClusterGroup() : L.layerGroup();
+  var allStores = window.stores || [];
+  var pinCount = 0;
+
+  allStores.forEach(function(s) {
+    var coords = getCoords(s);
+    var sc = s.score || 70;
+    var five = (sc / 20).toFixed(1);
+    var color = getScoreColor(sc);
+    var label = getScoreLabel(sc);
+
+    var icon = L.divIcon({
+      className: "custom-pin",
+      html: '<div style="background:' + color + ';width:28px;height:28px;border-radius:50%;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;font-size:14px;cursor:pointer;">' + s.emoji + '</div>',
+      iconSize: [28, 28],
+      iconAnchor: [14, 14]
+    });
+
+    var popup = '<div class="store-popup">'
+      + '<h3>' + s.emoji + " " + s.name + '</h3>'
+      + '<div class="area">\ud83d\udccd ' + s.neighborhood + '</div>'
+      + '<div class="tags">' + s.tags.map(function(t){return '<span class="tag">'+t+'</span>';}).join("") + '</div>'
+      + '<div><span class="score" style="color:' + color + ';">' + five + '</span> <span style="color:'+color+';font-size:12px;">' + label + '</span></div>'
+      + '<div style="margin-top:6px;font-size:11px;color:#999;">' + (s.address||"") + '</div>'
+      + '</div>';
+
+    var marker = L.marker(coords, {icon: icon}).bindPopup(popup);
+    markers.addLayer(marker);
+    pinCount++;
+  });
+
+  map.addLayer(markers);
+  document.getElementById("pin-count").textContent = pinCount + "\u5e97\u8217";
+}
+
+window.addEventListener("load", function() {
+  setTimeout(initMap, 500);
+});
+<\/script>
+</body>
+</html>
