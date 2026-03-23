@@ -57,6 +57,14 @@
       "dest": "/stores-all.js"
     },
     {
+      "src": "/map.html",
+      "dest": "/map.html"
+    },
+    {
+      "src": "/map",
+      "dest": "/map.html"
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
