@@ -1073,6 +1073,10 @@
 <div id="save-toast">💾 保存しました！</div>
 
 <script>
+let _displayCount = 30;
+const _PER_LOAD = 30;
+let _currentList = [];
+
 // =============================================
 // DATA
 // =============================================
@@ -1507,39 +1511,57 @@ function applyFilters() {
 }
 
 function renderList(list) {
-  document.getElementById('countNum').textContent = list.length;
-  const el = document.getElementById('store-list');
-  if (!list.length) {
-    el.innerHTML = '<div id="empty-state"><span class="e-emoji">🌮</span>該当する店舗が見つかりませんでした。<br>条件を変えてお試しください。</div>';
-    return;
+    _currentList = list;
+    _displayCount = _PER_LOAD;
+    document.getElementById('countNum').innerHTML = list.length;
+    _renderCards();
   }
-  el.innerHTML = list.map((s, i) => {
-    const bs = getBlendedScore(s);
-    const cls = scoreClass(bs);
-    return `<div class="store-row" onclick="openModal(${s.id})">
-      <div class="store-rank ${i<3?'r'+(i+1):''}">${i+1}</div>
-      <div class="store-emoji">${s.emoji}</div>
-      <div class="store-info">
-        <div class="store-name-row">
-          <span class="store-name">${s.name}</span>
-          <span class="store-area-badge">${s.neighborhood}</span>
-          ${s.real ? '<span class="real-badge">✓ 実在確認済</span>' : ''}
-        </div>
-        <div class="store-meta">スタイル：${s.style}　価格帯：${s.price}　口コミ：${s.userReviews.length}件</div>
-        <div class="store-tags">${s.tags.map(t=>`<span class="store-tag">${t}</span>`).join('')}</div>
-      </div>
-      <div class="store-score-area">
-        <div class="score-num ${cls}">${toFive(bs)}</div>
-        <div class="score-denom">/ 5.0</div>
-        ${scoreSourceLabel(s)}
-      </div>
-    </div>`;
-  }).join('');
-}
 
-// =============================================
-// RANKING
-// =============================================
+  function _renderCards() {
+    const list = _currentList;
+    const visible = list.slice(0, _displayCount);
+    const el = document.getElementById('store-list');
+    el.innerHTML = visible.map(s => {
+      const sc = getBlendedScore(s);
+      const five = toFive(sc);
+      return '<div class="store-card" onclick="openModal('+s.id+')">'
+        +'<div class="store-card-emoji">'+s.emoji+'</div>'
+        +'<div class="store-card-body">'
+        +'<div class="store-card-name">'+s.name+'</div>'
+        +'<div class="store-card-area">📍 '+s.neighborhood+'</div>'
+        +'<div class="store-card-tags">'+s.tags.map(t=>'<span class="tag">'+t+'</span>').join('')+'</div>'
+        +'</div>'
+        +'<div class="store-card-score '+scoreClass(sc)+'">'
+        +'<div class="store-card-score-num">'+five.toFixed(1)+'</div>'
+        +'<div class="store-card-score-label">'+scoreBadge(sc)+'</div>'
+        +'</div></div>';
+    }).join('');
+    
+    // Add load more button
+    const remaining = list.length - _displayCount;
+    const loadMoreEl = document.getElementById('load-more-wrap');
+    if (loadMoreEl) loadMoreEl.remove();
+    if (remaining > 0) {
+      const wrap = document.createElement('div');
+      wrap.id = 'load-more-wrap';
+      wrap.style.cssText = 'text-align:center;padding:24px 0;';
+      wrap.innerHTML = '<button onclick="_loadMore()" style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:none;padding:14px 48px;border-radius:30px;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 4px 15px rgba(245,158,11,0.4);transition:all 0.3s;"'
+        +' onmouseover="this.style.transform=\'scale(1.05)\';this.style.boxShadow=\'0 6px 20px rgba(245,158,11,0.5)\';"'
+        +' onmouseout="this.style.transform=\'scale(1)\';this.style.boxShadow=\'0 4px 15px rgba(245,158,11,0.4)\';"'
+        +'>🌮 もっと見る（残り '+remaining+' 件）</button>';
+      el.parentNode.insertBefore(wrap, el.nextSibling);
+    }
+  }
+
+  function _loadMore() {
+    _displayCount += _PER_LOAD;
+    _renderCards();
+    // Scroll to where new items start
+    const cards = document.querySelectorAll('#store-list .store-card');
+    if (cards.length > _displayCount - _PER_LOAD) {
+      cards[_displayCount - _PER_LOAD].scrollIntoView({behavior:'smooth', block:'center'});
+    }
+  }
 function renderRanking() {
   const sorted = [...stores].sort((a,b) => {
     const sa = getBlendedScore(a);
