@@ -1531,9 +1531,9 @@ function renderList(list) {
           +'<div class="store-name-row"><span class="store-name">'+s.name+'</span><span class="store-area-badge">'+s.neighborhood+'</span></div>'
           +'<div class="store-tags">'+s.tags.map(function(t){return '<span class="store-tag">'+t+'</span>';}).join('')+'</div>'
           +'</div>'
-          +'<div class="store-score-area '+scoreClass(sc)+'">'
+          +'<div class="store-score-area '+scoreClass(sc)+' '+scoreBadge(sc)+'">'
           +'<div>'+five+'</div>'
-          +'<div>'+scoreBadge(sc)+'</div>'
+          +'<div>'+(sc>=90?'\u6bbf\u5802\u5165\u308a':sc>=80?'\u8d85\u304a\u3059\u3059\u3081':sc>=70?'\u304a\u3059\u3059\u3081':sc>=60?'\u666e\u901a':'\u8981\u6539\u5584')+'</div>'
           +'</div></div>';
       }).join('');
       var remaining = list.length - _displayCount;
