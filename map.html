@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>\u30bf\u30b3\u30b9DB - \u5168\u56fd\u30de\u30c3\u30d7</title>
+<title>タコスDB - 全国マップ</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
@@ -34,19 +34,19 @@ body { font-family:-apple-system,BlinkMacSystemFont,sans-serif; }
 </head>
 <body>
 <div class="map-header">
-<span style="font-size:24px">\ud83c\udf2e</span>
-<h1>\u30bf\u30b3\u30b9DB \u5168\u56fd\u30de\u30c3\u30d7</h1>
-<span class="count" id="pin-count">0\u5e97\u8217</span>
-<a href="/">\u2190 \u30c8\u30c3\u30d7\u306b\u623b\u308b</a>
+<span style="font-size:24px">🌮</span>
+<h1>タコスDB 全国マップ</h1>
+<span class="count" id="pin-count">0店舗</span>
+<a href="/">← トップに戻る</a>
 </div>
 <div id="map"></div>
 <div class="legend">
-<h4>\u30b9\u30b3\u30a2</h4>
-<div class="legend-item"><div class="legend-dot" style="background:#e8a000"></div> 4.5+ \u6bbf\u5802\u5165\u308a</div>
-<div class="legend-item"><div class="legend-dot" style="background:#0d7377"></div> 4.0\u301c \u8d85\u304a\u3059\u3059\u3081</div>
-<div class="legend-item"><div class="legend-dot" style="background:#4a9"></div> 3.5\u301c \u304a\u3059\u3059\u3081</div>
-<div class="legend-item"><div class="legend-dot" style="background:#888"></div> 3.0\u301c \u666e\u901a</div>
-<div class="legend-item"><div class="legend-dot" style="background:#c66"></div> \u301c3.0 \u8981\u6539\u5584</div>
+<h4>スコア</h4>
+<div class="legend-item"><div class="legend-dot" style="background:#e8a000"></div> 4.5+ 殿堂入り</div>
+<div class="legend-item"><div class="legend-dot" style="background:#0d7377"></div> 4.0〜 超おすすめ</div>
+<div class="legend-item"><div class="legend-dot" style="background:#4a9"></div> 3.5〜 おすすめ</div>
+<div class="legend-item"><div class="legend-dot" style="background:#888"></div> 3.0〜 普通</div>
+<div class="legend-item"><div class="legend-dot" style="background:#c66"></div> 〜3.0 要改善</div>
 </div>
 <script src="stores-all.js"></script>
 <script src="stores-extra.js"></script>
@@ -220,17 +220,17 @@ function getScoreColor(sc) {
 
 function getScoreLabel(sc) {
   var five = sc / 20;
-  if (five >= 4.5) return "\u6bbf\u5802\u5165\u308a";
-  if (five >= 4.0) return "\u8d85\u304a\u3059\u3059\u3081";
-  if (five >= 3.5) return "\u304a\u3059\u3059\u3081";
-  if (five >= 3.0) return "\u666e\u901a";
-  return "\u8981\u6539\u5584";
+  if (five >= 4.5) return "殿堂入り";
+  if (five >= 4.0) return "超おすすめ";
+  if (five >= 3.5) return "おすすめ";
+  if (five >= 3.0) return "普通";
+  return "要改善";
 }
 
 function initMap() {
   var map = L.map("map", {zoomControl:true}).setView([36.5, 137.5], 6);
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    attribution: "\u00a9 OpenStreetMap contributors",
+    attribution: "© OpenStreetMap contributors",
     maxZoom: 18
   }).addTo(map);
 
@@ -254,7 +254,7 @@ function initMap() {
 
     var popup = '<div class="store-popup">'
       + '<h3>' + s.emoji + " " + s.name + '</h3>'
-      + '<div class="area">\ud83d\udccd ' + s.neighborhood + '</div>'
+      + '<div class="area">📍 ' + s.neighborhood + '</div>'
       + '<div class="tags">' + s.tags.map(function(t){return '<span class="tag">'+t+'</span>';}).join("") + '</div>'
       + '<div><span class="score" style="color:' + color + ';">' + five + '</span> <span style="color:'+color+';font-size:12px;">' + label + '</span></div>'
       + '<div style="margin-top:6px;font-size:11px;color:#999;">' + (s.address||"") + '</div>'
@@ -266,7 +266,7 @@ function initMap() {
   });
 
   map.addLayer(markers);
-  document.getElementById("pin-count").textContent = pinCount + "\u5e97\u8217";
+  document.getElementById("pin-count").textContent = pinCount + "店舗";
 }
 
 window.addEventListener("load", function() {
