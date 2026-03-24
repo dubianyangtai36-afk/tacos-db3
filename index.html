@@ -2315,8 +2315,6 @@ function generateSitemap() {
   a.click();
 }
 
-// Check URL on load
-checkURLOnLoad();
 
 // Initialize ads (placeholders hidden when real ads load)
 try {
@@ -2334,5 +2332,6 @@ try {
 <script src="stores-extra3.js"></script>
 <script src="stores-extra4.js"></script>
 <script>if(typeof renderList==="function"&&window.stores)renderList(stores);</script>
+<script>checkURLOnLoad();</script>
 </body>
 </html>
