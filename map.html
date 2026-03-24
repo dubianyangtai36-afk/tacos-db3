@@ -424,6 +424,10 @@ var INLINE_STORES = [
 {id:16,name:"Chronic Tacos",area:"東京",neighborhood:"渋谷区神宮前",score:73,emoji:"🌮",tags:["カリフォルニア","カスタムタコス"],address:"東京都渋谷区神宮前4"}
 ];
 
+    function slugify(name) {
+      return encodeURIComponent(name.replace(/[\s（）()\u30FB/／]+/g, "-").replace(/^-|-$/g, "").toLowerCase());
+    }
+
 function initMap() {
   var map = L.map("map", {zoomControl:true}).setView([36.5, 137.5], 6);
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -455,7 +459,9 @@ function initMap() {
       + '<div class="tags">' + s.tags.map(function(t){return '<span class="tag">'+t+'</span>';}).join("") + '</div>'
       + '<div><span class="score" style="color:' + color + ';">' + five + '</span> <span style="color:'+color+';font-size:12px;">' + label + '</span></div>'
       + '<div style="margin-top:6px;font-size:11px;color:#999;">' + (s.address||"") + '</div>'
-      + '</div>';
+      
+        + '<a href="/?shop=' + slugify(s.name) + '" style="display:block;margin-top:8px;padding:6px 0;text-align:center;background:#0d7377;color:#fff;border-radius:6px;text-decoration:none;font-size:12px;font-weight:bold;">詳細を見る →</a>'
+        + '</div>';
 
     var marker = L.marker(coords, {icon: icon}).bindPopup(popup);
     markers.addLayer(marker);
