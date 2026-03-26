@@ -746,6 +746,35 @@ footer{background:linear-gradient(135deg,#0d7377,#14919b) !important;box-shadow:
 ::selection{background:rgba(20,145,155,0.2);color:inherit}
 
 /* === End UI Enhancement === */
+
+/* === MyPage Panel === */
+#mypage-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);z-index:9999;justify-content:center;align-items:flex-start;padding-top:60px}
+#mypage-overlay.open{display:flex}
+#mypage-panel{background:#fff;border-radius:16px;width:90%;max-width:600px;max-height:80vh;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.2);animation:fadeInUp 0.3s ease}
+#mypage-panel-head{background:linear-gradient(135deg,#0d7377,#14919b);color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center}
+#mypage-panel-head h2{margin:0;font-size:18px}
+#mypage-close{background:none;border:none;color:#fff;font-size:24px;cursor:pointer;padding:4px 8px;border-radius:6px;transition:background 0.2s}
+#mypage-close:hover{background:rgba(255,255,255,0.2)}
+#mypage-tabs{display:flex;border-bottom:2px solid #e0f0ee;background:#f8fffe}
+.mypage-tab{flex:1;padding:12px;text-align:center;cursor:pointer;font-weight:600;font-size:14px;color:#666;border:none;background:none;transition:all 0.2s;border-bottom:3px solid transparent}
+.mypage-tab.active{color:#0d7377;border-bottom-color:#0d7377;background:#fff}
+.mypage-tab:hover{color:#14919b;background:#f0faf9}
+#mypage-content{overflow-y:auto;max-height:calc(80vh - 140px);padding:0}
+.mypage-list{list-style:none;padding:0;margin:0}
+.mypage-list-item{display:flex;align-items:center;padding:12px 16px;border-bottom:1px solid #f0f0f0;cursor:pointer;transition:all 0.2s;gap:12px}
+.mypage-list-item:hover{background:#f8fffe}
+.mypage-list-item .mp-emoji{font-size:28px;flex-shrink:0}
+.mypage-list-item .mp-info{flex:1;min-width:0}
+.mypage-list-item .mp-name{font-weight:600;font-size:14px;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mypage-list-item .mp-sub{font-size:12px;color:#888;margin-top:2px}
+.mypage-list-item .mp-score{font-size:20px;font-weight:800;color:#0d7377;flex-shrink:0;width:40px;text-align:center}
+.mypage-list-item .mp-remove{background:none;border:none;color:#ccc;font-size:18px;cursor:pointer;padding:4px 8px;border-radius:6px;transition:all 0.2s;flex-shrink:0}
+.mypage-list-item .mp-remove:hover{color:#e74c3c;background:#fee2e2}
+.mypage-empty{text-align:center;padding:40px 20px;color:#999}
+.mypage-empty-icon{font-size:48px;margin-bottom:12px}
+.mypage-empty-text{font-size:14px}
+.mypage-history-time{font-size:11px;color:#aaa;margin-top:2px}
+
 </style>
 
   <!-- Firebase SDK -->
@@ -2539,6 +2568,164 @@ try {
 })();
 </script>
 
+
+<div id="mypage-overlay">
+  <div id="mypage-panel">
+    <div id="mypage-panel-head">
+      <h2 id="mypage-title">マイページ</h2>
+      <button id="mypage-close" onclick="closeMypage()">&times;</button>
+    </div>
+    <div id="mypage-tabs">
+      <button class="mypage-tab active" onclick="switchMypageTab('favs')">&#x2764; お気に入り</button>
+      <button class="mypage-tab" onclick="switchMypageTab('history')">&#x1F4CB; 閲覧履歴</button>
+    </div>
+    <div id="mypage-content"></div>
+  </div>
+</div>
+
+<script>
+/* === MyPage Functions === */
+var _mypageTab = 'favs';
+
+function openMypage() {
+  var o = document.getElementById('mypage-overlay');
+  if (o) { o.classList.add('open'); renderMypageTab(); }
+}
+
+function closeMypage() {
+  var o = document.getElementById('mypage-overlay');
+  if (o) o.classList.remove('open');
+}
+
+function switchMypageTab(tab) {
+  _mypageTab = tab;
+  var tabs = document.querySelectorAll('.mypage-tab');
+  tabs.forEach(function(t, i) {
+    t.classList.toggle('active', (i === 0 && tab === 'favs') || (i === 1 && tab === 'history'));
+  });
+  renderMypageTab();
+}
+
+function renderMypageTab() {
+  var cont = document.getElementById('mypage-content');
+  if (!cont) return;
+  if (_mypageTab === 'favs') renderMypageFavs(cont);
+  else renderMypageHistory(cont);
+}
+
+function renderMypageFavs(cont) {
+  var favIds = getFavs();
+  if (!favIds || favIds.length === 0) {
+    cont.innerHTML = '<div class="mypage-empty"><div class="mypage-empty-icon">&#x2764;</div><div class="mypage-empty-text">お気に入りはまだありません<br>気になるお店の &#x2764; をタップして追加しよう</div></div>';
+    return;
+  }
+  var allStores = window.ALL_STORES || [];
+  var html = '<ul class="mypage-list">';
+  favIds.forEach(function(id) {
+    var s = allStores.find(function(st) { return st.id === id; });
+    if (!s) return;
+    var score = s.score || s.total_score || '-';
+    var area = s.area || '';
+    var nb = s.neighborhood || '';
+    var loc = nb || area;
+    html += '<li class="mypage-list-item" onclick="closeMypage();setTimeout(function(){openModal(' + s.id + ')},300)">';
+    html += '<span class="mp-emoji">&#x1F32E;</span>';
+    html += '<div class="mp-info"><div class="mp-name">' + (s.name || '') + '</div><div class="mp-sub">' + loc + '</div></div>';
+    html += '<span class="mp-score">' + score + '</span>';
+    html += '<button class="mp-remove" onclick="event.stopPropagation();removeFavFromMypage(' + s.id + ')" title="削除">&#x2715;</button>';
+    html += '</li>';
+  });
+  html += '</ul>';
+  cont.innerHTML = html;
+}
+
+function removeFavFromMypage(id) {
+  toggleFavorite(id);
+  renderMypageTab();
+}
+
+function renderMypageHistory(cont) {
+  var history = getViewHistory();
+  if (!history || history.length === 0) {
+    cont.innerHTML = '<div class="mypage-empty"><div class="mypage-empty-icon">&#x1F4CB;</div><div class="mypage-empty-text">閲覧履歴はまだありません<br>お店をタップすると履歴に記録されます</div></div>';
+    return;
+  }
+  var html = '<ul class="mypage-list">';
+  history.forEach(function(item) {
+    var timeStr = formatHistoryTime(item.time);
+    html += '<li class="mypage-list-item" onclick="closeMypage();setTimeout(function(){openModal(' + item.id + ')},300)">';
+    html += '<span class="mp-emoji">&#x1F32E;</span>';
+    html += '<div class="mp-info"><div class="mp-name">' + (item.name || '') + '</div><div class="mp-sub">' + (item.area || '') + '</div><div class="mypage-history-time">' + timeStr + '</div></div>';
+    html += '<span class="mp-score">' + (item.score || '-') + '</span>';
+    html += '</li>';
+  });
+  html += '</ul>';
+  cont.innerHTML = html;
+}
+
+function getViewHistory() {
+  try { return JSON.parse(localStorage.getItem('tacos_history') || '[]'); } catch(e) { return []; }
+}
+
+function addViewHistory(store) {
+  if (!store || !store.id) return;
+  var history = getViewHistory();
+  history = history.filter(function(h) { return h.id !== store.id; });
+  history.unshift({id: store.id, name: store.name || '', area: store.neighborhood || store.area || '', score: store.score || store.total_score || '-', time: Date.now()});
+  if (history.length > 30) history = history.slice(0, 30);
+  localStorage.setItem('tacos_history', JSON.stringify(history));
+}
+
+function formatHistoryTime(ts) {
+  if (!ts) return '';
+  var d = new Date(ts);
+  var now = new Date();
+  var diff = now - d;
+  if (diff < 60000) return 'たった今';
+  if (diff < 3600000) return Math.floor(diff / 60000) + '分前';
+  if (diff < 86400000) return Math.floor(diff / 3600000) + '時間前';
+  if (diff < 604800000) return Math.floor(diff / 86400000) + '日前';
+  return d.getFullYear() + '/' + (d.getMonth() + 1) + '/' + d.getDate();
+}
+
+/* Hook into openModal to track history */
+var _origOpenModal = typeof openModal === 'function' ? openModal : null;
+if (_origOpenModal) {
+  window._realOpenModal = _origOpenModal;
+}
+
+/* Override mypage-btn click */
+var mpBtn = document.getElementById('mypage-btn');
+if (mpBtn) {
+  mpBtn.onclick = function(e) { e.preventDefault(); openMypage(); };
+}
+
+/* Close on overlay click */
+var mpOverlay = document.getElementById('mypage-overlay');
+if (mpOverlay) {
+  mpOverlay.addEventListener('click', function(e) {
+    if (e.target === mpOverlay) closeMypage();
+  });
+}
+
+/* Hook openModal to record history */
+(function() {
+  var checkInterval = setInterval(function() {
+    if (typeof openModal === 'function' && openModal !== window._hookedOpenModal) {
+      var orig = openModal;
+      window._hookedOpenModal = function(id) {
+        var allStores = window.ALL_STORES || [];
+        var store = allStores.find(function(s) { return s.id === id; });
+        if (store) addViewHistory(store);
+        return orig(id);
+      };
+      window.openModal = window._hookedOpenModal;
+      clearInterval(checkInterval);
+    }
+  }, 500);
+  setTimeout(function() { clearInterval(checkInterval); }, 10000);
+})();
+</script>
 </body>
 </html>
 
