@@ -2458,9 +2458,9 @@ function openReviewModal(){
   m.innerHTML=h;
   document.getElementById("rvBtn").onclick=function(){
     var v=document.getElementById("rvSel").value;
-    if(v){closeModal();openModal(v);setTimeout(function(){var t=document.querySelector('[data-pane=pane-reviews]');if(t)t.click();},300);}
+    if(v){closeModalDirect();openModal(v);setTimeout(function(){var t=document.querySelector('[data-pane=pane-reviews]');if(t)t.click();},300);}
   };
-  document.getElementById("rvCancel").onclick=function(){closeModal();};
+  document.getElementById("rvCancel").onclick=function(){closeModalDirect();};
 }
 </script>
 </body>
