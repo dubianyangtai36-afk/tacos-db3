@@ -683,7 +683,7 @@
     <div id="header-nav">
       <a href="#" onclick="showPage('search');return false;">🔍 検索</a>
       <a href="#" onclick="showPage('ranking');return false;">🏆 ランキング</a>
-      <a href="#" onclick="alert('準備中！')">✏️ 口コミを書く</a>
+      <a href="#" onclick="openReviewModal()">✏️ 口コミを書く</a>
       
       
       <a href="/map" class="nav-link">🗺️ 全国マップ</a>
@@ -1938,7 +1938,7 @@ async function fetchPlaces(mode) {
   document.getElementById('placesImportBtn').classList.remove('visible');
   placesResults = [];
 
-  const allPlaces = [];
+  const allPlces = [];
   const seenIds = new Set();
   let searchDone = 0;
 
