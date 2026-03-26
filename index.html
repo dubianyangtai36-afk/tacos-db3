@@ -649,7 +649,104 @@
     .modal-fav-btn:hover{background:#ffeaea}
     .modal-fav-btn.active{background:#e74c3c;color:#fff}
     .store-row{position:relative}
-    </style>
+    
+
+/* === UI Enhancement 2026 === */
+html{scroll-behavior:smooth}
+*{box-sizing:border-box}
+
+/* Header gradient */
+#header{background:linear-gradient(135deg,#0d7377 0%,#14919b 50%,#0d7377 100%) !important;box-shadow:0 2px 12px rgba(13,115,119,0.3)}
+
+/* Nav links hover glow */
+#header-nav a{transition:all 0.25s ease;border-radius:6px;padding:6px 10px}
+#header-nav a:hover{background:rgba(255,255,255,0.15);transform:translateY(-1px)}
+
+/* Login button pulse */
+#header-nav a:last-child{box-shadow:0 2px 8px rgba(0,0,0,0.2);transition:all 0.3s ease}
+#header-nav a:last-child:hover{box-shadow:0 4px 16px rgba(0,0,0,0.3);transform:translateY(-2px)}
+
+/* Search box enhanced */
+#search-box{background:#fff;border:2px solid #e0f0ee;border-radius:12px;box-shadow:0 2px 12px rgba(13,115,119,0.06);transition:all 0.3s ease;padding:16px 18px}
+#search-box:hover{box-shadow:0 4px 20px rgba(13,115,119,0.1);border-color:#b0ddd5}
+#customSearchInput{border:2px solid #ddd !important;border-radius:8px !important;padding:10px 14px !important;font-size:14px !important;transition:border-color 0.3s, box-shadow 0.3s}
+#customSearchInput:focus{border-color:#14919b !important;box-shadow:0 0 0 3px rgba(20,145,155,0.12) !important;outline:none}
+
+/* Store cards - modern card style */
+.store-row{border-bottom:none !important;margin-bottom:6px;border-radius:10px;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.06);transition:all 0.25s cubic-bezier(0.4,0,0.2,1);overflow:hidden}
+.store-row:hover{background:#f8fffe !important;box-shadow:0 4px 16px rgba(13,115,119,0.12);transform:translateY(-2px)}
+.store-row:active{transform:translateY(0);box-shadow:0 2px 8px rgba(13,115,119,0.1)}
+
+/* Rank number style */
+.store-rank{font-weight:800;font-size:15px;color:#14919b}
+.store-rank.r1{color:#e8a000;font-size:18px;text-shadow:0 1px 2px rgba(232,160,0,0.2)}
+.store-rank.r2{color:#8a8a8a;font-size:17px}
+.store-rank.r3{color:#c97c3a;font-size:16px}
+
+/* Tags pill style */
+.store-tags{gap:5px !important}
+.store-tag{border-radius:12px !important;padding:2px 8px !important;font-size:11px !important;font-weight:500;background:linear-gradient(135deg,#f0faf9,#e5f5f3) !important;border:1px solid #d0ece8;transition:all 0.2s}
+.store-tag:hover{background:linear-gradient(135deg,#e0f5f0,#d0ece8) !important;border-color:#b0ddd5}
+
+/* Score area */
+.store-score-area{border-left:2px solid #f0f0f0 !important;transition:all 0.2s}
+.store-row:hover .store-score-area{border-left-color:#14919b !important}
+
+/* Score label badge */
+.score-label{border-radius:6px;padding:2px 8px;font-size:11px;font-weight:600}
+
+/* Sidebar cards */
+#sidebar > div{border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.06);transition:box-shadow 0.3s}
+#sidebar > div:hover{box-shadow:0 4px 16px rgba(0,0,0,0.1)}
+
+/* Area badge */
+.store-area-badge{border-radius:6px;padding:1px 6px;font-size:11px;background:#f0f0f0;color:#666;font-weight:500}
+
+/* Footer */
+footer{background:linear-gradient(135deg,#0d7377,#14919b) !important;box-shadow:0 -2px 12px rgba(13,115,119,0.15)}
+
+/* Modal overlay - frosted glass */
+#modal-overlay{backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+#modal{border-radius:16px !important;box-shadow:0 8px 40px rgba(0,0,0,0.2) !important;overflow:hidden}
+
+/* Fade-in animation for store list */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+#store-list .store-row{animation:fadeInUp 0.3s ease forwards}
+#store-list .store-row:nth-child(1){animation-delay:0s}
+#store-list .store-row:nth-child(2){animation-delay:0.03s}
+#store-list .store-row:nth-child(3){animation-delay:0.06s}
+#store-list .store-row:nth-child(4){animation-delay:0.09s}
+#store-list .store-row:nth-child(5){animation-delay:0.12s}
+#store-list .store-row:nth-child(6){animation-delay:0.15s}
+#store-list .store-row:nth-child(7){animation-delay:0.18s}
+#store-list .store-row:nth-child(8){animation-delay:0.21s}
+#store-list .store-row:nth-child(9){animation-delay:0.24s}
+#store-list .store-row:nth-child(10){animation-delay:0.27s}
+
+/* Nav tabs - refined */
+#nav-tabs{box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+#nav-tabs a{transition:all 0.2s ease;border-radius:8px 8px 0 0}
+
+/* Result count area */
+#result-header{padding:10px 14px;background:linear-gradient(135deg,#f8fffe,#f0faf9);border-radius:10px 10px 0 0;border-bottom:2px solid #e0f0ee}
+#result-count{font-size:15px;font-weight:700;color:#0d7377}
+
+/* Filter buttons */
+.filter-btn{border-radius:20px !important;transition:all 0.2s ease !important}
+.filter-btn:hover{transform:translateY(-1px);box-shadow:0 2px 6px rgba(13,115,119,0.15)}
+.filter-btn.active{box-shadow:0 2px 8px rgba(13,115,119,0.25) !important}
+
+/* Scrollbar styling */
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:#f5f5f5;border-radius:4px}
+::-webkit-scrollbar-thumb{background:#b0ddd5;border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:#14919b}
+
+/* Selection color */
+::selection{background:rgba(20,145,155,0.2);color:inherit}
+
+/* === End UI Enhancement === */
+</style>
 
   <!-- Firebase SDK -->
   <script type="module">
