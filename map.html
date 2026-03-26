@@ -417,16 +417,14 @@ var NB_COORDS = {
 };
 
 
-function getCoords(store) {
-  var nb = store.neighborhood;
-  var base = NB_COORDS[nb] || AREA_COORDS[store.area] || [36.2, 138.2];
-  
-  
-  var hash = 0;
-  for (var i = 0; i < nb.length; i++) hash = ((hash << 5) - hash) + nb.charCodeAt(i);
-  var r1 = ((hash & 0xFF) / 255 - 0.5) * 0.08;
-  var r2 = (((hash >> 8) & 0xFF) / 255 - 0.5) * 0.08;
-  return [base[0] + r1, base[1] + r2];
+function getCoords(store){
+  var nb=store.neighborhood||"";
+  var base=NB_COORDS[nb]||AREA_COORDS[store.area]||[36.2,138.2];
+  var h=0,n=store.name||"";
+  for(var i=0;i<n.length;i++){h=((h<<5)-h)+n.charCodeAt(i);h|=0;}
+  var angle=(Math.abs(h)%360)*Math.PI/180;
+  var r=((Math.abs(h>>8)%80)+20)/1000;
+  return[base[0]+Math.sin(angle)*r, base[1]+Math.cos(angle)*r];
 }
 
 function getScoreColor(sc) {
