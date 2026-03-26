@@ -2619,12 +2619,12 @@ function renderMypageFavs(cont) {
     cont.innerHTML = '<div class="mypage-empty"><div class="mypage-empty-icon">&#x2764;</div><div class="mypage-empty-text">お気に入りはまだありません<br>気になるお店の &#x2764; をタップして追加しよう</div></div>';
     return;
   }
-  var allStores = window.ALL_STORES || [];
+  var allStores = window.stores || [];
   var html = '<ul class="mypage-list">';
   favIds.forEach(function(id) {
     var s = allStores.find(function(st) { return st.id === id; });
     if (!s) return;
-    var score = s.score || s.total_score || '-';
+    var score = s.score || s.score || '-';
     var area = s.area || '';
     var nb = s.neighborhood || '';
     var loc = nb || area;
@@ -2671,7 +2671,7 @@ function addViewHistory(store) {
   if (!store || !store.id) return;
   var history = getViewHistory();
   history = history.filter(function(h) { return h.id !== store.id; });
-  history.unshift({id: store.id, name: store.name || '', area: store.neighborhood || store.area || '', score: store.score || store.total_score || '-', time: Date.now()});
+  history.unshift({id: store.id, name: store.name || '', area: store.neighborhood || store.area || '', score: store.score || store.score || '-', time: Date.now()});
   if (history.length > 30) history = history.slice(0, 30);
   localStorage.setItem('tacos_history', JSON.stringify(history));
 }
@@ -2714,7 +2714,7 @@ if (mpOverlay) {
     if (typeof openModal === 'function' && openModal !== window._hookedOpenModal) {
       var orig = openModal;
       window._hookedOpenModal = function(id) {
-        var allStores = window.ALL_STORES || [];
+        var allStores = window.stores || [];
         var store = allStores.find(function(s) { return s.id === id; });
         if (store) addViewHistory(store);
         return orig(id);
