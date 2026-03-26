@@ -684,11 +684,11 @@
       <a href="#" onclick="showPage('search');return false;">🔍 検索</a>
       <a href="#" onclick="showPage('ranking');return false;">🏆 ランキング</a>
       <a href="#" onclick="alert('準備中！')">✏️ 口コミを書く</a>
-      <a href="#" onclick="exportData();return false;">💾 データ保存</a>
-      <a href="#" onclick="document.getElementById('importFile').click();return false;">📂 データ読込</a>
+      
+      
       <a href="/map" class="nav-link">🗺️ 全国マップ</a>
-      <a href="#" onclick="showFavorites();return false;" class="nav-link">❤️ お気に入り</a> <a href="#" onclick="generateSitemap();return false;">🗺️ Sitemap</a>
-      <input type="file" id="importFile" aria-label="データインポート" accept=".json" style="display:none" onchange="importData(event)" />
+      <a href="#" onclick="showFavorites();return false;" class="nav-link">❤️ お気に入り</a> 
+      
     
     <div id="auth-area" style="display:flex;align-items:center;gap:8px;margin-left:auto;padding:0 16px;">
       <button id="login-btn" onclick="(async()=>{try{await window._fb.signInWithPopup(window._fb.auth,window._fb.prov)}catch(e){if(e.code!=='auth/popup-closed-by-user')alert(e.message)}})()" style="display:inline-flex;align-items:center;gap:6px;background:#e8590c;color:#fff;border:none;padding:8px 16px;border-radius:20px;cursor:pointer;font-size:14px;font-weight:bold;white-space:nowrap;">&#x1F464; ログイン</button>
@@ -712,75 +712,6 @@
 </nav>
 
 <main id="main-content">
-
-<!-- ========= GOOGLE PLACES API PANEL ========= -->
-<div style="max-width:980px;margin:10px auto;padding:0 12px;">
-<div id="places-panel">
-  <div id="places-panel-head" onclick="togglePlacesPanel()">
-    <div id="places-panel-head-left">
-      <span style="font-size:18px;">🗺️</span>
-      <span id="places-panel-title">Google Places API 連携 — 全国のタコス屋を自動取得する</span>
-      <span id="places-panel-badge">NEW</span>
-    </div>
-    <span id="places-panel-toggle">▼ 開く</span>
-  </div>
-  <div id="places-panel-body" class="hidden">
-    <div style="font-size:12px;color:#777;margin-bottom:14px;background:#f0fdf9;padding:8px 10px;border-radius:4px;border-left:3px solid #0d7377;">
-      Google Places API を使うと、Googleマップに登録されている全国のタコス屋を自動で取得できます。<br>APIキーの取得は<strong>無料</strong>で始められます（月$200相当の無料枠あり）。
-    </div>
-
-    <div class="api-step">
-      <div class="api-step-num">1</div>
-      <div class="api-step-content">
-        <strong>Google Cloud Console にアクセス</strong><br>
-        <a href="https://console.cloud.google.com/" target="_blank">https://console.cloud.google.com/</a> を開いてGoogleアカウントでログイン。<br>
-        上部の「プロジェクトを選択」→「新しいプロジェクト」→ 名前（例：tacos-db）を入力して作成。
-      </div>
-    </div>
-    <div class="api-step">
-      <div class="api-step-num">2</div>
-      <div class="api-step-content">
-        <strong>Places API を有効化</strong><br>
-        左メニュー「APIとサービス」→「ライブラリ」→「Places API (New)」を検索→「有効にする」をクリック。
-      </div>
-    </div>
-    <div class="api-step">
-      <div class="api-step-num">3</div>
-      <div class="api-step-content">
-        <strong>APIキーを作成</strong><br>
-        「APIとサービス」→「認証情報」→「認証情報を作成」→「APIキー」→ 表示されたキーをコピー。<br>
-        <span style="color:#0d7377;">※ キーはメモしておいてください。後で何度でも使えます。</span>
-      </div>
-    </div>
-    <div class="api-step">
-      <div class="api-step-num">4</div>
-      <div class="api-step-content">
-        <strong>APIキーを入力して全国タコス屋を取得</strong>
-        <div class="api-key-row">
-          <input type="text" id="apiKeyInput" class="api-key-input" placeholder="AIzaSy... のようなAPIキーを貼り付けてください" />
-        </div>
-      </div>
-    </div>
-
-    <!-- 検索モード選択 -->
-    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;">
-      <button class="api-fetch-btn" onclick="fetchPlaces('full')" id="btnFull">🗾 全国一括検索（47都道府県）</button>
-      <button class="api-fetch-btn" onclick="fetchPlaces('quick')" id="btnQuick" style="background:#f08030;">⚡ クイック検索（主要7都市）</button>
-    </div>
-
-    <!-- カスタム検索 -->
-    <div style="display:flex;gap:6px;align-items:center;margin-bottom:6px;">
-      <input type="text" id="customSearchInput" class="api-key-input" placeholder="例: タコス 横浜 / メキシコ料理 仙台 / ブリトー 神戸..." style="font-family:sans-serif;" />
-      <button class="api-fetch-btn" onclick="fetchCustom()" style="background:#0d9488;">🔍 この条件で検索</button>
-    </div>
-    <div style="font-size:10px;color:#999;margin-bottom:10px;">※ カスタム検索は好きなキーワードで何度でも追加検索できます</div>
-
-    <div id="places-status"></div>
-    <div class="places-result-list" id="placesResultList"></div>
-    <button class="places-import-btn" id="placesImportBtn" onclick="importSelectedPlaces()">✅ 選択した店舗をタコスDBに追加する</button>
-  </div>
-</div>
-</div>
 
 <!-- ========= MAIN LAYOUT ========= -->
 <div id="main">
