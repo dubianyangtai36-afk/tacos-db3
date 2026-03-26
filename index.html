@@ -2445,6 +2445,7 @@ try {
 function openReviewModal(){
   var o=document.getElementById("modal-overlay");
   var m=document.getElementById("modal");
+  window._origModal=m.innerHTML;
   o.style.display="flex";
   var h='<div style="padding:24px;max-width:500px;margin:auto">';
   h+='<h2 style="margin:0 0 16px">口コミを書く</h2>';
@@ -2458,9 +2459,17 @@ function openReviewModal(){
   m.innerHTML=h;
   document.getElementById("rvBtn").onclick=function(){
     var v=document.getElementById("rvSel").value;
-    if(v){closeModalDirect();openModal(v);setTimeout(function(){var t=document.querySelector('[data-pane=pane-reviews]');if(t)t.click();},300);}
+    if(v){
+      m.innerHTML=window._origModal;
+      o.style.display="none";
+      openModal(parseInt(v));
+      setTimeout(function(){var t=document.querySelector('[data-pane=pane-reviews]');if(t)t.click();},300);
+    }
   };
-  document.getElementById("rvCancel").onclick=function(){closeModalDirect();};
+  document.getElementById("rvCancel").onclick=function(){
+    m.innerHTML=window._origModal;
+    o.style.display="none";
+  };
 }
 </script>
 </body>
