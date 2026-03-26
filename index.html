@@ -2441,6 +2441,22 @@ try {
   };
 })();
 </script>
+<script>
+  function openReviewModal(){
+      var o=document.getElementById('modal-overlay');
+        var m=document.getElementById('modal');
+          o.style.display='flex';
+            var h='<div style="padding:24px;max-width:500px;margin:auto">';
+                h+='<h2 style="margin:0 0 16px">口コミを書く</h2>';
+                  h+='<select id="rvSel" style="width:100%;padding:10px;font-size:16px;border-radius:8px;border:1px solid #ccc">';
+                      h+='<option value="">店舗を選んでください</option>';
+                        stores.forEach(function(s){h+='<option value="'+s.id+'">'+s.name+' ('+s.area+')</option>';});
+                          h+='</select><br><br>';
+                            h+='<button onclick="var v=document.getElementById(\'rvSel\').value;if(v){closeModal();openModal(v);setTimeout(function(){var t=document.querySelector(\'[data-pane=pane-reviews]\');if(t)t.click();},300);}" style="padding:12px 24px;background:#2d8b73;color:#fff;border:none;border-radius:8px;font-size:16px;cursor:pointer">口コミを書く</button>';
+                              h+=' <button onclick="closeModal()" style="padding:12px 24px;margin-left:8px;border:1px solid #ccc;border-radius:8px;font-size:16px;cursor:pointer;background:#fff">キャンセル</button>';
+                                h+='</div>';
+                                  m.innerHTML=h;
+                  }/script>
 </body>
 </html>
 
