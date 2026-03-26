@@ -26,7 +26,10 @@
     <meta name="twitter:description" content="全国321店舗のタコス専門店を地図で探せる。">
     <meta name="twitter:image" content="https://tacos-db3.vercel.app/ogp.png">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family:-apple-system,BlinkMacSystemFont,sans-serif; }
@@ -55,6 +58,12 @@ body { font-family:-apple-system,BlinkMacSystemFont,sans-serif; }
     .fav-heart-badge { position:absolute; top:-5px; right:-5px; background:#e74c3c; color:#fff; border-radius:50%; width:14px; height:14px; font-size:9px; line-height:14px; text-align:center; z-index:1000; pointer-events:none; border:1px solid #fff; }
     .custom-pin { position:relative !important; overflow:visible !important; }
 </style>
+
+    <style>
+      .custom-cluster{background:transparent !important}
+      .marker-cluster-small,.marker-cluster-medium,.marker-cluster-large{background:transparent !important}
+      .leaflet-cluster-anim .leaflet-marker-icon,.leaflet-cluster-anim .leaflet-marker-shadow{transition:transform 0.3s ease,opacity 0.3s ease}
+    </style>
 </head>
 <body>
 <div class="map-header">
@@ -476,7 +485,7 @@ function initMap() {
     maxZoom: 18
   }).addTo(map);
 
-  var markers = L.markerClusterGroup ? L.markerClusterGroup() : L.layerGroup();
+  var markers = L.markerClusterGroup({maxClusterRadius:50,spiderfyOnMaxZoom:true,showCoverageOnHover:false,zoomToBoundsOnClick:true,disableClusteringAtZoom:14,iconCreateFunction:function(cluster){var count=cluster.getChildCount();var size=count<10?"small":count<30?"medium":"large";var sizes={small:40,medium:50,large:60};return L.divIcon({html:"<div style=\"background:linear-gradient(135deg,#0d7377,#14919b);color:#fff;border-radius:50%;width:"+sizes[size]+"px;height:"+sizes[size]+"px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:"+(size==="large"?16:14)+"px;box-shadow:0 2px 8px rgba(13,115,119,0.4);border:3px solid #fff\">"+count+"</div>",className:"custom-cluster",iconSize:L.point(sizes[size],sizes[size])});}});
   var allStores = (window.stores || []).concat(INLINE_STORES);
   var pinCount = 0;
 
