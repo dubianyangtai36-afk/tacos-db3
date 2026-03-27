@@ -155,7 +155,8 @@ var NB_COORDS = {
   "港区外苑前": [35.6674, 139.7432],
   "港区六本木": [35.6627, 139.7311],
   "港区赤坂": [35.6555, 139.7370],
-  "台東区浅草": [35.7115, 139.7966],
+  "台東区浅草": [35.7115, 139.79
+  "千葉": [35.6073, 140.1063],66],
   "台東区上野": [35.7141, 139.7774],
   "豊島区池袋": [35.7295, 139.7109],
   "文京区後楽": [35.7079, 139.7524],
@@ -473,6 +474,11 @@ var INLINE_STORES = [
 {id:15,name:"TACO BELL 渋谷道玄坂店2号店",area:"東京",neighborhood:"渋谷区道玄坂",score:58,emoji:"🌮",tags:["チェーン","アメリカ発"],address:"東京都渋谷区道玄坂"},
 {id:16,name:"Chronic Tacos",area:"東京",neighborhood:"渋谷区神宮前",score:73,emoji:"🌮",tags:["カリフォルニア","カスタムタコス"],address:"東京都渋谷区神宮前4"}
 ];
+  "船橋": [35.6946, 139.9828],
+  "千葉中央": [35.6130, 140.1136],
+  "長生村": [35.3981, 140.3503],
+  "市川": [35.7318, 139.9310],
+  "一宮": [35.3740, 140.3690],
 
     function slugify(name) {
       return encodeURIComponent(name.replace(/[\s（）()\u30FB/／]+/g, "-").replace(/^-|-$/g, "").toLowerCase());
@@ -557,7 +563,16 @@ window.addEventListener("load", function() {
     var _allMarkerData=[];
     var _favFilterOn=false;
     function toggleFavFilter(){
-      _favFilterOn=!_favFilterOn;
+      _favFilterOn=!_,
+{id:322,name:"メキシカンバル RICO",area:"千葉",neighborhood:"船橋",score:82,emoji:"🌮",tags:["本格メキシコ","バル"],address:"千葉県船橋市本町2-3-29"},
+{id:323,name:"JAM TREE JAMMIN'",area:"千葉",neighborhood:"千葉中央",score:78,emoji:"🌮",tags:["フュージョン","カフェ"],address:"千葉県千葉市中央区中央3-18-3"},
+{id:324,name:"海辺のタコス屋 sachi-ta",area:"千葉",neighborhood:"長生村",score:85,emoji:"🌮",tags:["本格メキシコ","海沿い"],address:"千葉県長生郡長生村一松丙3669"},
+{id:325,name:"TAQUITO 市川店",area:"千葉",neighborhood:"市川",score:80,emoji:"🌮",tags:["本格メキシコ"],address:"千葉県市川市八幡2-16-1"},
+{id:326,name:"38TACOS",area:"千葉",neighborhood:"千葉中央",score:76,emoji:"🌮",tags:["フュージョン"],address:"千葉県千葉市中央区富士見2-19-1"},
+{id:327,name:"CAFE' MUNCHIES",area:"千葉",neighborhood:"千葉中央",score:77,emoji:"🌮",tags:["フュージョン","カフェ"],address:"千葉県千葉市中央区中央4-5-1"},
+{id:328,name:"TACO GLAMP",area:"千葉",neighborhood:"一宮",score:74,emoji:"🌮",tags:["フュージョン","グランピング"],address:"千葉県長生郡一宮町一宮2553"},
+{id:329,name:"DESPERADO",area:"千葉",neighborhood:"千葉中央",score:79,emoji:"🌮",tags:["テキサス","バル"],address:"千葉県千葉市中央区中央3-4-10"},
+{id:330,name:"TOPA TACOS",area:"千葉",neighborhood:"一宮",score:81,emoji:"🌮",tags:["本格メキシコ"],address:"千葉県長生郡一宮町東浪見6513-8"}favFilterOn;
       var btn=document.getElementById("favToggle");
       if(_favFilterOn){
         btn.style.background="#e74c3c";btn.style.color="#fff";
