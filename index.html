@@ -873,6 +873,7 @@ body.dark .user-review-item{background:#1a2a4a;border-left-color:#7fdbca}
           <span class="fchip" onclick="setFilter('area','北海道',this)">北海道</span>
           <span class="fchip" onclick="setFilter('area','京都',this)">京都</span>
           <span class="fchip" onclick="setFilter('area','神奈川',this)">神奈川</span>
+          <span class="fchip" onclick="setFilter('area','千葉',this)">千葉</span>
           <span class="fchip" onclick="setFilter('area','沖縄',this)">沖縄</span>
           <span class="fchip" onclick="setFilter('area','広島',this)">広島</span>
         </div>
@@ -940,6 +941,7 @@ body.dark .user-review-item{background:#1a2a4a;border-left-color:#7fdbca}
           <span class="area-link" onclick="quickArea('北海道')">北海道</span>
           <span class="area-link" onclick="quickArea('京都')">京都</span>
           <span class="area-link" onclick="quickArea('神奈川')">神奈川</span>
+          <span class="fchip" onclick="quickArea('千葉')">千葉</span>
           <span class="area-link" onclick="quickArea('沖縄')">沖縄</span>
           <span class="area-link" onclick="quickArea('広島')">広島</span>
         </div>
@@ -1587,6 +1589,16 @@ const stores = [
       {author:'薬研堀常連', score:80, date:'2026-01-08', text:'広島にこんな店があるとは！コーントルティーヤの質が高くてびっくりした。'},
     ]
   },
+
+  {id:322,tabelogScore:3.55,name:"メキシカンバル RICO",area:"千葉",neighborhood:"船橋",real:true,style:"本格メキシコ",price:"¥",score:82,reviews:156,emoji:"🍺",tags:["本格メキシコ","タコス11種","メキシコビール","テイクアウト"],desc:"船橋駅徒歩1分の好立地。ビーフ・チキン・ポーク・フィッシュなど全11種のタコスを366円で提供。自家製トルティーヤにこだわり、コロナ・テカテ・ドスエキスなどメキシコビールも豊富。",address:"千葉県船橋市本町1丁目",hours:"17:00〜24:00",closed:"不定休",url:"https://mexicanbarrico.gorp.jp/",menu:[{cat:"🌮 タコス",items:[{name:"ビーフタコス",desc:"スパイス香る牛肉・サルサ・コリアンダー",price:"¥366"},{name:"フィッシュタコス",desc:"白身魚フライ・キャベツ・チポトレマヨ",price:"¥366"},{name:"チキンタコス",desc:"グリルチキン・アボカド・トマトサルサ",price:"¥366"}]}],userReviews:[]},
+  {id:323,tabelogScore:3.42,name:"JAM TREE JAMMIN'",area:"千葉",neighborhood:"千葉中央",real:true,style:"フュージョン",price:"¥¥",score:78,reviews:89,emoji:"🌴",tags:["フュージョン","ダイニングバー","ジャークチキン","ステーキ"],desc:"千葉駅西口徒歩5分のワールドキッチン＆バー。スタンダードからオリジナルまで5種類のタコスを提供。ジャークチキンやステーキなど多国籍料理も充実。",address:"千葉県千葉市中央区新千葉2丁目",hours:"11:30〜23:00",closed:"月曜日",url:"https://www.jamtreejammin.com/",menu:[{cat:"🌮 タコス",items:[{name:"クラシックタコス",desc:"ビーフ・トマトサルサ・チーズ・レタス",price:"¥680"},{name:"チキンファヒータタコス",desc:"スパイシーチキン・パプリカ・オニオン",price:"¥730"},{name:"シュリンプタコス",desc:"ガーリックシュリンプ・アボカド・ライム",price:"¥780"}]}],userReviews:[]},
+  {id:324,tabelogScore:3.38,name:"海辺のタコス屋 sachi-ta",area:"千葉",neighborhood:"長生村",real:true,style:"本格メキシコ",price:"¥",score:85,reviews:67,emoji:"🏖️",tags:["本格メキシコ","海鮮タコス","手作りトルティーヤ","サーフタウン"],desc:"メキシコから千葉の長生村へ移住した夫婦が営む海辺のタコス屋。手作りトルティーヤとサルサにこだわり、新鮮な海鮮を使ったタコスが絶品。サーファーにも人気。",address:"千葉県長生郡長生村一松",hours:"11:00〜17:00",closed:"火・水曜日",url:"",menu:[{cat:"🌮 タコス",items:[{name:"海鮮タコス",desc:"地元の新鮮魚介・自家製サルサ・ライム",price:"¥500"},{name:"カルニタスタコス",desc:"じっくり煮込んだ豚肉・玉ねぎ・パクチー",price:"¥480"},{name:"エビのタコス",desc:"ガーリックシュリンプ・キャベツ・チリマヨ",price:"¥520"}]}],userReviews:[]},
+  {id:325,tabelogScore:3.30,name:"TAQUITO 市川店",area:"千葉",neighborhood:"市川",real:true,style:"本格メキシコ",price:"¥¥",score:80,reviews:45,emoji:"🏠",tags:["本格メキシコ","古民家","手作り","隠れ家"],desc:"民家を改造した隠れ家的メキシコ料理店。本場メキシコの味を再現したタコスやブリトーが人気。アットホームな雰囲気で、手作りトルティーヤが自慢。",address:"千葉県市川市市川1丁目",hours:"11:30〜21:00",closed:"水曜日",url:"https://taquitojapan.com/",menu:[{cat:"🌮 タコス",items:[{name:"アルパストール",desc:"スパイス漬け豚肉・パイナップル・パクチー",price:"¥600"},{name:"ポジョタコス",desc:"メキシカンチキン・ワカモレ・サルサベルデ",price:"¥580"},{name:"野菜タコス",desc:"グリル野菜・キノコ・チーズ・サルサロハ",price:"¥550"}]}],userReviews:[]},
+  {id:326,tabelogScore:3.25,name:"38TACOS",area:"千葉",neighborhood:"千葉中央",real:true,style:"フュージョン",price:"¥",score:76,reviews:92,emoji:"🌺",tags:["沖縄タコス","タコライス","ケサディア","テイクアウト"],desc:"沖縄タコスとタコライスの専門店。本場沖縄のレシピで作るタコスに加え、メキシコのソウルフード・ケサディアも人気。リーズナブルで気軽に楽しめる。",address:"千葉県千葉市中央区中央3丁目",hours:"11:00〜20:00",closed:"日曜日",url:"",menu:[{cat:"🌮 タコス",items:[{name:"沖縄タコス",desc:"タコミート・レタス・チーズ・トマト",price:"¥400"},{name:"タコライス",desc:"ご飯・タコミート・チーズ・サルサ",price:"¥650"},{name:"ケサディア",desc:"チーズたっぷり・チキン・サルサ",price:"¥500"}]}],userReviews:[]},
+  {id:327,tabelogScore:3.48,name:"CAFE' MUNCHIES",area:"千葉",neighborhood:"千葉中央",real:true,style:"フュージョン",price:"¥¥",score:77,reviews:73,emoji:"☕",tags:["カフェ","メキシカンダイナー","ランチ","おしゃれ"],desc:"千葉中央のおしゃれなメキシカンダイナー。落ち着いた雰囲気でタコスやブリトー、タコライスが楽しめる。ランチセットがお得で、女性にも人気。",address:"千葉県千葉市中央区本千葉町",hours:"11:30〜22:00",closed:"月曜日",url:"",menu:[{cat:"🌮 タコス",items:[{name:"チキンタコス",desc:"スパイシーチキン・アボカド・サワークリーム",price:"¥780"},{name:"ビーフタコス",desc:"グリルビーフ・サルサ・チーズ",price:"¥830"},{name:"フィッシュタコス",desc:"白身魚フリット・コールスロー・タルタル",price:"¥780"}]}],userReviews:[]},
+  {id:328,tabelogScore:3.20,name:"TACO GLAMP",area:"千葉",neighborhood:"一宮",real:true,style:"フュージョン",price:"¥¥¥",score:74,reviews:38,emoji:"⛺",tags:["グランピング","BBQ","アウトドア","サーフ"],desc:"一宮町のメキシカングランピング施設。タコスやBBQを楽しみながらグランピング体験ができる。サーフスポットにも近く、アウトドア好きに人気。",address:"千葉県長生郡一宮町一宮",hours:"チェックイン15:00〜",closed:"不定休",url:"",menu:[{cat:"🌮 タコス",items:[{name:"BBQタコス",desc:"グリルビーフ・スモークサルサ・コーン",price:"¥900"},{name:"シーフードタコス",desc:"海老・ホタテ・ガーリックバター",price:"¥950"}]}],userReviews:[]},
+  {id:329,tabelogScore:3.35,name:"DESPERADO",area:"千葉",neighborhood:"千葉中央",real:true,style:"テキサス",price:"¥¥",score:79,reviews:61,emoji:"🤠",tags:["テキサス","バー","ナチョス","カクテル"],desc:"千葉中央のテキスメクスバー。本場テキサススタイルのタコスやナチョス、ファヒータが楽しめる。カクテルやテキーラの品揃えも豊富。",address:"千葉県千葉市中央区富士見2丁目",hours:"18:00〜翌2:00",closed:"火曜日",url:"",menu:[{cat:"🌮 タコス",items:[{name:"テキサスタコス",desc:"チリコンカン・チェダーチーズ・サワークリーム",price:"¥680"},{name:"ファヒータタコス",desc:"鉄板焼きビーフ・パプリカ・オニオン",price:"¥750"},{name:"ナチョス",desc:"チップス・チーズ・ハラペーニョ・サルサ",price:"¥600"}]}],userReviews:[]},
+  {id:330,tabelogScore:3.18,name:"TOPA TACOS",area:"千葉",neighborhood:"一宮",real:true,style:"本格メキシコ",price:"¥",score:81,reviews:42,emoji:"🎨",tags:["本格メキシコ","カラフル","サーフ","テイクアウト"],desc:"一宮町のカラフルな外観が目印のタコス屋。メキシコを感じる店内で本格タコスが楽しめる。サーファーの聖地・一宮ならではのリラックスした雰囲気。",address:"千葉県長生郡一宮町東浪見",hours:"11:00〜18:00",closed:"水・木曜日",url:"",menu:[{cat:"🌮 タコス",items:[{name:"カルネアサダタコス",desc:"グリルステーキ・玉ねぎ・パクチー・ライム",price:"¥550"},{name:"ポジョタコス",desc:"チキン・ワカモレ・サルサベルデ",price:"¥500"},{name:"フリホーレスタコス",desc:"リフライドビーンズ・チーズ・レタス",price:"¥450"}]}],userReviews:[]},
 ];
 window.stores = stores;
 
