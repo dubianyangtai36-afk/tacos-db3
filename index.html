@@ -43,91 +43,7 @@
       });
     }
 //   </script>
-//   <script>
-try{
-var currentStoreId=null;
-function showFavList(){
-var favs=getFavs();
-document.querySelectorAll('.store-list,.filter-section,#load-more-btn,.search-area,.ranking-section,.category-section').forEach(function(el){el.style.display='none'});
-var section=document.getElementById('fav-list-section');
-section.style.display='block';
-var cards=document.getElementById('fav-list-cards');
-var empty=document.getElementById('fav-list-empty');
-if(favs.length===0){cards.innerHTML='';empty.style.display='block';return}
-empty.style.display='none';
-var favStores=stores.filter(function(s){return favs.includes(String(s.id))});
-cards.innerHTML=favStores.map(function(s){
-var v=isVisited(s.id);
-return '<div class="store-row" style="position:relative;cursor:pointer" onclick="closeFavList();openModal('+s.id+')">'
-+(v?'<span class="visited-badge">訪問済み</span>':'')
-+'<div style="font-weight:700;font-size:16px">'+s.emoji+' '+s.name+'</div>'
-+'<div style="color:#888;font-size:13px">'+s.area+' '+s.neighborhood+' | '+s.style+'</div>'
-+'<div style="margin-top:5px"><span style="background:#2b9a8f;color:#fff;padding:2px 10px;border-radius:10px;font-weight:700">'+s.score+'</span></div>'
-+'</div>'}).join('');
-}
-function closeFavList(){
-document.getElementById('fav-list-section').style.display='none';
-document.querySelectorAll('.store-list,.filter-section,#load-more-btn,.search-area,.ranking-section,.category-section').forEach(function(el){el.style.display=''});
-}
-function updateNavFavCount(){
-var c=getFavs().length;
-var el=document.getElementById('nav-fav-count');
-if(el){el.textContent=c;el.style.display=c>0?'inline-block':'none'}
-}
-var _origToggleFav=toggleFavorite;
-toggleFavorite=function(id){_origToggleFav(id);updateNavFavCount()};
-updateNavFavCount();
-function getVisited(){return JSON.parse(localStorage.getItem('tacos_visited')||'[]')}
-function isVisited(id){return getVisited().includes(String(id))}
-function toggleVisited(id){
-var v=getVisited();var sid=String(id);
-if(v.includes(sid)){v=v.filter(function(x){return x!==sid})}else{v.push(sid)}
-localStorage.setItem('tacos_visited',JSON.stringify(v));
-updateVisitedBtn(id);
-}
-function updateVisitedBtn(id){
-var btn=document.getElementById('visited-btn');
-if(!btn)return;
-if(isVisited(id)){btn.classList.add('checked');btn.textContent='\u2713 行った！'}
-else{btn.classList.remove('checked');btn.textContent='行った！'}
-}
-function updateScoreDisplay(val){
-var el=document.getElementById('score-display');
-el.textContent=val;
-el.className='score-display '+(val<40?'low':val<70?'mid':'high');
-}
-function getStoreReviews(id){return JSON.parse(localStorage.getItem('tacos_reviews_'+id)||'[]')}
-function submitScore100(){
-if(!currentStoreId)return;
-var score=parseInt(document.getElementById('score-slider').value);
-var comment=document.getElementById('review-comment').value.trim();
-var reviews=getStoreReviews(currentStoreId);
-reviews.push({score:score,comment:comment,date:new Date().toLocaleDateString('ja-JP')});
-localStorage.setItem('tacos_reviews_'+currentStoreId,JSON.stringify(reviews));
-document.getElementById('review-comment').value='';
-renderUserReviews(currentStoreId);
-}
-function renderUserReviews(id){
-var reviews=getStoreReviews(id);
-var el=document.getElementById('user-reviews-list');
-if(!el)return;
-if(reviews.length===0){el.innerHTML='';return}
-el.innerHTML='<h4 style="font-size:14px;margin:8px 0">みんなの評価</h4>'+reviews.map(function(r){
-var cls=r.score<40?'low':r.score<70?'mid':'high';
-return '<div class="user-review-item"><span class="review-score '+cls+'">'+r.score+'</span><span style="color:#999;font-size:12px"> / 100</span>'+(r.comment?' <span style="font-size:13px;margin-left:8px">'+r.comment+'</span>':'')+'<span style="float:right;font-size:11px;color:#aaa">'+r.date+'</span></div>'
-}).join('');
-}
-var _baseOpenModal=openModal;
-openModal=function(id){
-currentStoreId=id;
-_baseOpenModal(id);
-updateVisitedBtn(id);
-document.getElementById('score-slider').value=50;
-updateScoreDisplay(50);
-renderUserReviews(id);
-};
-}catch(e){console.error('Feature script error:',e)}
-</script>
+//   
 </head>
 <body>
 <noscript>
@@ -2235,137 +2151,91 @@ function toggleDark(){
 })();
 </script>
 <script>
-/* ===== お気に入り一覧 ===== */
-let currentStoreId = null;
-const _origOpenModal = typeof openModal==='function' ? openModal : null;
-
+try{
+var currentStoreId=null;
 function showFavList(){
-  const favs = getFavs();
-  const mainContent = document.getElementById('main-content') || document.querySelector('.store-list')?.parentElement;
-  // Hide main content sections
-  document.querySelectorAll('#main-content,.store-list,[id$="-section"]:not(#fav-list-section)').forEach(el=>{
-    if(el.id!=='fav-list-section') el.style.display='none';
-  });
-  const section = document.getElementById('fav-list-section');
-  section.classList.add('active');
-  section.style.display='block';
-  const cards = document.getElementById('fav-list-cards');
-  const empty = document.getElementById('fav-list-empty');
-  if(favs.length===0){
-    cards.innerHTML='';
-    empty.style.display='block';
-    return;
-  }
-  empty.style.display='none';
-  const favStores = stores.filter(s=>favs.includes(String(s.id)));
-  cards.innerHTML = favStores.map(s => {
-    const visited = isVisited(s.id);
-    return '<div class="store-row" style="position:relative;cursor:pointer" onclick="closeFavList();openModal('+s.id+')">'
-      + (visited ? '<span class="visited-badge">訪問済み</span>' : '')
-      + '<div style="font-weight:700;font-size:16px">'+s.emoji+' '+s.name+'</div>'
-      + '<div style="color:#888;font-size:13px">'+s.area+' '+s.neighborhood+' | '+s.style+'</div>'
-      + '<div style="margin-top:5px"><span style="background:#2b9a8f;color:#fff;padding:2px 10px;border-radius:10px;font-weight:700">'+s.score+'</span></div>'
-      + '</div>';
-  }).join('');
+var favs=getFavs();
+document.querySelectorAll('.store-list,.filter-section,#load-more-btn,.search-area,.ranking-section,.category-section').forEach(function(el){el.style.display='none'});
+var section=document.getElementById('fav-list-section');
+section.style.display='block';
+var cards=document.getElementById('fav-list-cards');
+var empty=document.getElementById('fav-list-empty');
+if(favs.length===0){cards.innerHTML='';empty.style.display='block';return}
+empty.style.display='none';
+var favStores=stores.filter(function(s){return favs.includes(String(s.id))});
+cards.innerHTML=favStores.map(function(s){
+var v=isVisited(s.id);
+return '<div class="store-row" style="position:relative;cursor:pointer" onclick="closeFavList();openModal('+s.id+')">'
++(v?'<span class="visited-badge">訪問済み</span>':'')
++'<div style="font-weight:700;font-size:16px">'+s.emoji+' '+s.name+'</div>'
++'<div style="color:#888;font-size:13px">'+s.area+' '+s.neighborhood+' | '+s.style+'</div>'
++'<div style="margin-top:5px"><span style="background:#2b9a8f;color:#fff;padding:2px 10px;border-radius:10px;font-weight:700">'+s.score+'</span></div>'
++'</div>'}).join('');
 }
-
 function closeFavList(){
-  document.getElementById('fav-list-section').style.display='none';
-  document.getElementById('fav-list-section').classList.remove('active');
-  document.querySelectorAll('#main-content,.store-list,[id$="-section"]:not(#fav-list-section)').forEach(el=>{
-    if(el.id!=='fav-list-section') el.style.display='';
-  });
+document.getElementById('fav-list-section').style.display='none';
+document.querySelectorAll('.store-list,.filter-section,#load-more-btn,.search-area,.ranking-section,.category-section').forEach(function(el){el.style.display=''});
 }
-
 function updateNavFavCount(){
-  const c = getFavs().length;
-  const el = document.getElementById('nav-fav-count');
-  if(el){el.textContent=c;el.style.display=c>0?'inline-block':'none';}
+var c=getFavs().length;
+var el=document.getElementById('nav-fav-count');
+if(el){el.textContent=c;el.style.display=c>0?'inline-block':'none'}
 }
-
-// Patch toggleFavorite to update nav count
-const _origToggleFav = toggleFavorite;
-toggleFavorite = function(id){
-  _origToggleFav(id);
-  updateNavFavCount();
-};
+var _origToggleFav=toggleFavorite;
+toggleFavorite=function(id){_origToggleFav(id);updateNavFavCount()};
 updateNavFavCount();
-
-/* ===== 訪問済みチェック ===== */
-function getVisited(){return JSON.parse(localStorage.getItem('tacos_visited')||'[]');}
-function isVisited(id){return getVisited().includes(String(id));}
+function getVisited(){return JSON.parse(localStorage.getItem('tacos_visited')||'[]')}
+function isVisited(id){return getVisited().includes(String(id))}
 function toggleVisited(id){
-  let v=getVisited();
-  const sid=String(id);
-  if(v.includes(sid)){v=v.filter(x=>x!==sid);}else{v.push(sid);}
-  localStorage.setItem('tacos_visited',JSON.stringify(v));
-  updateVisitedBtn(id);
-  updateVisitedBadges();
+var v=getVisited();var sid=String(id);
+if(v.includes(sid)){v=v.filter(function(x){return x!==sid})}else{v.push(sid)}
+localStorage.setItem('tacos_visited',JSON.stringify(v));
+updateVisitedBtn(id);
 }
 function updateVisitedBtn(id){
-  const btn=document.getElementById('visited-btn');
-  if(!btn)return;
-  if(isVisited(id)){btn.classList.add('checked');btn.textContent='✓ 行った！';}
-  else{btn.classList.remove('checked');btn.textContent='行った！';}
+var btn=document.getElementById('visited-btn');
+if(!btn)return;
+if(isVisited(id)){btn.classList.add('checked');btn.textContent='\u2713 行った！'}
+else{btn.classList.remove('checked');btn.textContent='行った！'}
 }
-function updateVisitedBadges(){
-  document.querySelectorAll('.store-row').forEach(row=>{
-    const onclick=row.getAttribute('onclick')||'';
-    const m=onclick.match(/openModal\((\d+)\)/);
-    if(m){
-      let badge=row.querySelector('.visited-badge');
-      if(isVisited(m[1])){
-        if(!badge){badge=document.createElement('span');badge.className='visited-badge';badge.textContent='訪問済み';row.style.position='relative';row.prepend(badge);}
-      }else{if(badge)badge.remove();}
-    }
-  });
-}
-
-/* ===== レビュー100点満点 ===== */
 function updateScoreDisplay(val){
-  const el=document.getElementById('score-display');
-  el.textContent=val;
-  el.className='score-display '+(val<40?'low':val<70?'mid':'high');
+var el=document.getElementById('score-display');
+el.textContent=val;
+el.className='score-display '+(val<40?'low':val<70?'mid':'high');
 }
-function getStoreReviews(id){return JSON.parse(localStorage.getItem('tacos_reviews_'+id)||'[]');}
+function getStoreReviews(id){return JSON.parse(localStorage.getItem('tacos_reviews_'+id)||'[]')}
 function submitScore100(){
-  if(!currentStoreId)return;
-  const score=parseInt(document.getElementById('score-slider').value);
-  const comment=document.getElementById('review-comment').value.trim();
-  const reviews=getStoreReviews(currentStoreId);
-  reviews.push({score:score,comment:comment,date:new Date().toLocaleDateString('ja-JP')});
-  localStorage.setItem('tacos_reviews_'+currentStoreId,JSON.stringify(reviews));
-  document.getElementById('review-comment').value='';
-  renderUserReviews(currentStoreId);
+if(!currentStoreId)return;
+var score=parseInt(document.getElementById('score-slider').value);
+var comment=document.getElementById('review-comment').value.trim();
+var reviews=getStoreReviews(currentStoreId);
+reviews.push({score:score,comment:comment,date:new Date().toLocaleDateString('ja-JP')});
+localStorage.setItem('tacos_reviews_'+currentStoreId,JSON.stringify(reviews));
+document.getElementById('review-comment').value='';
+renderUserReviews(currentStoreId);
 }
 function renderUserReviews(id){
-  const reviews=getStoreReviews(id);
-  const el=document.getElementById('user-reviews-list');
-  if(!el)return;
-  if(reviews.length===0){el.innerHTML='';return;}
-  el.innerHTML='<h4 style="font-size:14px;margin:8px 0">みんなの評価</h4>'+reviews.map(r=>{
-    const cls=r.score<40?'low':r.score<70?'mid':'high';
-    return '<div class="user-review-item"><span class="review-score '+cls+'">'+r.score+'</span><span style="color:#999;font-size:12px"> / 100</span>'+(r.comment?' <span style="font-size:13px;margin-left:8px">'+r.comment+'</span>':'')+'<span style="float:right;font-size:11px;color:#aaa">'+r.date+'</span></div>';
-  }).join('');
+var reviews=getStoreReviews(id);
+var el=document.getElementById('user-reviews-list');
+if(!el)return;
+if(reviews.length===0){el.innerHTML='';return}
+el.innerHTML='<h4 style="font-size:14px;margin:8px 0">みんなの評価</h4>'+reviews.map(function(r){
+var cls=r.score<40?'low':r.score<70?'mid':'high';
+return '<div class="user-review-item"><span class="review-score '+cls+'">'+r.score+'</span><span style="color:#999;font-size:12px"> / 100</span>'+(r.comment?' <span style="font-size:13px;margin-left:8px">'+r.comment+'</span>':'')+'<span style="float:right;font-size:11px;color:#aaa">'+r.date+'</span></div>'
+}).join('');
 }
-
-/* ===== openModal パッチ ===== */
-const _baseOpenModal = openModal;
-openModal = function(id){
-  currentStoreId = id;
-  _baseOpenModal(id);
-  // Update visited button
-  updateVisitedBtn(id);
-  // Update score slider
-  document.getElementById('score-slider').value=50;
-  updateScoreDisplay(50);
-  // Render existing reviews
-  renderUserReviews(id);
+var _baseOpenModal=openModal;
+openModal=function(id){
+currentStoreId=id;
+_baseOpenModal(id);
+updateVisitedBtn(id);
+document.getElementById('score-slider').value=50;
+updateScoreDisplay(50);
+renderUserReviews(id);
 };
-
-// Init visited badges on load
-setTimeout(updateVisitedBadges, 500);
+}catch(e){console.error('Feature script error:',e)}
 </script>
+
 </body>
 </html>
 
