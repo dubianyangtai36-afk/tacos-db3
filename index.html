@@ -787,6 +787,34 @@ footer{background:linear-gradient(135deg,#0d7377,#14919b) !important;box-shadow:
 .share-btn-x{background:#000}
 .share-btn-line{background:#06C755}
 .share-btn-copy{background:#6b7280}
+
+/* Dark mode */
+body.dark{background:#1a1a2e!important;color:#e0e0e0!important}
+body.dark #header{background:linear-gradient(135deg,#0f3460,#16213e)!important}
+body.dark .store-row{background:#16213e!important;color:#e0e0e0!important;border-color:#2a2a4a!important}
+body.dark .store-row:hover{background:#1a1a3e!important}
+body.dark .fchip,body.dark .tag{background:#2a2a4a!important;color:#7fdbca!important;border-color:#3a3a5a!important}
+body.dark .fchip.active{background:#2b9a8f!important;color:#fff!important}
+body.dark input,body.dark select{background:#16213e!important;color:#e0e0e0!important;border-color:#3a3a5a!important}
+body.dark .search-panel,body.dark .filter-group{background:#16213e!important;border-color:#2a2a4a!important}
+body.dark #modal-overlay .modal-inner,body.dark .modal-content{background:#1a1a2e!important;color:#e0e0e0!important}
+body.dark a{color:#7fdbca!important}
+body.dark .score-cell{color:#f0c040!important}
+body.dark footer{background:#0f3460!important}
+#dark-toggle{background:none;border:2px solid rgba(255,255,255,0.5);color:#fff;border-radius:20px;padding:4px 12px;cursor:pointer;font-size:13px;margin-left:8px;transition:all 0.2s}
+#dark-toggle:hover{background:rgba(255,255,255,0.15)}
+/* Autocomplete */
+#search-suggest{position:absolute;top:100%;left:0;right:60px;background:#fff;border:1px solid #ccc;border-top:none;border-radius:0 0 8px 8px;max-height:200px;overflow-y:auto;z-index:100;display:none;box-shadow:0 4px 12px rgba(0,0,0,0.1)}
+body.dark #search-suggest{background:#16213e;border-color:#3a3a5a;color:#e0e0e0}
+#search-suggest div{padding:8px 14px;cursor:pointer;font-size:14px;border-bottom:1px solid #f0f0f0}
+body.dark #search-suggest div{border-color:#2a2a4a}
+#search-suggest div:hover,#search-suggest div.active{background:#e8f5f3}
+body.dark #search-suggest div:hover{background:#2a2a4a}
+#search-suggest .sg-cat{color:#999;font-size:11px;margin-left:6px}
+.search-wrap{position:relative}
+/* Area badge */
+.area-count{display:inline-block;background:#2b9a8f;color:#fff;font-size:10px;border-radius:8px;padding:0 5px;margin-left:3px;min-width:16px;text-align:center;line-height:16px;vertical-align:middle}
+body.dark .area-count{background:#7fdbca;color:#1a1a2e}
 </style>
 
   <!-- Firebase SDK -->
@@ -825,7 +853,8 @@ footer{background:linear-gradient(135deg,#0d7377,#14919b) !important;box-shadow:
       
       
       <a href="/map" class="nav-link">🗺️ 全国マップ</a>
-      <a href="#" onclick="openMypage();return false;" style="color:#fff;text-decoration:none;font-size:13px">&#x1F464; マイページ</a> 
+      <a href="#" onclick="openMypage();return false;" style="color:#fff;text-decoration:none;font-size:13px">&#x1F464; マイページ</a>
+          <button id="dark-toggle" onclick="toggleDark()">☽</button> 
       
     
     <div id="auth-area" style="display:flex;align-items:center;gap:8px;margin-left:auto;padding:0 16px;">
@@ -866,6 +895,7 @@ footer{background:linear-gradient(135deg,#0d7377,#14919b) !important;box-shadow:
         <div class="search-row">
           <input type="text" id="searchInput" placeholder="店名・エリア・タグで検索..." oninput="applyFilters()" />
           <button class="search-btn" onclick="applyFilters()">検索</button>
+            <div id="search-suggest"></div>
         </div>
         <div class="filter-row">
           <div class="filter-row-label">▶ エリアで絞り込む</div>
@@ -2772,6 +2802,119 @@ window.addEventListener('scroll',function(){var b=document.getElementById('scrol
   }
   if(window.openModal) wrapOpenModal();
   else{var iv=setInterval(function(){if(window.openModal){wrapOpenModal();clearInterval(iv)}},200)}
+})();
+</script>
+
+<script>
+// === Dark Mode ===
+function toggleDark(){
+  document.body.classList.toggle('dark');
+  var d=document.body.classList.contains('dark');
+  localStorage.setItem('tacos_dark',d?'1':'0');
+  document.getElementById('dark-toggle').textContent=d?'\u2600':'\u263D';
+}
+(function(){
+  if(localStorage.getItem('tacos_dark')==='1'){
+    document.body.classList.add('dark');
+    var b=document.getElementById('dark-toggle');
+    if(b)b.textContent='\u2600';
+  }
+})();
+
+// === Search Autocomplete ===
+(function(){
+  var input=document.getElementById('search-input');
+  var box=document.getElementById('search-suggest');
+  if(!input||!box)return;
+  // Make parent relative for positioning
+  input.parentElement.style.position='relative';
+  
+  var allTags=[];
+  var tagSet=new Set();
+  stores.forEach(function(s){
+    (s.tags||[]).forEach(function(t){tagSet.add(t)});
+  });
+  allTags=Array.from(tagSet).sort();
+  
+  var areas=[...new Set(stores.map(function(s){return s.area}))].sort();
+  var names=stores.map(function(s){return s.name}).sort();
+  
+  var selIdx=-1;
+  input.addEventListener('input',function(){
+    var v=this.value.trim().toLowerCase();
+    if(v.length<1){box.style.display='none';return}
+    var results=[];
+    // Match store names
+    names.filter(function(n){return n.toLowerCase().includes(v)}).slice(0,3).forEach(function(n){
+      results.push({text:n,cat:'\u5E97\u8217'});
+    });
+    // Match areas
+    areas.filter(function(a){return a.toLowerCase().includes(v)}).slice(0,2).forEach(function(a){
+      results.push({text:a,cat:'\u30A8\u30EA\u30A2'});
+    });
+    // Match tags
+    allTags.filter(function(t){return t.toLowerCase().includes(v)}).slice(0,4).forEach(function(t){
+      results.push({text:t,cat:'\u30BF\u30B0'});
+    });
+    if(results.length===0){box.style.display='none';return}
+    selIdx=-1;
+    box.innerHTML=results.map(function(r,i){
+      return '<div data-val="'+r.text+'">'+r.text+'<span class="sg-cat">'+r.cat+'</span></div>';
+    }).join('');
+    box.style.display='block';
+    box.querySelectorAll('div').forEach(function(d){
+      d.addEventListener('mousedown',function(e){
+        e.preventDefault();
+        input.value=this.dataset.val;
+        box.style.display='none';
+        input.dispatchEvent(new Event('input',{bubbles:true}));
+        // Trigger search
+        if(typeof doSearch==='function')doSearch();
+        else if(typeof filterAll==='function')filterAll();
+        else{var btn=document.querySelector('.search-btn,[onclick*="search"]');if(btn)btn.click();}
+      });
+    });
+  });
+  input.addEventListener('keydown',function(e){
+    var items=box.querySelectorAll('div');
+    if(!items.length||box.style.display==='none')return;
+    if(e.key==='ArrowDown'){e.preventDefault();selIdx=Math.min(selIdx+1,items.length-1)}
+    else if(e.key==='ArrowUp'){e.preventDefault();selIdx=Math.max(selIdx-1,0)}
+    else if(e.key==='Enter'&&selIdx>=0){e.preventDefault();items[selIdx].dispatchEvent(new Event('mousedown'));return}
+    else return;
+    items.forEach(function(it,i){it.classList.toggle('active',i===selIdx)});
+  });
+  input.addEventListener('blur',function(){setTimeout(function(){box.style.display='none'},200)});
+  input.addEventListener('focus',function(){if(this.value.trim().length>=1)this.dispatchEvent(new Event('input'))});
+})();
+
+// === Area Count Badges ===
+(function(){
+  var areaMap={'\u6771\u4EAC':'\u6771\u4EAC','\u5927\u962A':'\u5927\u962A','\u540D\u53E4\u5C4B':'\u540D\u53E4\u5C4B','\u611B\u77E5':'\u540D\u53E4\u5C4B','\u798F\u5CA1':'\u798F\u5CA1','\u5317\u6D77\u9053':'\u5317\u6D77\u9053','\u4EAC\u90FD':'\u4EAC\u90FD','\u795E\u5948\u5DDD':'\u795E\u5948\u5DDD','\u6A2A\u6D5C':'\u795E\u5948\u5DDD','\u6C96\u7E04':'\u6C96\u7E04','\u5E83\u5CF6':'\u5E83\u5CF6'};
+  var counts={};
+  stores.forEach(function(s){
+    var a=s.area;
+    Object.keys(areaMap).forEach(function(k){
+      if(a===k||a===areaMap[k]){
+        var label=areaMap[k]||k;
+        counts[label]=(counts[label]||0)+1;
+      }
+    });
+  });
+  // Also count by direct area match
+  var directCounts={};
+  stores.forEach(function(s){directCounts[s.area]=(directCounts[s.area]||0)+1});
+  
+  document.querySelectorAll('.fchip').forEach(function(chip){
+    var oc=chip.getAttribute('onclick')||'';
+    var m=oc.match(/setFilter\('area','([^']+)'/);
+    if(!m)return;
+    var area=m[1];
+    var count=counts[area]||directCounts[area]||0;
+    if(count>0){
+      chip.innerHTML=chip.textContent.trim()+' <span class="area-count">'+count+'</span>';
+    }
+  });
 })();
 </script>
 </body>
