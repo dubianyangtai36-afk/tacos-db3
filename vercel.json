@@ -69,8 +69,28 @@
       "dest": "/ads.txt"
     },
     {
+      "src": "/store/(\\d+)",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(?:bot|crawl|spider|facebookexternalhit|Twitterbot|LINE|Slackbot|Discordbot|Googlebot).*"
+        }
+      ],
+      "dest": "/api/store?id=$1"
+    },
+    {
+      "src": "/store/(.*)",
+      "dest": "/index.html"
+    },
+    {
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ]
+  ],
+  "functions": {
+    "api/store.js": {
+      "includeFiles": "index.html"
+    }
+  }
 }
