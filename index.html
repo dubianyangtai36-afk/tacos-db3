@@ -841,7 +841,9 @@ body.dark .user-review-item{background:#1a2a4a;border-left-color:#7fdbca}
     window._fb = { auth, prov, signInWithPopup, signOut, onAuthStateChanged, db, doc, setDoc, getDoc };
     onAuthStateChanged(auth, u => {
       document.getElementById("login-btn").style.display = u ? "none" : "inline-flex";
-      document.getElementById("user-info")&&(document.getElementById("user-info").innerHTML = u ? '<img src="'+u.photoURL+'" style="width:28px;height:28px;border-radius:50%"><span>'+u.displayName+'</span><button onclick="window._fb.signOut(window._fb.auth)" style="background:none;border:1px solid #ccc;border-radius:12px;padding:2px 10px;font-size:12px;cursor:pointer">\u30ED\u30B0\u30A2\u30A6\u30C8</button>' : '');
+      document.getElementById("user-info").innerHTML = u
+        ? '<img src="'+u.photoURL+'" style="width:28px;height:28px;border-radius:50%"><span>'+u.displayName+'</span><button onclick="window._fb.signOut(window._fb.auth)" style="background:none;border:1px solid #ccc;border-radius:12px;padding:2px 10px;font-size:12px;cursor:pointer">ログアウト</button>'
+        : '';
     });
     </script>
     <div id="auth-area" style="display:flex;align-items:center;gap:8px;margin-left:auto;padding:0 16px;">
