@@ -3036,6 +3036,90 @@ renderUserReviews(id);
 }catch(e){console.error('Feature script error:',e)}
 </script>
 
+
+<!-- JSON-LD & Store URL Integration -->
+<script>
+// JSON-LD for all stores (ItemList)
+function generateJsonLd(){
+  if(!window.stores||!stores.length)return;
+  var items=stores.slice(0,50).map(function(s,i){
+    var item={"@type":"Restaurant","name":s.name,"servesCuisine":"Mexican","priceRange":s.price||""};
+    item.address={"@type":"PostalAddress","addressLocality":s.area+(s.neighborhood?' '+s.neighborhood:''),"addressCountry":"JP"};
+    if(s.tabelogScore)item.aggregateRating={"@type":"AggregateRating","ratingValue":s.tabelogScore,"bestRating":5,"worstRating":1,"ratingCount":s.reviews||1};
+    if(s.desc)item.description=s.desc;
+    item.url="https://tacos-db3.vercel.app/store/"+s.id;
+    return{"@type":"ListItem","position":i+1,"item":item};
+  });
+  var ld={"@context":"https://schema.org","@type":"ItemList","name":"\u30bf\u30b3\u30b9\u30b3 - \u65e5\u672c\u4e2d\u306e\u30bf\u30b3\u30b9\u5c02\u9580\u5e97","numberOfItems":stores.length,"itemListElement":items};
+  var el=document.createElement('script');el.type='application/ld+json';el.id='list-jsonld';
+  el.textContent=JSON.stringify(ld);document.head.appendChild(el);
+}
+
+// Hook into openModal to add URL + JSON-LD + share buttons
+var _origOpenModal=window.openModal;
+window.openModal=function(id){
+  _origOpenModal(id);
+  history.pushState({storeId:id},'','/store/'+id);
+  // Add individual JSON-LD
+  var old=document.getElementById('store-jsonld');if(old)old.remove();
+  var s=stores.find(function(x){return x.id===id});
+  if(s){
+    var ld={"@context":"https://schema.org","@type":"Restaurant","name":s.name,"address":{"@type":"PostalAddress","streetAddress":s.address||"","addressCountry":"JP"},"servesCuisine":"Mexican","priceRange":s.price||""};
+    if(s.tabelogScore)ld.aggregateRating={"@type":"AggregateRating","ratingValue":s.tabelogScore,"bestRating":5,"worstRating":1,"ratingCount":s.reviews||1};
+    if(s.desc)ld.description=s.desc;
+    var el=document.createElement('script');el.type='application/ld+json';el.id='store-jsonld';
+    el.textContent=JSON.stringify(ld);document.head.appendChild(el);
+    // Add share buttons if not already
+    var modal=document.getElementById('modal-overlay');
+    if(modal&&!document.getElementById('share-btns')){
+      var shareDiv=document.createElement('div');shareDiv.id='share-btns';
+      shareDiv.style.cssText='text-align:center;padding:12px 0;';
+      var url=encodeURIComponent('https://tacos-db3.vercel.app/store/'+id);
+      var txt=encodeURIComponent(s.name+' - \u30bf\u30b3\u30b9\u30b3');
+      shareDiv.innerHTML='<a href="https://twitter.com/intent/tweet?text='+txt+'&url='+url+'" target="_blank" style="display:inline-block;background:#1da1f2;color:#fff;padding:6px 14px;border-radius:16px;text-decoration:none;font-size:12px;margin:3px">X\u3067\u30b7\u30a7\u30a2</a> '
+        +'<a href="https://social-plugins.line.me/lineit/share?url='+url+'" target="_blank" style="display:inline-block;background:#06c755;color:#fff;padding:6px 14px;border-radius:16px;text-decoration:none;font-size:12px;margin:3px">LINE\u3067\u9001\u308b</a> '
+        +'<button onclick="navigator.clipboard.writeText(\'https://tacos-db3.vercel.app/store/'+id+'\').then(function(){alert(\'URL\u3092\u30b3\u30d4\u30fc\u3057\u307e\u3057\u305f\')})" style="display:inline-block;background:#757575;color:#fff;padding:6px 14px;border-radius:16px;border:none;font-size:12px;cursor:pointer;margin:3px">URL\u30b3\u30d4\u30fc</button>';
+      var box=modal.querySelector('.modal-box')||modal.firstElementChild;
+      if(box)box.appendChild(shareDiv);
+    }
+  }
+};
+
+// Hook into closeModalDirect to restore URL
+var _origClose=window.closeModalDirect;
+window.closeModalDirect=function(){
+  _origClose();
+  var old=document.getElementById('store-jsonld');if(old)old.remove();
+  var sb=document.getElementById('share-btns');if(sb)sb.remove();
+  if(location.pathname.startsWith('/store/'))history.pushState({},'','/');
+};
+
+// Handle /store/ID on page load
+(function checkStoreUrl(){
+  var m=location.pathname.match(/^\/store\/(\d+)/);
+  if(m){
+    var id=parseInt(m[1]);
+    var wait=setInterval(function(){
+      if(window.stores&&stores.length&&typeof openModal==='function'){
+        clearInterval(wait);
+        if(stores.find(function(x){return x.id===id}))openModal(id);
+      }
+    },200);
+  }
+})();
+
+// Browser back button
+window.addEventListener('popstate',function(){
+  if(!location.pathname.startsWith('/store/')){
+    if(typeof closeModalDirect==='function'){
+      try{closeModalDirect();}catch(e){}
+    }
+  }
+});
+
+// Generate JSON-LD after stores load
+setTimeout(function(){generateJsonLd();},800);
+<\/script>
 </body>
 </html>
 
