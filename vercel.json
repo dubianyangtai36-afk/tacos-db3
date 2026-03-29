@@ -57,6 +57,10 @@
       "dest": "/stores-extra5.js"
     },
     {
+      "src": "/stores-extra6.js",
+      "dest": "/stores-extra6.js"
+    },
+    {
       "src": "/stores-all.js",
       "dest": "/stores-all.js"
     },
