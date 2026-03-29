@@ -795,6 +795,15 @@ body.dark .visited-btn.checked{background:#7fdbca;color:#1a1a2e}
 .user-review-item .review-score{font-size:20px;font-weight:800}
 body.dark .user-review-item{background:#1a2a4a;border-left-color:#7fdbca}
 .nav-fav-count{display:inline-block;background:#ff6b6b;color:#fff;font-size:10px;border-radius:8px;padding:0 5px;margin-left:2px;min-width:14px;text-align:center;line-height:16px;vertical-align:middle}
+
+#register-btn:hover{opacity:0.85;transform:scale(1.03)}
+#login-btn:hover{opacity:0.85;transform:scale(1.03)}
+body.dark #login-btn{color:#7fdbca;border-color:#7fdbca}
+body.dark #register-btn{background:#7fdbca;color:#1a1a2e}
+@media(max-width:600px){
+  #auth-area{gap:4px!important;padding:0 8px!important}
+  #register-btn,#login-btn{font-size:11px!important;padding:4px 10px!important}
+}
 </style>
 </head>
 <body>
@@ -841,13 +850,15 @@ body.dark .user-review-item{background:#1a2a4a;border-left-color:#7fdbca}
     window._fb = { auth, prov, signInWithPopup, signOut, onAuthStateChanged, db, doc, setDoc, getDoc };
     onAuthStateChanged(auth, u => {
       document.getElementById("login-btn").style.display = u ? "none" : "inline-flex";
+      document.getElementById("register-btn").style.display = u ? "none" : "inline-flex"
       document.getElementById("user-info").innerHTML = u
         ? '<img src="'+u.photoURL+'" style="width:28px;height:28px;border-radius:50%"><span>'+u.displayName+'</span><button onclick="window._fb.signOut(window._fb.auth)" style="background:none;border:1px solid #ccc;border-radius:12px;padding:2px 10px;font-size:12px;cursor:pointer">ログアウト</button>'
         : '';
     });
     </script>
     <div id="auth-area" style="display:flex;align-items:center;gap:8px;margin-left:auto;padding:0 16px;">
-      <button id="login-btn" onclick="(async()=>{try{await window._fb.signInWithPopup(window._fb.auth,window._fb.prov)}catch(e){if(e.code!=='auth/popup-closed-by-user')alert(e.message)}})()" style="display:inline-flex;align-items:center;gap:6px;background:#e8590c;color:#fff;border:none;padding:8px 16px;border-radius:20px;cursor:pointer;font-size:14px;font-weight:bold;white-space:nowrap;">&#x1F464; ログイン</button>
+      <button id="register-btn" onclick="(async()=>{try{const r=await window._fb.signInWithPopup(window._fb.auth,window._fb.prov);if(r.user.metadata.creationTime===r.user.metadata.lastSignInTime){alert('✅ 会員登録が完了しました！\nようこそタコスコへ！')}}catch(e){if(e.code!=='auth/popup-closed-by-user')alert(e.message)}})()" style="display:inline-flex;align-items:center;gap:4px;background:#2b9a8f;color:#fff;border:none;border-radius:20px;padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap">✍️ 新規登録</button>
+      <button id="login-btn" onclick="(async()=>{try{await window._fb.signInWithPopup(window._fb.auth,window._fb.prov)}catch(e){if(e.code!=='auth/popup-closed-by-user')alert(e.message)}})()" style="display:inline-flex;align-items:center;gap:4px;background:transparent;color:#2b9a8f;border:2px solid #2b9a8f;border-radius:20px;padding:4px 14px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap">👤 ログイン</button>
       <div id="user-menu" style="display:none;align-items:center;gap:8px;">
         <img id="user-avatar" src="" alt="" style="width:30px;height:30px;border-radius:50%;">
         <span id="user-name" style="color:#fff;font-size:13px;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
