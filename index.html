@@ -823,6 +823,27 @@ body.dark .user-review-item{background:#1a2a4a;border-left-color:#7fdbca}
           <button id="dark-toggle" onclick="toggleDark()">☽</button> 
       
     
+    <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
+    const app = initializeApp({
+      apiKey: "AIzaSyCOiu6VpSXBxQEgSDJGfFrqvwbpuBpqyS0",
+      authDomain: "tacos-db3.firebaseapp.com",
+      projectId: "tacos-db3",
+      storageBucket: "tacos-db3.firebasestorage.app",
+      messagingSenderId: "757498498498",
+      appId: "1:757498498498:web:2a7ea1ed1f4b1cadf8dba3"
+    });
+    const auth = getAuth(app);
+    const prov = new GoogleAuthProvider();
+    const db = getFirestore(app);
+    window._fb = { auth, prov, signInWithPopup, signOut, onAuthStateChanged, db, doc, setDoc, getDoc };
+    onAuthStateChanged(auth, u => {
+      document.getElementById("login-btn").style.display = u ? "none" : "inline-flex";
+      document.getElementById("user-info")&&(document.getElementById("user-info").innerHTML = u ? '<img src="'+u.photoURL+'" style="width:28px;height:28px;border-radius:50%"><span>'+u.displayName+'</span><button onclick="window._fb.signOut(window._fb.auth)" style="background:none;border:1px solid #ccc;border-radius:12px;padding:2px 10px;font-size:12px;cursor:pointer">\u30ED\u30B0\u30A2\u30A6\u30C8</button>' : '');
+    });
+    </script>
     <div id="auth-area" style="display:flex;align-items:center;gap:8px;margin-left:auto;padding:0 16px;">
       <button id="login-btn" onclick="(async()=>{try{await window._fb.signInWithPopup(window._fb.auth,window._fb.prov)}catch(e){if(e.code!=='auth/popup-closed-by-user')alert(e.message)}})()" style="display:inline-flex;align-items:center;gap:6px;background:#e8590c;color:#fff;border:none;padding:8px 16px;border-radius:20px;cursor:pointer;font-size:14px;font-weight:bold;white-space:nowrap;">&#x1F464; ログイン</button>
       <div id="user-menu" style="display:none;align-items:center;gap:8px;">
