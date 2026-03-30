@@ -77,6 +77,22 @@
       "dest": "/ads.txt"
     },
     {
+      "src": "/store-coords.js",
+      "dest": "/store-coords.js"
+    },
+    {
+      "src": "/stores-meta.json",
+      "dest": "/stores-meta.json"
+    },
+    {
+      "src": "/store.html",
+      "dest": "/store.html"
+    },
+    {
+      "src": "/store",
+      "dest": "/store.html"
+    },
+    {
       "src": "/store/(\\d+)",
       "has": [
         {
