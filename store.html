@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>ã¿ã³ã¹ã³ - åºèè©³ç´°</title>
+<title>タコスコ - 店舗詳細</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:"Hiragino Kaku Gothic ProN","Meiryo",sans-serif;font-size:14px;background:#f5f5f5;color:#333;line-height:1.6}
@@ -83,30 +83,30 @@ a{color:#0d7377;text-decoration:none}a:hover{opacity:.8;text-decoration:underlin
 <header id="header">
 <div id="header-inner">
 <div style="display:flex;align-items:center;gap:20px;flex:1">
-<a id="logo" href="/">ð® ã¿ã³ã¹ã³</a>
-<div class="header-text"><div class="header-title">ã¿ã³ã¹ã³</div><div class="header-subtitle">æ¥æ¬ä¸­ã®ã¿ã³ã¹ã«åºä¼ãããµã¤ã</div></div>
+<a id="logo" href="/">🌮 タコスコ</a>
+<div class="header-text"><div class="header-title">タコスコ</div><div class="header-subtitle">日本中のタコスに出会えるサイト</div></div>
 </div>
 <nav id="header-nav">
-<a href="/" class="nav-item">ð æ¤ç´¢</a>
-<a href="/" class="nav-item">ð ã©ã³ã­ã³ã°</a>
-<a href="/map" class="nav-item">ðºï¸ å¨å½ããã</a>
-<a href="/" class="nav-item">â¤ï¸ ãæ°ã«å¥ã</a>
+<a href="/" class="nav-item">🔍 検索</a>
+<a href="/" class="nav-item">🏆 ランキング</a>
+<a href="/map" class="nav-item">🗺️ 全国マップ</a>
+<a href="/" class="nav-item">❤️ お気に入り</a>
 </nav>
 </div>
 </header>
 <main id="main">
-<div class="breadcrumb"><a href="/">ã¿ã³ã¹ã³</a> <span style="margin:0 6px;color:#ccc">></span> <span id="bc-area">å°å</span> <span style="margin:0 6px;color:#ccc">></span> <span id="bc-name">åºèå</span></div>
-<div id="loading" class="loading" style="display:none"><div class="spinner"></div><span>èª­ã¿è¾¼ã¿ä¸­...</span></div>
-<div id="error" class="error" style="display:none"><h2>åºèãè¦ã¤ããã¾ãã</h2><p id="error-msg">æå®ãããåºèã®æå ±ãè¦ã¤ããã¾ããã§ããã</p><a href="/" class="back-btn">â ä¸è¦§ã«æ»ã</a></div>
+<div class="breadcrumb"><a href="/">タコスコ</a> <span style="margin:0 6px;color:#ccc">&gt;</span> <span id="bc-area">地域</span> <span style="margin:0 6px;color:#ccc">&gt;</span> <span id="bc-name">店舗名</span></div>
+<div id="loading" class="loading" style="display:none"><div class="spinner"></div><span>読み込み中...</span></div>
+<div id="error" class="error" style="display:none"><h2>店舗が見つかりません</h2><p id="error-msg">指定された店舗の情報が見つかりませんでした。</p><a href="/" class="back-btn">← 一覧に戻る</a></div>
 <div id="content" class="card" style="display:none">
-<div class="store-hdr"><div class="store-emoji" id="s-emoji">ð®</div><h1 class="store-name" id="s-name">åºèå</h1><div class="meta-row"><div class="badge" id="s-area">æ±äº¬</div><div class="badge" id="s-hood">æ¸è°·åº</div><div class="badge" id="s-style">æ¬æ ¼ã¡ã­ã·ã³</div></div></div>
+<div class="store-hdr"><div class="store-emoji" id="s-emoji">🌮</div><h1 class="store-name" id="s-name">店舗名</h1><div class="meta-row"><div class="badge" id="s-area">東京</div><div class="badge" id="s-hood">渋谷区</div><div class="badge" id="s-style">本格メキシコ</div></div></div>
 <div class="store-body">
-<div class="section"><div class="rating-row"><div><div class="rating-label">Score</div><div class="rating-num" id="s-score">90</div><div class="rating-stars" id="s-stars">âââââ</div><div style="font-size:12px;color:#888" id="s-reviews">100ä»¶ã®ã¬ãã¥ã¼</div></div><div id="s-tabelog-box" style="display:none"><div class="rating-label">é£ã¹ã­ã°</div><div class="rating-num" id="s-tabelog" style="font-size:24px">3.50</div></div><div><div class="rating-label">ä¾¡æ ¼å¸¯</div><div class="rating-num" id="s-price" style="font-size:28px">Â¥Â¥</div></div></div></div>
-<div class="section" id="sec-tags" style="display:none"><div class="section-title">ç¹å¾´ã¿ã°</div><div class="tags" id="s-tags"></div></div>
-<div class="section" id="sec-desc" style="display:none"><div class="section-title">åºèç´¹ä»</div><div class="desc" id="s-desc"></div></div>
-<div class="section" id="sec-info"><div class="section-title">åºæ¬æå ±</div><div class="info-grid"><div class="info-box"><div class="label">ä½æ</div><div class="value" id="s-addr">-</div></div><div class="info-box"><div class="label">å¶æ¥­æé</div><div class="value" id="s-hours">-</div></div><div class="info-box"><div class="label">å®ä¼æ¥</div><div class="value" id="s-closed">-</div></div></div><a id="s-map-btn" class="maps-btn" href="#" target="_blank" rel="noopener">ð Google Mapsã§è¦ã</a></div>
-<div class="section" id="sec-nearby" style="display:none"><div class="section-title">è¿ãã®ã¿ã³ã¹åº</div><div class="nearby-grid" id="s-nearby"></div></div>
-<div class="actions"><a href="/" class="action-btn back">â ä¸è¦§ã«æ»ã</a><a id="s-map-link" class="action-btn map" href="#" target="_blank" rel="noopener">ð Google Mapsã§éã</a><a id="s-share" class="action-btn share" href="#" target="_blank" rel="noopener">ð¦ Twitterã§ã·ã§ã¢</a></div>
+<div class="section"><div class="rating-row"><div><div class="rating-label">スコア</div><div class="rating-num" id="s-score">90</div><div class="rating-stars" id="s-stars">★★★★★</div><div style="font-size:12px;color:#888" id="s-reviews">100件のレビュー</div></div><div id="s-tabelog-box" style="display:none"><div class="rating-label">食べログ</div><div class="rating-num" id="s-tabelog" style="font-size:24px">3.50</div></div><div><div class="rating-label">価格帯</div><div class="rating-num" id="s-price" style="font-size:28px">¥¥</div></div></div></div>
+<div class="section" id="sec-tags" style="display:none"><div class="section-title">特徴タグ</div><div class="tags" id="s-tags"></div></div>
+<div class="section" id="sec-desc" style="display:none"><div class="section-title">店舗紹介</div><div class="desc" id="s-desc"></div></div>
+<div class="section" id="sec-info"><div class="section-title">店舗情報</div><div class="info-grid"><div class="info-box"><div class="label">住所</div><div class="value" id="s-addr">-</div></div><div class="info-box"><div class="label">営業時間</div><div class="value" id="s-hours">-</div></div><div class="info-box"><div class="label">定休日</div><div class="value" id="s-closed">-</div></div></div><a id="s-map-btn" class="maps-btn" href="#" target="_blank" rel="noopener">📍 Google Mapsで見る</a></div>
+<div class="section" id="sec-nearby" style="display:none"><div class="section-title">近くのタコス店</div><div class="nearby-grid" id="s-nearby"></div></div>
+<div class="actions"><a href="/" class="action-btn back">← 一覧に戻る</a><a id="s-map-link" class="action-btn map" href="#" target="_blank" rel="noopener">📍 Google Mapsで開く</a><a id="s-share" class="action-btn share" href="#" target="_blank" rel="noopener">🐦 Twitterでシェア</a></div>
 </div>
 </div>
 </main>
@@ -128,89 +128,83 @@ var params=new URLSearchParams(window.location.search);
 var storeId=parseInt(params.get('id'));
 if(!storeId){document.getElementById('error').style.display='';return;}
 document.getElementById('loading').style.display='';
-
-// Also fetch stores-meta.json for basic info on ALL stores
 fetch('/stores-meta.json').then(function(r){return r.json()}).then(function(meta){
-  window._meta=meta;
-  Object.keys(meta).forEach(function(idStr){
-    var id=parseInt(idStr);
-    var exists=window.stores.some(function(s){return s.id===id});
-    if(!exists){
-      var m=meta[idStr];
-      window.stores.push({id:id,name:m[0],area:m[1],neighborhood:m[2],real:true,style:'',price:'',score:0,reviews:0,emoji:'ð®',tags:[],desc:'',address:'',hours:'',closed:''});
-    }
-  });
-}).catch(function(){}).finally(function(){
-  // Try to find the store
-  var attempts=0;
-  var maxAttempts=20;
-  function tryFind(){
-    var store=window.stores.find(function(s){return s.id===storeId});
-    if(store){
-      renderStore(store);
-    }else if(attempts<maxAttempts){
-      attempts++;
-      setTimeout(tryFind,100);
-    }else{
-      document.getElementById('loading').style.display='none';
-      document.getElementById('error').style.display='';
-    }
-  }
-  tryFind();
-});
-
-function stars(score){
-  var s=score/20;
-  var full=Math.floor(s);
-  var half=s-full>=0.5?1:0;
-  var empty=5-full-half;
-  return 'â'.repeat(full)+(half?'â':'')+('â'.repeat(empty));
+window._meta=meta;
+Object.keys(meta).forEach(function(idStr){
+var id=parseInt(idStr);
+var exists=window.stores.some(function(s){return s.id===id});
+if(!exists){
+var m=meta[idStr];
+window.stores.push({id:id,name:m[0],area:m[1],neighborhood:m[2],real:true,style:'',price:'',score:0,reviews:0,emoji:'🌮',tags:[],desc:'',address:'',hours:'',closed:''});
 }
-
+});
+}).catch(function(){}).finally(function(){
+var attempts=0;
+var maxAttempts=20;
+function tryFind(){
+var store=window.stores.find(function(s){return s.id===storeId});
+if(store){
+renderStore(store);
+}else if(attempts<maxAttempts){
+attempts++;
+setTimeout(tryFind,100);
+}else{
+document.getElementById('loading').style.display='none';
+document.getElementById('error').style.display='';
+}
+}
+tryFind();
+});
+function stars(score){
+var s=score/20;
+var full=Math.floor(s);
+var half=s-full>=0.5?1:0;
+var empty=5-full-half;
+return '★'.repeat(full)+(half?'☆':'')+('☆'.repeat(empty));
+}
 function renderStore(s){
-  document.getElementById('loading').style.display='none';
-  document.getElementById('content').style.display='';
-  document.title='ã¿ã³ã¹ã³ - '+s.name;
-  document.getElementById('bc-area').textContent=s.area||'å¨å½';
-  document.getElementById('bc-name').textContent=s.name;
-  document.getElementById('s-emoji').textContent=s.emoji||'ð®';
-  document.getElementById('s-name').textContent=s.name;
-  document.getElementById('s-area').textContent=s.area||'';
-  document.getElementById('s-hood').textContent=s.neighborhood||'';
-  document.getElementById('s-style').textContent=s.style||'ã¿ã³ã¹';
-  document.getElementById('s-score').textContent=s.score||'-';
-  document.getElementById('s-stars').textContent=stars(s.score||0);
-  document.getElementById('s-reviews').textContent=(s.reviews||0)+'ä»¶ã®ã¬ãã¥ã¼';
-  document.getElementById('s-price').textContent=s.price||'-';
-  if(s.tabelogScore){
-    document.getElementById('s-tabelog-box').style.display='';
-    document.getElementById('s-tabelog').textContent=s.tabelogScore.toFixed(2);
-  }
-  if(s.tags&&s.tags.length){
-    document.getElementById('sec-tags').style.display='';
-    document.getElementById('s-tags').innerHTML=s.tags.map(function(t){return '<span class="tag">'+t+'</span>'}).join('');
-  }
-  if(s.desc){
-    document.getElementById('sec-desc').style.display='';
-    document.getElementById('s-desc').textContent=s.desc;
-  }
-  document.getElementById('s-addr').textContent=s.address||'-';
-  document.getElementById('s-hours').textContent=s.hours||'-';
-  document.getElementById('s-closed').textContent=s.closed||'-';
-  var mapsUrl='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(s.address||s.name);
-  document.getElementById('s-map-btn').href=mapsUrl;
-  document.getElementById('s-map-link').href=mapsUrl;
-  var tweetText=encodeURIComponent(s.emoji+' '+s.name+'ï½ã¿ã³ã¹ã³');
-  var tweetUrl=encodeURIComponent(window.location.href);
-  document.getElementById('s-share').href='https://twitter.com/intent/tweet?text='+tweetText+'&url='+tweetUrl;
-  // Nearby stores
-  var nearby=window.stores.filter(function(ns){return ns.id!==s.id&&ns.area===s.area}).slice(0,6);
-  if(nearby.length){
-    document.getElementById('sec-nearby').style.display='';
-    document.getElementById('s-nearby').innerHTML=nearby.map(function(ns){
-      return '<a class="nearby-card" href="/store?id='+ns.id+'"><div class="nearby-emoji">'+(ns.emoji||'ð®')+'</div><div class="nearby-name">'+ns.name+'</div><div class="nearby-meta">'+(ns.neighborhood||ns.area)+'</div></a>';
-    }).join('');
-  }
+document.getElementById('loading').style.display='none';
+document.getElementById('content').style.display='';
+document.title='タコスコ - '+s.name;
+document.getElementById('bc-area').textContent=s.area||'全国';
+document.getElementById('bc-name').textContent=s.name;
+document.getElementById('s-emoji').textContent=s.emoji||'🌮';
+document.getElementById('s-name').textContent=s.name;
+document.getElementById('s-area').textContent=s.area||'';
+document.getElementById('s-hood').textContent=s.neighborhood||'';
+document.getElementById('s-style').textContent=s.style||'タコス';
+document.getElementById('s-score').textContent=s.score||'-';
+document.getElementById('s-stars').textContent=stars(s.score||0);
+document.getElementById('s-reviews').textContent=(s.reviews||0)+'件のレビュー';
+document.getElementById('s-price').textContent=s.price||'-';
+if(s.tabelogScore){
+document.getElementById('s-tabelog-box').style.display='';
+document.getElementById('s-tabelog').textContent=s.tabelogScore.toFixed(2);
+}
+if(s.tags&&s.tags.length){
+document.getElementById('sec-tags').style.display='';
+document.getElementById('s-tags').innerHTML=s.tags.map(function(t){return '<span class="tag">'+t+'</span>'}).join('');
+}
+if(s.desc){
+document.getElementById('sec-desc').style.display='';
+document.getElementById('s-desc').textContent=s.desc;
+}
+document.getElementById('s-addr').textContent=s.address||'-';
+document.getElementById('s-hours').textContent=s.hours||'-';
+document.getElementById('s-closed').textContent=s.closed||'-';
+var mapsUrl='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(s.address||s.name);
+document.getElementById('s-map-btn').href=mapsUrl;
+document.getElementById('s-map-link').href=mapsUrl;
+var tweetText=encodeURIComponent(s.emoji+' '+s.name+'｜タコスコ');
+var tweetUrl=encodeURIComponent(window.location.href);
+document.getElementById('s-share').href='https://twitter.com/intent/tweet?text='+tweetText+'&url='+tweetUrl;
+var nearby=window.stores.filter(function(ns){return ns.id!==s.id&&ns.area===s.area}).slice(0,6);
+if(nearby.length){
+document.getElementById('sec-nearby').style.display='';
+document.getElementById('s-nearby').innerHTML=nearby.map(function(ns){
+return '<a class="nearby-card" href="/store?id='+ns.id+'"><div class="nearby-emoji">'+(ns.emoji||'🌮')+'</div><div class="nearby-name">'+ns.name+'</div><div class="nearby-meta">'+(ns.neighborhood||ns.area)+'</div></a>';
+}).join('');
+}
 }
 })();
 </script>
