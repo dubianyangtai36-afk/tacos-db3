@@ -61,6 +61,14 @@
       "dest": "/stores-extra6.js"
     },
     {
+      "src": "/stores-extra7.js",
+      "dest": "/stores-extra7.js"
+    },
+    {
+      "src": "/stores-extra8.js",
+      "dest": "/stores-extra8.js"
+    },
+    {
       "src": "/stores-all.js",
       "dest": "/stores-all.js"
     },
