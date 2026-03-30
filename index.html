@@ -1788,6 +1788,7 @@ function showPage(p) {
 // MODAL
 // =============================================
 function openModal(id) {
+      window.location.href='/store?id='+id;return;
   currentStoreId = id;
   const s = stores.find(x=>x.id===id);
 
