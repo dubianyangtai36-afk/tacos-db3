@@ -102,6 +102,10 @@
       "dest": "/store-coords.js"
     },
     {
+      "src": "/store-coords2.js",
+      "dest": "/store-coords2.js"
+    },
+    {
       "src": "/stores-meta.json",
       "dest": "/stores-meta.json"
     },
