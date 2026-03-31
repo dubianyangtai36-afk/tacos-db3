@@ -6,6 +6,8 @@
 <title>タコスコ - 全国マップ</title>
 <meta name="description" content="全国のタコス専門店をマップで探せるタコスコ">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif;background:#fff}
@@ -29,9 +31,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif;bac
 .leaflet-popup-content-wrapper{border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,.15)}
 .leaflet-popup-content{margin:12px 14px;line-height:1.5}
 @media(max-width:600px){
-  .top-bar{padding:8px 10px;gap:8px}
-  .top-bar .logo{font-size:15px}
-  .top-bar input{max-width:180px;padding:6px 10px;font-size:13px}
+  .top-bar{padding:6px 8px;gap:6px;flex-wrap:wrap}
+  .top-bar .logo{font-size:14px}
+  .top-bar input{max-width:none;flex:1;padding:6px 10px;font-size:14px}
+  .top-bar .count{font-size:12px;white-space:nowrap}
+  #map{touch-action:manipulation}
+  .leaflet-popup-content{font-size:13px;max-width:220px}
+  .leaflet-control-zoom{display:none}
 }
 </style>
 </head>
@@ -59,6 +65,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif;bac
 <script src="/store-coords.js"></script>
 <script src="/store-coords2.js"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
 
 <script>
 (function(){
@@ -180,9 +187,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif;bac
 
       var m=L.marker(coords,{icon:icon}).bindPopup(popup);
       m.storeData=s;
-      m.addTo(map);
+      // added via cluster
       markers.push(m);
     });
+
+    var clusterGroup=L.markerClusterGroup({maxClusterRadius:40,spiderfyOnMaxZoom:true,showCoverageOnHover:false,zoomToBoundsOnClick:true});
+    markers.forEach(function(mk){clusterGroup.addLayer(mk);});
+    map.addLayer(clusterGroup);
+    window._clusterGroup=clusterGroup;
 
     document.getElementById('storeCount').textContent='\ud83c\udf2e '+markers.length+'店舗';
 
@@ -198,10 +210,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif;bac
           var s=m.storeData;
           var text=(s.name+' '+s.area+' '+(s.neighborhood||'')).toLowerCase();
           if(!q||text.indexOf(q)>=0||text.includes(q)){
-            if(!map.hasLayer(m)) m.addTo(map);
+            if(!window._clusterGroup.hasLayer(m)) window._clusterGroup.addLayer(m);
             visible++;
           } else {
-            if(map.hasLayer(m)) map.removeLayer(m);
+            if(map.hasLayer(m)) window._clusterGroup.removeLayer(m);
           }
         });
         document.getElementById('storeCount').textContent='\ud83c\udf2e '+visible+'店舗';
