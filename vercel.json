@@ -73,6 +73,10 @@
       "dest": "/stores-fixes.js"
     },
     {
+      "src": "/stores-fixes2.js",
+      "dest": "/stores-fixes2.js"
+    },
+    {
       "src": "/map.html",
       "dest": "/map.html"
     },
