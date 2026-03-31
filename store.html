@@ -4,6 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>タコスコ - 店舗詳細</title>
+<meta name="description" id="meta-desc" content="全国のタコス専門店を探せるタコスコ。店舗の詳細情報・スコア・レビューをチェック。">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="タコスコ">
+<meta property="og:title" id="og-title" content="タコスコ - 店舗詳細">
+<meta property="og:description" id="og-desc" content="全国のタコス専門店を探せるタコスコ。店舗の詳細情報・スコア・レビューをチェック。">
+<meta property="og:url" id="og-url" content="https://tacos-db3.vercel.app/store">
+<meta property="og:image" content="https://tacos-db3.vercel.app/og-image.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" id="tw-title" content="タコスコ - 店舗詳細">
+<meta name="twitter:description" id="tw-desc" content="全国のタコス専門店を探せるタコスコ。">
+<link rel="canonical" id="canonical" href="https://tacos-db3.vercel.app/store">
+<script type="application/ld+json" id="jsonld">{}</script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Meiryo",sans-serif;font-size:14px;background:#faf9f7;color:#333;line-height:1.6}
@@ -294,6 +306,32 @@ a{color:#d35400;text-decoration:none}a:hover{opacity:.8}
         return '<a class="nearby-card" href="/store?id='+ns.id+'"><div class="nearby-emoji">'+(ns.emoji||'🌮')+'</div><div class="nearby-name">'+ns.name+'</div><div class="nearby-meta">'+(ns.neighborhood||ns.area)+'</div></a>';
       }).join('');
     }
+
+    // SEO: Update OGP meta tags
+    var pageUrl='https://tacos-db3.vercel.app/store?id='+s.id;
+    var ogTitle='🌮 '+s.name+' - タコスコ';
+    var ogDesc=s.name+'（'+(s.area||'')+(s.neighborhood?' '+s.neighborhood:'')+'）'+(s.style?'の'+s.style:'')+'。'+(s.score?'スコア'+s.score+'点。':'')+'タコスコで全国のタコス店を探そう。';
+    document.getElementById('meta-desc').setAttribute('content',ogDesc);
+    document.getElementById('og-title').setAttribute('content',ogTitle);
+    document.getElementById('og-desc').setAttribute('content',ogDesc);
+    document.getElementById('og-url').setAttribute('content',pageUrl);
+    document.getElementById('tw-title').setAttribute('content',ogTitle);
+    document.getElementById('tw-desc').setAttribute('content',ogDesc);
+    document.getElementById('canonical').setAttribute('href',pageUrl);
+
+    // SEO: JSON-LD Restaurant structured data
+    var ld={
+      '@context':'https://schema.org',
+      '@type':'Restaurant',
+      name:s.name,
+      servesCuisine:'Mexican',
+      address:{'@type':'PostalAddress',addressLocality:s.area||'',streetAddress:s.address||''},
+      url:pageUrl
+    };
+    if(s.score&&s.score>0) ld.aggregateRating={'@type':'AggregateRating',ratingValue:(s.score/20).toFixed(1),bestRating:'5',ratingCount:String(s.reviews||1)};
+    if(s.hours) ld.openingHours=s.hours;
+    if(s.price) ld.priceRange=s.price;
+    document.getElementById('jsonld').textContent=JSON.stringify(ld);
   }
 })();
 </script>
