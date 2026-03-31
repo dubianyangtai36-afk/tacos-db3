@@ -4,160 +4,48 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>タコスコ - 全国マップ</title>
-<meta name="description" content="全国のタコス専門店を地図で探せるタコスコの全国マップ。スコア別マーカーで一目瞭然。">
-<link rel="canonical" href="https://tacos-db3.vercel.app/map">
-<meta property="og:title" content="タコスコ - 全国マッㅗ ｜ 全店舗を地図で探せる">
-<meta property="og:description" content="全国のタコス専門店を地図で探せる。スコア別マーカーで一目瞭然。">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://tacos-db3.vercel.app/map">
-<meta property="og:image" content="https://tacos-db3.vercel.app/ogp.png">
-<meta property="og:site_name" content="タコスコ">
-<meta property="og:locale" content="ja_JP">
-<link rel="icon" href="/favicon.ico">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.css"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/MarkerCluster.Default.css"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.5.3/leaflet.markercluster.js"></script>
+<meta name="description" content="全国のタコス専門店をマップで探せるタコスコ">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:"Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif;background:#1a1a2e;color:#fff}
-
-/* Header */
-.header{background:linear-gradient(135deg,#0f3443 0%,#34e89e 100%);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;position:fixed;top:0;left:0;right:0;z-index:1000;box-shadow:0 4px 20px rgba(0,0,0,.3);backdrop-filter:blur(10px)}
-.header-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff}
-.header-brand .logo{font-size:24px}
-.header-brand .title{font-size:18px;font-weight:800;letter-spacing:1px}
-.header-brand .sub{font-size:10px;opacity:.8;letter-spacing:2px}
-.header-nav{display:flex;gap:8px}
-.header-nav a{color:#fff;text-decoration:none;font-size:12px;padding:6px 14px;border-radius:20px;background:rgba(255,255,255,.1);backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,.15);transition:all .3s}
-.header-nav a:hover,.header-nav a.active{background:rgba(255,255,255,.25);border-color:rgba(255,255,255,.3);transform:translateY(-1px)}
-
-/* Map */
-#map{position:fixed;top:50px;left:0;right:0;bottom:0}
-
-/* Controls overlay */
-.map-controls{position:fixed;top:58px;left:12px;z-index:900;display:flex;flex-direction:column;gap:8px}
-.control-group{background:rgba(15,15,30,.9);backdrop-filter:blur(12px);border-radius:14px;padding:10px 14px;box-shadow:0 4px 20px rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.08)}
-.control-group label{font-size:10px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:4px}
-.control-group select{width:100%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:6px 10px;font-size:12px;color:#fff;outline:none;cursor:pointer;-webkit-appearance:none;appearance:none}
-.control-group select option{background:#1a1a2e;color:#fff}
-
-.store-count{background:linear-gradient(135deg,#ff6b35,#d32f2f);color:#fff;padding:8px 16px;border-radius:14px;font-size:14px;font-weight:800;text-align:center;box-shadow:0 4px 15px rgba(211,47,47,.4);letter-spacing:1px}
-
-/* Search box */
-.search-box{position:fixed;top:58px;left:50%;transform:translateX(-50%);z-index:900;width:320px;max-width:calc(100% - 24px)}
-.search-box input{width:100%;background:rgba(15,15,30,.9);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);border-radius:24px;padding:10px 18px 10px 40px;font-size:13px;color:#fff;outline:none;transition:all .3s}
-.search-box input::placeholder{color:rgba(255,255,255,.35)}
-.search-box input:focus{border-color:rgba(52,232,158,.5);box-shadow:0 0 20px rgba(52,232,158,.15)}
-.search-box .icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:16px;opacity:.5}
-
-/* Legend */
-.legend{position:fixed;bottom:20px;left:12px;z-index:900;background:rgba(15,15,30,.92);backdrop-filter:blur(12px);border-radius:14px;padding:12px 16px;box-shadow:0 4px 20px rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.08);font-size:11px;color:rgba(255,255,255,.7)}
-.legend-title{font-size:12px;font-weight:700;color:#fff;margin-bottom:6px}
-.legend-item{display:flex;align-items:center;gap:8px;margin:4px 0}
-.legend-dot{width:12px;height:12px;border-radius:50%;border:2px solid rgba(255,255,255,.2);flex-shrink:0}
-
-/* Sidebar */
-.sidebar{position:fixed;top:50px;right:0;width:360px;bottom:0;background:rgba(15,15,30,.96);backdrop-filter:blur(20px);z-index:800;overflow-y:auto;box-shadow:-4px 0 30px rgba(0,0,0,.4);transition:transform .4s cubic-bezier(.4,0,.2,1);transform:translateX(100%);border-left:1px solid rgba(255,255,255,.06)}
-.sidebar.open{transform:translateX(0)}
-.sidebar-header{padding:16px 20px;background:rgba(255,255,255,.03);border-bottom:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;align-items:center}
-.sidebar-header h2{font-size:16px;font-weight:700;color:#fff}
-.sidebar-close{background:none;border:none;font-size:22px;cursor:pointer;color:rgba(255,255,255,.5);transition:color .2s}
-.sidebar-close:hover{color:#fff}
-.store-card{padding:14px 20px;border-bottom:1px solid rgba(255,255,255,.05);cursor:pointer;transition:all .2s}
-.store-card:hover{background:rgba(52,232,158,.08)}
-.store-card .name{font-size:14px;font-weight:700;color:#34e89e;margin-bottom:3px}
-.store-card .area{font-size:11px;color:rgba(255,255,255,.4);margin-bottom:4px}
-.store-card .info{font-size:12px;color:rgba(255,255,255,.6);line-height:1.5}
-.store-card .tags{margin-top:5px;display:flex;flex-wrap:wrap;gap:4px}
-.store-card .tag{display:inline-block;background:rgba(52,232,158,.12);color:#34e89e;font-size:10px;padding:2px 8px;border-radius:10px;border:1px solid rgba(52,232,158,.2)}
-
-/* Popup */
-.popup-content{font-size:13px;line-height:1.7;color:#333}
-.popup-content .p-name{font-size:16px;font-weight:800;color:#0f3443;margin-bottom:4px;border-bottom:2px solid #34e89e;padding-bottom:4px}
-.popup-content .p-area{font-size:11px;color:#888;margin-bottom:8px}
-.popup-content .p-row{font-size:12px;margin:3px 0;display:flex;gap:6px}
-.popup-content .p-label{font-weight:700;color:#555;min-width:50px}
-.popup-content .p-score{display:inline-block;background:linear-gradient(135deg,#0f3443,#34e89e);color:#fff;border-radius:6px;padding:2px 10px;font-size:12px;font-weight:800}
-.popup-content .p-link{display:inline-block;margin-top:8px;background:linear-gradient(135deg,#0f3443,#34e89e);color:#fff;text-decoration:none;padding:6px 16px;border-radius:20px;font-size:12px;font-weight:700;transition:all .3s;box-shadow:0 2px 10px rgba(52,232,158,.3)}
-.popup-content .p-link:hover{transform:translateY(-1px);box-shadow:0 4px 15px rgba(52,232,158,.4)}
-
-/* Cluster icons */
-.marker-cluster-small{background:rgba(52,232,158,.3)}
-.marker-cluster-small div{background:rgba(52,232,158,.7)}
-.marker-cluster-medium{background:rgba(255,165,0,.3)}
-.marker-cluster-medium div{background:rgba(255,165,0,.7)}
-.marker-cluster-large{background:rgba(211,47,47,.3)}
-.marker-cluster-large div{background:rgba(211,47,47,.7)}
-.marker-cluster div{width:34px;height:34px;margin-left:3px;margin-top:3px;text-align:center;border-radius:50%;font:13px "Hiragino Kaku Gothic ProN",sans-serif;font-weight:800;color:#fff;line-height:34px}
-
-@media(max-width:768px){
-  .sidebar{width:100%}
-  .search-box{width:calc(100% - 24px)}
-  .map-controls{top:110px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif;background:#fff}
+#map{width:100%;height:100vh}
+.top-bar{position:fixed;top:0;left:0;right:0;z-index:1000;
+  display:flex;align-items:center;gap:12px;padding:10px 16px;
+  background:rgba(255,255,255,.95);border-bottom:1px solid #e0e0e0;backdrop-filter:blur(6px)}
+.top-bar .logo{font-size:18px;font-weight:700;color:#d35400;white-space:nowrap}
+.top-bar .logo span{font-size:20px}
+.top-bar input{flex:1;max-width:320px;padding:8px 12px;border:1px solid #ccc;border-radius:20px;
+  font-size:14px;outline:none}
+.top-bar input:focus{border-color:#d35400}
+.top-bar .count{font-size:13px;color:#888;white-space:nowrap}
+.top-bar .home-link{text-decoration:none;color:#d35400;font-size:13px;white-space:nowrap}
+.popup-name{font-weight:700;font-size:15px;margin-bottom:4px;color:#333}
+.popup-area{font-size:12px;color:#888;margin-bottom:4px}
+.popup-addr{font-size:12px;color:#555;margin-bottom:4px}
+.popup-hours{font-size:11px;color:#888;margin-bottom:6px}
+.popup-score{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700;color:#fff}
+.popup-link{display:inline-block;margin-left:6px;font-size:12px;color:#d35400;text-decoration:none}
+.leaflet-popup-content-wrapper{border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,.15)}
+.leaflet-popup-content{margin:12px 14px;line-height:1.5}
+@media(max-width:600px){
+  .top-bar{padding:8px 10px;gap:8px}
+  .top-bar .logo{font-size:15px}
+  .top-bar input{padding:6px 10px;font-size:13px}
+  .top-bar .count{font-size:11px}
 }
 </style>
 </head>
 <body>
-<div class="header">
-  <a href="/" class="header-brand">
-    <span class="logo">🌮</span>
-    <div><div class="title">TACOSCO</div><div class="sub">日本全国タコスマップ</div></div>
-  </a>
-  <div class="header-nav">
-    <a href="/">🔍 検索</a>
-    <a href="/map" class="active">🗺️ マッブ</a>
-    <a href="/#ranking">🏆 ランキング</a>
-  </div>
+<div class="top-bar">
+  <div class="logo"><span>🌮</span> タコスコ</div>
+  <input id="search" type="text" placeholder="店名・エリアで検索...">
+  <div class="count" id="storeCount"></div>
+  <a href="/" class="home-link">← 一覧</a>
 </div>
-
-<div class="search-box">
-  <span class="icon">🔍</span>
-  <input type="text" id="searchInput" placeholder="店名・エリアで検索...">
-</div>
-
-<div class="map-controls">
-  <div class="store-count" id="storeCount">読込中...</div>
-  <div class="control-group">
-    <label>エリア</label>
-    <select id="areaFilter"><option value="">全国</option></select>
-  </div>
-  <div class="control-group">
-    <label>スタイル</label>
-    <select id="styleFilter"><option value="">すべて</option></select>
-  </div>
-  <div class="control-group">
-    <label>価格帯</label>
-    <select id="priceFilter">
-      <option value="">すべて</option>
-      <option value="¥">¥ 〜999円</option>
-      <option value="¥¥">¥¥ 1000〜1999円</option>
-      <option value="¥¥¥">¥¥¥ 2000円〜</option>
-    </select>
-  </div>
-</div>
-
 <div id="map"></div>
 
-<div class="sidebar" id="sidebar">
-  <div class="sidebar-header">
-    <h2 id="sidebarTitle">店舗一覧</h2>
-    <button class="sidebar-close" onclick="closeSidebar()">✕</button>
-  </div>
-  <div id="sidebarContent"></div>
-</div>
-
-<div class="legend">
-  <div class="legend-title">🌮 スコア</div>
-  <div class="legend-item"><span class="legend-dot" style="background:#ff1744"></span> 85+ 絶品</div>
-  <div class="legend-item"><span class="legend-dot" style="background:#ff6d00"></span> 75-84 おすすめ</div>
-  <div class="legend-item"><span class="legend-dot" style="background:#ffd600"></span> 65-74 良い</div>
-  <div class="legend-item"><span class="legend-dot" style="background:#00e676"></span> 〜64</div>
-  <div class="legend-item"><span class="legend-dot" style="background:#78909c"></span> 未評価</div>
-</div>
-
-<script>window.stores=[];</script>
+<script src="/stores.js"></script>
 <script src="/stores-extra.js"></script>
 <script src="/stores-extra2.js"></script>
 <script src="/stores-extra3.js"></script>
@@ -170,349 +58,152 @@ body{font-family:"Hiragino Kaku Gothic ProN","Noto Sans JP",Meiryo,sans-serif;ba
 <script src="/stores-fixes.js"></script>
 <script src="/stores-fixes2.js"></script>
 <script src="/store-coords.js"></script>
-
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 (function(){
-'use strict';
+  // --- Prefecture coords ---
+  var prefCoords={
+    "北海道":[43.06,141.35],"青森":[40.82,140.74],"岩手":[39.70,141.15],
+    "宮城":[38.27,140.87],"秋田":[39.72,140.10],"山形":[38.24,140.33],
+    "福島":[37.75,140.47],"茨城":[36.34,140.45],"栃木":[36.57,139.88],
+    "群馬":[36.39,139.06],"埼玉":[35.86,139.65],"千葉":[35.61,140.12],
+    "東京":[35.68,139.69],"神奈川":[35.45,139.64],"新潟":[37.90,139.02],
+    "富山":[36.70,137.21],"石川":[36.59,136.63],"福井":[36.07,136.22],
+    "山梨":[35.66,138.57],"長野":[36.23,138.18],"岐阜":[35.39,136.72],
+    "静岡":[34.98,138.38],"愛知":[35.18,136.91],"三重":[34.73,136.51],
+    "滋賀":[35.00,135.87],"京都":[35.02,135.77],"大阪":[34.69,135.50],
+    "兵庫":[34.69,135.18],"奈良":[34.69,135.83],"和歌山":[34.23,135.17],
+    "鳥取":[35.50,134.24],"島根":[35.47,133.05],"岡山":[34.66,133.93],
+    "広島":[34.40,132.46],"山口":[34.19,131.47],"徳島":[34.07,134.56],
+    "香川":[34.34,134.04],"愛媛":[33.84,132.77],"高知":[33.56,133.53],
+    "福岡":[33.61,130.42],"佐賀":[33.25,130.30],"長崎":[32.74,129.87],
+    "熊本":[32.79,130.74],"大分":[33.24,131.61],"宮崎":[31.91,131.42],
+    "鹿児島":[31.56,130.56],"沖縄":[26.34,127.80]
+  };
+  var areaAlias={
+    "名古屋":"愛知","横浜":"神奈川","川崎":"神奈川","鎌倉":"神奈川",
+    "札幌":"北海道","函館":"北海道","仙台":"宮城","那覇":"沖縄",
+    "さいたま":"埼玉","浦和":"埼玉","大宮":"埼玉","川越":"埼玉",
+    "神戸":"兵庫","金沢":"石川","福井市":"福井","草津":"滋賀",
+    "高崎":"群馬","前橋":"群馬","宇都宮":"栃木","水戸":"茨城",
+    "高松":"香川","松山":"愛媛","高知市":"高知","徳島市":"徳島",
+    "北谷":"沖縄","宜野湾":"沖縄","浦添":"沖縄","読谷":"沖縄","恩納":"沖縄",
+    "下北沢":"東京","渋谷":"東京","新宿":"東京","池袋":"東京","吉祥寺":"東京",
+    "代々木":"東京","恵比寿":"東京","中目黒":"東京","三軒茶屋":"東京",
+    "六本木":"東京","赤坂":"東京","銀座":"東京","秋葉原":"東京","上野":"東京",
+    "浅草":"東京","品川":"東京","目黒":"東京","世田谷":"東京","杉並":"東京",
+    "中野":"東京","練馬":"東京","板橋":"東京","豊島":"東京","荒川":"東京",
+    "台東":"東京","墨田":"東京","江東":"東京","足立":"東京","葛飾":"東京",
+    "江戸川":"東京","八王子":"東京","町田":"東京","府中":"東京","調布":"東京",
+    "心斎橋":"大阪","難波":"大阪","梅田":"大阪","天王寺":"大阪","堺":"大阪",
+    "天神":"福岡","博多":"福岡","小倉":"福岡"
+  };
 
-// === Prefecture coordinate lookup (all 47) ===
-var prefCoords={
-"北海道":[43.06,141.35],"青森":[40.82,140.74],"岩手":[39.70,141.15],"宮城":[38.27,140.87],
-"秋田":[39.72,140.10],"山形":[38.24,140.33],"福島":[37.75,140.47],"茨城":[36.34,140.45],
-"栃木":[36.57,139.88],"群馬":[36.39,139.06],"埼玉":[35.86,139.65],"千葉":[35.61,140.12],
-"東京":[35.68,139.77],"神奈川":[35.45,139.64],"新潟":[37.90,139.02],"富山":[36.70,137.21],
-"石川":[36.59,136.63],"福井":[36.07,136.22],"山梨":[35.66,138.57],"長野":[36.23,138.18],
-"岐阜":[35.39,136.72],"静岡":[34.98,138.38],"愛知":[35.18,136.91],"三重":[34.73,136.51],
-"滋賀":[35.00,135.87],"京都":[35.01,135.77],"大阪":[34.69,135.50],"兵庫":[34.69,135.18],
-"奈良":[34.69,135.83],"和歌山":[34.23,135.17],"鳥取":[35.50,134.24],"島根":[35.47,133.05],
-"岡山":[34.66,133.93],"広島":[34.40,132.46],"山口":[34.19,131.47],"徳島":[34.07,134.56],
-"香川":[34.34,134.04],"愛媛":[33.84,132.77],"高知":[33.56,133.53],"福岡":[33.59,130.40],
-"佐賀":[33.25,130.30],"長崎":[32.74,129.87],"熊本":[32.79,130.74],"大分":[33.24,131.61],
-"宮崎":[31.91,131.42],"鹿児島":[31.56,130.56],"沖縄":[26.34,127.77]
-};
-
-// === Area name aliases (non-prefecture names → prefecture) ===
-var areaAlias={
-"名古屋":"愛知","横浜":"神奈川","川崎":"神奈川","鎌倉":"神奈川","藤沢":"神奈川","相模原":"神奈川",
-"札幌":"北海道","函館":"北海道","旭川":"北海道","仙台":"宮城","那覇":"沖縄","さいたま":"埼玉",
-"浦和":"埼玉","大宮":"埼玉","川越":"埼玉","船橋":"千葉","柏":"千葉","市川":"千葉",
-"堺":"大阪","吹田":"大阪","豊中":"大阪","神戸":"兵庫","姫路":"兵庫","西宮":"兵庫",
-"奈良市":"奈良","金沢":"石川","福井市":"福井","岐阜市":"岐阜","松本":"長野",
-"浜松":"静岡","静岡市":"静岡","宇都宮":"栃木","前橋":"群馬","高崎":"群馬",
-"水戸":"茨城","つくば":"茨城","長岡":"新潟","富山市":"富山","田府":"山梨",
-"津":"三重","四日市":"三重","大津":"滋賀","宇治":"京都","和歌山市":"和歌山",
-"鳥取市":"鳥取","松江":"島根","岡山市":"岡山","広島市":"広島","下関":"山口",
-"徳島市":"徳島","高松":"香川","松山":"愛媛","高知市":"高知",
-"北九州":"福岡","久留米":"福岡","佐賀市":"佐賀","長崎市":"長崎","熊本市":"熊本",
-"大分市":"大分","宮崎市":"宮崎","鹿児島市":"鹿児島","青森市":"青森","弘前":"青森",
-"盛岡":"岩手","秋田市":"秋田","山形市":"山形","郡山":"福島","いわき":"福島"
-};
-
-// Resolve area to a prefecture name
-function resolveArea(area){
-  if(prefCoords[area]) return area;
-  if(areaAlias[area]) return areaAlias[area];
-  // Try partial match
-  var keys = Object.keys(prefCoords);
-  for(var i=0;i<keys.length;i++){
-    if(area && area.indexOf(keys[i])!==-1) return keys[i];
+  function resolveArea(area){
+    if(!area) return null;
+    if(prefCoords[area]) return area;
+    if(areaAlias[area]) return areaAlias[area];
+    var keys=Object.keys(prefCoords);
+    for(var i=0;i<keys.length;i++){
+      if(area.indexOf(keys[i])!==-1) return keys[i];
+    }
+    return null;
   }
-  return null;
-}
 
-// === Score-based colors ===
-function getScoreColor(score){
-  if(!score||score===0) return '#78909c';
-  if(score>=85) return '#ff1744';
-  if(score>=75) return '#ff6d00';
-  if(score>=65) return '#ffd600';
-  return '#00e676';
-}
-
-function createTacoIcon(score){
-  var color=getScoreColor(score);
-  var size=score>=85?34:score>=75?30:28;
-  return L.divIcon({
-    className:'taco-marker',
-    html:'<div style="background:'+color+';width:'+size+'px;height:'+size+'px;border-radius:50%;border:2.5px solid rgba(255,255,255,.9);box-shadow:0 3px 12px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;font-size:'+(size-12)+'px;cursor:pointer;transition:transform .2s">🌮</div>',
-    iconSize:[size,size],
-    iconAnchor:[size/2,size/2],
-    popupAnchor:[0,-size/2-4]
-  });
-}
-
-// === Map init with dark style ===
-var map=L.map('map',{
-  center:[36.2,137.5],
-  zoom:6,
-  zoomControl:false,
-  attributionControl:true
-});
-
-L.control.zoom({position:'bottomright'}).addTo(map);
-
-L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
-  attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> &copy; <a href="https://carto.com/">CARTO</a>',
-  subdomains:'abcd',
-  maxZoom:19
-}).addTo(map);
-
-var clusterGroup = L.markerClusterGroup({
-  maxClusterRadius:50,
-  spiderfyOnMaxZoom:true,
-  showCoverageOnHover:false,
-  zoomToBoundsOnClick:true,
-  iconCreateFunction:function(cluster){
-    var count=cluster.getChildCount();
-    var size=count>50?50:count>20?44:count>10?38:32;
-    var cls=count>50?'large':count>20?'medium':'small';
-    return L.divIcon({
-      html:'<div>'+count+'</div>',
-      className:'marker-cluster marker-cluster-'+cls,
-      iconSize:L.point(size,size)
-    });
+  function getCoords(s,idx,total){
+    if(s.lat&&s.lng) return [s.lat,s.lng];
+    var pref=resolveArea(s.area);
+    if(!pref||!prefCoords[pref]) return null;
+    var base=prefCoords[pref];
+    var angle=(idx/Math.max(total,1))*Math.PI*2;
+    var r=0.02+idx*0.005;
+    return [base[0]+Math.sin(angle)*r, base[1]+Math.cos(angle)*r];
   }
-});
-map.addLayer(clusterGroup);
 
-var allMarkers=[];
+  function scoreColor(score){
+    if(!score||score===0) return '#999';
+    if(score>=85) return '#e74c3c';
+    if(score>=75) return '#e67e22';
+    if(score>=65) return '#f1c40f';
+    return '#27ae60';
+  }
 
-function buildPopup(s){
-  var html='<div class="popup-content">';
-  html+='<div class="p-name">'+(s.emoji||'🌮')+' '+s.name+'</div>';
-  html+='<div class="p-area">📍 '+s.area+(s.neighborhood?' / '+s.neighborhood:'')+'</div>';
-  if(s.score) html+='<div class="p-row"><span class="p-score">★ '+s.score+'</span> <span style="font-size:11px;color:#aaa">('+s.reviews+'件)</span></div>';
-  if(s.style) html+='<div class="p-row"><span class="p-label">ジャンル</span> '+s.style+'</div>';
-  if(s.price) html+='<div class="p-row"><span class="p-label">価格帯</span> '+s.price+'</div>';
-  if(s.hours) html+='<div class="p-row"><span class="p-label">営業</span> '+s.hours+'</div>';
-  if(s.closed) html+='<div class="p-row"><span class="p-label">定休日</span> '+s.closed+'</div>';
-  if(s.address) html+='<div class="p-row"><span class="p-label">住所</span> '+s.address+'</div>';
-  html+='<a class="p-link" href="/store?id='+s.id+'">🌮 詳細を見る</a>';
-  html+='</div>';
-  return html;
-}
+  // --- Init map ---
+  var map=L.map('map',{zoomControl:false}).setView([36.5,137.5],6);
+  L.control.zoom({position:'bottomright'}).addTo(map);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    attribution:'&copy; OpenStreetMap',maxZoom:18
+  }).addTo(map);
 
-function getStoreCoords(s,idx,total){
-  // First check if store already has lat/lng from store-coords.js
-  if(s.lat && s.lng) return [s.lat, s.lng];
+  // --- Add markers ---
+  var allStores=window.stores||[];
+  var markers=[];
+  var prefCount={};
 
-  // Resolve area name to prefecture
-  var pref = resolveArea(s.area);
-  if(!pref) return null;
-
-  var base = prefCoords[pref];
-  if(!base) return null;
-
-  // Spread markers in a spiral pattern to avoid overlap
-  if(total<=1) return [base[0], base[1]];
-  var angle = (idx / total) * Math.PI * 2 * 3;
-  var r = 0.015 + idx * 0.012;
-  return [base[0] + Math.sin(angle)*r, base[1] + Math.cos(angle)*r];
-}
-
-function plotStores(stores){
-  clusterGroup.clearLayers();
-  allMarkers=[];
-
-  // Group by resolved prefecture for spiral positioning
-  var byPref={};
-  stores.forEach(function(s){
-    var pref = resolveArea(s.area) || s.area;
-    if(!byPref[pref]) byPref[pref]=[];
-    byPref[pref].push(s);
+  // Count per pref
+  allStores.forEach(function(s){
+    var p=resolveArea(s.area);
+    if(p) prefCount[p]=(prefCount[p]||0)+1;
   });
 
-  var plotted=0;
-  stores.forEach(function(s){
-    var pref = resolveArea(s.area) || s.area;
-    var group = byPref[pref]||[];
-    var idx = group.indexOf(s);
-    var coords = getStoreCoords(s, idx, group.length);
+  allStores.forEach(function(s,i){
+    var pref=resolveArea(s.area);
+    var prefTotal=pref?prefCount[pref]:1;
+    var prefIdx=0;
+    for(var j=0;j<i;j++){
+      if(resolveArea(allStores[j].area)===pref) prefIdx++;
+    }
+    var coords=getCoords(s,prefIdx,prefTotal);
     if(!coords) return;
 
-    var marker = L.marker(coords, {icon: createTacoIcon(s.score||0)});
-    marker.bindPopup(buildPopup(s), {maxWidth:300, className:'taco-popup'});
-    marker.storeData = s;
-    clusterGroup.addLayer(marker);
-    allMarkers.push(marker);
-    plotted++;
-  });
+    var color=scoreColor(s.score);
+    var icon=L.divIcon({
+      className:'',
+      html:'<div style="width:12px;height:12px;background:'+color+';border:2px solid #fff;border-radius:50%;box-shadow:0 1px 4px rgba(0,0,0,.3)"></div>',
+      iconSize:[12,12],iconAnchor:[6,6]
+    });
 
-  document.getElementById('storeCount').textContent = '🌮 ' + plotted + '店舗';
-  return plotted;
-}
-
-function getFilteredStores(stores){
-  var area = document.getElementById('areaFilter').value;
-  var style = document.getElementById('styleFilter').value;
-  var price = document.getElementById('priceFilter').value;
-  var search = (document.getElementById('searchInput').value||'').toLowerCase();
-
-  return stores.filter(function(s){
-    if(area && s.area !== area && resolveArea(s.area) !== area) return false;
-    if(style && s.style !== style) return false;
-    if(price && s.price !== price) return false;
-    if(search){
-      var text = (s.name+' '+s.area+' '+(s.neighborhood||'')+' '+(s.address||'')).toLowerCase();
-      if(text.indexOf(search)===-1) return false;
+    var scoreHtml='';
+    if(s.score&&s.score>0){
+      scoreHtml='<span class="popup-score" style="background:'+color+'">'+s.score+'点</span>';
     }
-    return true;
-  });
-}
+    var addrHtml=s.address?'<div class="popup-addr">📍 '+s.address+'</div>':'';
+    var hoursHtml=s.hours?'<div class="popup-hours">🕐 '+s.hours+(s.closed?' (定休:'+s.closed+')':'')+'</div>':'';
+    var linkHtml='<a class="popup-link" href="/store?id='+s.id+'">詳細→</a>';
 
-function openSidebar(title, stores){
-  var sidebar=document.getElementById('sidebar');
-  var content=document.getElementById('sidebarContent');
-  document.getElementById('sidebarTitle').textContent=title+'（'+stores.length+'店舗）';
-  var html='';
-  stores.sort(function(a,b){return (b.score||0)-(a.score||0)});
-  stores.forEach(function(s){
-    html+='<div class="store-card" onclick="focusStore('+s.id+')">';
-    html+='<div class="name">'+(s.emoji||'🌮')+' '+s.name+'</div>';
-    html+='<div class="area">'+s.area+(s.neighborhood?' / '+s.neighborhood:'')+'</div>';
-    html+='<div class="info">';
-    if(s.score) html+='<b>★'+s.score+'</b> ';
-    if(s.style) html+=s.style+' ';
-    if(s.price) html+=s.price;
-    html+='</div>';
-    if(s.tags&&s.tags.length){
-      html+='<div class="tags">';
-      s.tags.slice(0,3).forEach(function(t){html+='<span class="tag">'+t+'</span>'});
-      html+='</div>';
-    }
-    html+='</div>';
-  });
-  content.innerHTML=html;
-  sidebar.classList.add('open');
-}
+    var popup='<div class="popup-name">'+s.name+'</div>'
+      +'<div class="popup-area">'+s.area+(s.neighborhood?' / '+s.neighborhood:'')+(s.style?' · '+s.style:'')+'</div>'
+      +addrHtml+hoursHtml+scoreHtml+linkHtml;
 
-function closeSidebar(){
-  document.getElementById('sidebar').classList.remove('open');
-}
-
-function focusStore(id){
-  for(var i=0;i<allMarkers.length;i++){
-    if(allMarkers[i].storeData&&allMarkers[i].storeData.id===id){
-      map.setView(allMarkers[i].getLatLng(),14,{animate:true});
-      setTimeout(function(m){return function(){m.openPopup()}}(allMarkers[i]),300);
-      break;
-    }
-  }
-}
-window.focusStore=focusStore;
-window.closeSidebar=closeSidebar;
-
-// Wait for store data to load
-function waitForStores(cb){
-  if(window.stores&&window.stores.length>50){cb(window.stores)}
-  else{setTimeout(function(){waitForStores(cb)},150)}
-}
-
-waitForStores(function(stores){
-  // Collect unique areas and styles
-  var areas={};
-  var styles={};
-  stores.forEach(function(s){
-    // Normalize: also count by resolved prefecture
-    var pref = resolveArea(s.area);
-    if(pref){
-      areas[pref]=(areas[pref]||0)+1;
-    } else {
-      areas[s.area]=(areas[s.area]||0)+1;
-    }
-    if(s.style) styles[s.style]=(styles[s.style]||0)+1;
+    var m=L.marker(coords,{icon:icon}).bindPopup(popup);
+    m._storeData=s;
+    markers.push(m);
+    m.addTo(map);
   });
 
-  // Populate area filter with prefectures sorted by count
-  var areaSelect=document.getElementById('areaFilter');
-  Object.keys(areas).sort(function(a,b){return areas[b]-areas[a]}).forEach(function(a){
-    var opt=document.createElement('option');
-    opt.value=a;
-    opt.textContent=a+'（'+areas[a]+'）';
-    areaSelect.appendChild(opt);
-  });
+  document.getElementById('storeCount').textContent='🌮 '+markers.length+'店舗';
 
-  var styleSelect=document.getElementById('styleFilter');
-  Object.keys(styles).sort(function(a,b){return styles[b]-styles[a]}).forEach(function(s){
-    var opt=document.createElement('option');
-    opt.value=s;
-    opt.textContent=s+'（'+styles[s]+'）';
-    styleSelect.appendChild(opt);
-  });
-
-  function applyFilters(){
-    var filtered=getFilteredStores(stores);
-    plotStores(filtered);
-    var area=document.getElementById('areaFilter').value;
-    if(area){
-      var coords=prefCoords[area];
-      if(coords) map.setView(coords,10,{animate:true});
-      openSidebar(area,filtered);
-    } else {
-      closeSidebar();
-    }
-  }
-
-  document.getElementById('areaFilter').addEventListener('change',applyFilters);
-  document.getElementById('styleFilter').addEventListener('change',applyFilters);
-  document.getElementById('priceFilter').addEventListener('change',applyFilters);
-
-  // Search with debounce
-  var searchTimer;
-  document.getElementById('searchInput').addEventListener('input',function(){
-    clearTimeout(searchTimer);
-    searchTimer=setTimeout(function(){
-      var val=document.getElementById('searchInput').value;
-      var filtered=getFilteredStores(stores);
-      plotStores(filtered);
-      if(val && filtered.length>0 && filtered.length<=20){
-        openSidebar('検索結果', filtered);
-        if(filtered.length===1){
-          var pref=resolveArea(filtered[0].area);
-          if(pref && prefCoords[pref]) map.setView(prefCoords[pref],12,{animate:true});
+  // --- Search ---
+  var searchEl=document.getElementById('search');
+  var debounce;
+  searchEl.addEventListener('input',function(){
+    clearTimeout(debounce);
+    debounce=setTimeout(function(){
+      var q=searchEl.value.trim().toLowerCase();
+      var visible=0;
+      markers.forEach(function(m){
+        var s=m._storeData;
+        var text=(s.name+' '+s.area+' '+(s.neighborhood||'')+' '+(s.address||'')+' '+(s.style||'')).toLowerCase();
+        if(!q||text.indexOf(q)!==-1){
+          if(!map.hasLayer(m)) m.addTo(map);
+          visible++;
+        } else {
+          if(map.hasLayer(m)) map.removeLayer(m);
         }
-      } else if(!val){
-        closeSidebar();
-      }
+      });
+      document.getElementById('storeCount').textContent='🌮 '+visible+'店舗';
     },300);
   });
-
-  // Initial plot
-  var plotted = plotStores(stores);
-
-  // Prefecture labels at low zoom
-  var prefLabels=L.layerGroup();
-  Object.keys(areas).forEach(function(pref){
-    var coords=prefCoords[pref];
-    if(!coords) return;
-    var label=L.marker(coords,{
-      icon:L.divIcon({
-        className:'',
-        html:'<div style="background:rgba(52,232,158,.85);color:#0f3443;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:800;white-space:nowrap;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,.3);letter-spacing:.5px">'+pref+' '+areas[pref]+'</div>',
-        iconSize:[90,22],
-        iconAnchor:[45,11]
-      }),
-      interactive:true
-    });
-    label.on('click',function(){
-      document.getElementById('areaFilter').value=pref;
-      applyFilters();
-    });
-    label.addTo(prefLabels);
-  });
-
-  map.on('zoomend',function(){
-    if(map.getZoom()<=7){
-      if(!map.hasLayer(prefLabels)) prefLabels.addTo(map);
-    } else {
-      if(map.hasLayer(prefLabels)) map.removeLayer(prefLabels);
-    }
-  });
-  prefLabels.addTo(map);
-
-  console.log('Tacosco Map: '+plotted+' stores plotted out of '+stores.length+' total');
-});
-
 })();
 </script>
 </body>
