@@ -57,6 +57,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif;bac
 <script src="/stores-fixes.js"></script>
 <script src="/stores-fixes2.js"></script>
 <script src="/store-coords.js"></script>
+<script src="/store-coords2.js"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
@@ -220,7 +221,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif;bac
       var id=keys[i];
       if(!existingIds[id]){
         var d=meta[id];
-        allStores.push({id:Number(id),name:d[0],area:d[1],neighborhood:d[2]||''});
+        var coord=window.storeCoords?window.storeCoords[Number(id)]:null;
+        var obj={id:Number(id),name:d[0],area:d[1],neighborhood:d[2]||''};
+        if(coord){obj.lat=coord[0];obj.lng=coord[1];}
+        allStores.push(obj);
       }
     }
     renderMarkers(allStores);
