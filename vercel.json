@@ -68,6 +68,7 @@
       "src": "/stores-extra8.js",
       "dest": "/stores-extra8.js"
     },
+    {"src": "/stores-extra9.js", "dest": "/stores-extra9.js"},
     {
       "src": "/stores-fixes.js",
       "dest": "/stores-fixes.js"
