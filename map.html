@@ -22,17 +22,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif;bac
 .top-bar .home-link{text-decoration:none;color:#d35400;font-size:13px;white-space:nowrap}
 .popup-name{font-weight:700;font-size:15px;margin-bottom:4px;color:#333}
 .popup-area{font-size:12px;color:#888;margin-bottom:4px}
-.popup-addr{font-size:12px;color:#555;margin-bottom:4px}
-.popup-hours{font-size:11px;color:#888;margin-bottom:6px}
-.popup-score{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700;color:#fff}
+.popup-addr{font-size:12px;color:#666;margin-bottom:4px}
+.popup-hours{font-size:12px;color:#666;margin-bottom:4px}
+.popup-score{display:inline-block;padding:2px 8px;border-radius:10px;color:#fff;font-size:12px;font-weight:700}
 .popup-link{display:inline-block;margin-left:6px;font-size:12px;color:#d35400;text-decoration:none}
 .leaflet-popup-content-wrapper{border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,.15)}
 .leaflet-popup-content{margin:12px 14px;line-height:1.5}
 @media(max-width:600px){
   .top-bar{padding:8px 10px;gap:8px}
   .top-bar .logo{font-size:15px}
-  .top-bar input{padding:6px 10px;font-size:13px}
-  .top-bar .count{font-size:11px}
+  .top-bar input{max-width:180px;padding:6px 10px;font-size:13px}
 }
 </style>
 </head>
@@ -59,53 +58,60 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif;bac
 <script src="/stores-fixes2.js"></script>
 <script src="/store-coords.js"></script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 <script>
 (function(){
-  // --- Prefecture coords ---
   var prefCoords={
-    "北海道":[43.06,141.35],"青森":[40.82,140.74],"岩手":[39.70,141.15],
-    "宮城":[38.27,140.87],"秋田":[39.72,140.10],"山形":[38.24,140.33],
-    "福島":[37.75,140.47],"茨城":[36.34,140.45],"栃木":[36.57,139.88],
+    "北海道":[43.06,141.35],"青森":[40.82,140.74],"岩手":[39.72,141.10],
+    "宮城":[39.72,139.82],"秋田":[39.72,140.10],"山形":[38.27,140.87],
+    "福島":[38.25,140.34],"茨城":[36.34,140.45],"栃木":[36.57,139.88],
     "群馬":[36.39,139.06],"埼玉":[35.86,139.65],"千葉":[35.61,140.12],
     "東京":[35.68,139.69],"神奈川":[35.45,139.64],"新潟":[37.90,139.02],
     "富山":[36.70,137.21],"石川":[36.59,136.63],"福井":[36.07,136.22],
     "山梨":[35.66,138.57],"長野":[36.23,138.18],"岐阜":[35.39,136.72],
-    "静岡":[34.98,138.38],"愛知":[35.18,136.91],"三重":[34.73,136.51],
-    "滋賀":[35.00,135.87],"京都":[35.02,135.77],"大阪":[34.69,135.50],
-    "兵庫":[34.69,135.18],"奈良":[34.69,135.83],"和歌山":[34.23,135.17],
+    "静岡":[35.18,136.22],"愛知":[35.18,136.91],"三重":[34.73,136.51],
+    "滋賀":[35.00,135.87],"京都":[35.02,135.76],"大阪":[34.69,135.50],
+    "兵庫":[34.68,135.83],"奈良":[34.69,135.17],
+    "和歌山":[34.23,135.17],
     "鳥取":[35.50,134.24],"島根":[35.47,133.05],"岡山":[34.66,133.93],
     "広島":[34.40,132.46],"山口":[34.19,131.47],"徳島":[34.07,134.56],
     "香川":[34.34,134.04],"愛媛":[33.84,132.77],"高知":[33.56,133.53],
     "福岡":[33.61,130.42],"佐賀":[33.25,130.30],"長崎":[32.74,129.87],
-    "熊本":[32.79,130.74],"大分":[33.24,131.61],"宮崎":[31.91,131.42],
-    "鹿児島":[31.56,130.56],"沖縄":[26.34,127.80]
+    "熊本":[32.79,130.74],"大分":[33.24,131.61],"宮崎":[32.10,131.47],
+    "鹿児島":[31.91,131.02],"沖縄":[26.34,127.77]
   };
+
   var areaAlias={
-    "名古屋":"愛知","横浜":"神奈川","川崎":"神奈川","鎌倉":"神奈川",
-    "札幌":"北海道","函館":"北海道","仙台":"宮城","那覇":"沖縄",
     "さいたま":"埼玉","浦和":"埼玉","大宮":"埼玉","川越":"埼玉",
     "神戸":"兵庫","金沢":"石川","福井市":"福井","草津":"滋賀",
     "高崎":"群馬","前橋":"群馬","宇都宮":"栃木","水戸":"茨城",
     "高松":"香川","松山":"愛媛","高知市":"高知","徳島市":"徳島",
     "北谷":"沖縄","宜野湾":"沖縄","浦添":"沖縄","読谷":"沖縄","恩納":"沖縄",
-    "下北沢":"東京","渋谷":"東京","新宿":"東京","池袋":"東京","吉祥寺":"東京",
-    "代々木":"東京","恵比寿":"東京","中目黒":"東京","三軒茶屋":"東京",
-    "六本木":"東京","赤坂":"東京","銀座":"東京","秋葉原":"東京","上野":"東京",
-    "浅草":"東京","品川":"東京","目黒":"東京","世田谷":"東京","杉並":"東京",
-    "中野":"東京","練馬":"東京","板橋":"東京","豊島":"東京","荒川":"東京",
-    "台東":"東京","墨田":"東京","江東":"東京","足立":"東京","葛飾":"東京",
+    "函館":"北海道","小樽":"北海道","札幌":"北海道","旭川":"北海道","帯広":"北海道",
+    "釧路":"北海道","苫小牧":"北海道",
+    "新宿":"東京","渋谷":"東京","池袋":"東京","銀座":"東京","六本木":"東京",
+    "名古屋":"愛知",
+    "荒川":"東京","台東":"東京","墨田":"東京","江東":"東京","足立":"東京","葛飾":"東京",
     "江戸川":"東京","八王子":"東京","町田":"東京","府中":"東京","調布":"東京",
     "心斎橋":"大阪","難波":"大阪","梅田":"大阪","天王寺":"大阪","堺":"大阪",
-    "天神":"福岡","博多":"福岡","小倉":"福岡"
+    "天神":"福岡","博多":"福岡","小倉":"福岡",
+    "那覇":"沖縄","沖縄市":"沖縄","豊見城":"沖縄",
+    "横浜":"神奈川","川崎":"神奈川","藤沢":"神奈川","鎌倉":"神奈川",
+    "仙台":"宮城","盛岡":"岩手","秋田市":"秋田","山形市":"山形","福島市":"福島",
+    "静岡市":"静岡","浜松":"静岡",
+    "岐阜市":"岐阜","富山市":"富山",
+    "広島市":"広島","岡山市":"岡山","松江":"島根","鳥取市":"鳥取",
+    "熊本市":"熊本","大分市":"大分","宮崎市":"宮崎","鹿児島市":"鹿児島",
+    "長崎市":"長崎","佐賀市":"佐賀"
   };
 
-  function resolveArea(area){
-    if(!area) return null;
-    if(prefCoords[area]) return area;
-    if(areaAlias[area]) return areaAlias[area];
+  function resolveArea(a){
+    if(!a) return null;
+    if(prefCoords[a]) return a;
+    if(areaAlias[a]) return areaAlias[a];
     var keys=Object.keys(prefCoords);
     for(var i=0;i<keys.length;i++){
-      if(area.indexOf(keys[i])!==-1) return keys[i];
+      if(a.indexOf(keys[i])>=0) return keys[i];
     }
     return null;
   }
@@ -116,14 +122,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif;bac
     if(!pref||!prefCoords[pref]) return null;
     var base=prefCoords[pref];
     var angle=(idx/Math.max(total,1))*Math.PI*2;
-    var r=0.02+idx*0.005;
-    return [base[0]+Math.sin(angle)*r, base[1]+Math.cos(angle)*r];
+    var r=0.02+idx*0.008;
+    return [base[0]+r*Math.cos(angle),base[1]+r*Math.sin(angle)];
   }
 
   function scoreColor(score){
-    if(!score||score===0) return '#999';
-    if(score>=85) return '#e74c3c';
-    if(score>=75) return '#e67e22';
+    if(!score||score<=0) return '#999';
+    if(score>=80) return '#e74c3c';
     if(score>=65) return '#f1c40f';
     return '#27ae60';
   }
@@ -132,77 +137,95 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Hiragino Sans',sans-serif;bac
   var map=L.map('map',{zoomControl:false}).setView([36.5,137.5],6);
   L.control.zoom({position:'bottomright'}).addTo(map);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-    attribution:'&copy; OpenStreetMap',maxZoom:18
+    attribution:'&copy; OpenStreetMap'
   }).addTo(map);
 
-  // --- Add markers ---
-  var allStores=window.stores||[];
-  var markers=[];
-  var prefCount={};
-
-  // Count per pref
-  allStores.forEach(function(s){
-    var p=resolveArea(s.area);
-    if(p) prefCount[p]=(prefCount[p]||0)+1;
-  });
-
-  allStores.forEach(function(s,i){
-    var pref=resolveArea(s.area);
-    var prefTotal=pref?prefCount[pref]:1;
-    var prefIdx=0;
-    for(var j=0;j<i;j++){
-      if(resolveArea(allStores[j].area)===pref) prefIdx++;
-    }
-    var coords=getCoords(s,prefIdx,prefTotal);
-    if(!coords) return;
-
-    var color=scoreColor(s.score);
-    var icon=L.divIcon({
-      className:'',
-      html:'<div style="width:12px;height:12px;background:'+color+';border:2px solid #fff;border-radius:50%;box-shadow:0 1px 4px rgba(0,0,0,.3)"></div>',
-      iconSize:[12,12],iconAnchor:[6,6]
+  function renderMarkers(allStores){
+    var markers=[];
+    var prefCount={};
+    allStores.forEach(function(s){
+      var p=resolveArea(s.area);
+      if(p) prefCount[p]=(prefCount[p]||0)+1;
     });
 
-    var scoreHtml='';
-    if(s.score&&s.score>0){
-      scoreHtml='<span class="popup-score" style="background:'+color+'">'+s.score+'点</span>';
-    }
-    var addrHtml=s.address?'<div class="popup-addr">📍 '+s.address+'</div>':'';
-    var hoursHtml=s.hours?'<div class="popup-hours">🕐 '+s.hours+(s.closed?' (定休:'+s.closed+')':'')+'</div>':'';
-    var linkHtml='<a class="popup-link" href="/store?id='+s.id+'">詳細→</a>';
+    allStores.forEach(function(s,i){
+      var pref=resolveArea(s.area);
+      var prefTotal=pref?prefCount[pref]:1;
+      var prefIdx=0;
+      for(var j=0;j<i;j++){
+        if(resolveArea(allStores[j].area)===pref) prefIdx++;
+      }
+      var coords=getCoords(s,prefIdx,prefTotal);
+      if(!coords) return;
 
-    var popup='<div class="popup-name">'+s.name+'</div>'
-      +'<div class="popup-area">'+s.area+(s.neighborhood?' / '+s.neighborhood:'')+(s.style?' · '+s.style:'')+'</div>'
-      +addrHtml+hoursHtml+scoreHtml+linkHtml;
-
-    var m=L.marker(coords,{icon:icon}).bindPopup(popup);
-    m._storeData=s;
-    markers.push(m);
-    m.addTo(map);
-  });
-
-  document.getElementById('storeCount').textContent='🌮 '+markers.length+'店舗';
-
-  // --- Search ---
-  var searchEl=document.getElementById('search');
-  var debounce;
-  searchEl.addEventListener('input',function(){
-    clearTimeout(debounce);
-    debounce=setTimeout(function(){
-      var q=searchEl.value.trim().toLowerCase();
-      var visible=0;
-      markers.forEach(function(m){
-        var s=m._storeData;
-        var text=(s.name+' '+s.area+' '+(s.neighborhood||'')+' '+(s.address||'')+' '+(s.style||'')).toLowerCase();
-        if(!q||text.indexOf(q)!==-1){
-          if(!map.hasLayer(m)) m.addTo(map);
-          visible++;
-        } else {
-          if(map.hasLayer(m)) map.removeLayer(m);
-        }
+      var color=scoreColor(s.score);
+      var icon=L.divIcon({
+        className:'',
+        html:'<div style="width:12px;height:12px;background:'+color+';border:2px solid #fff;border-radius:50%;box-shadow:0 1px 4px rgba(0,0,0,.3)"></div>',
+        iconSize:[12,12],iconAnchor:[6,6]
       });
-      document.getElementById('storeCount').textContent='🌮 '+visible+'店舗';
-    },300);
+
+      var scoreHtml='';
+      if(s.score&&s.score>0){
+        scoreHtml='<span class="popup-score" style="background:'+color+'">'+s.score+'点</span>';
+      }
+      var addrHtml=s.address?'<div class="popup-addr">'+s.address+'</div>':'';
+      var hoursHtml=s.hours?'<div class="popup-hours">'+s.hours+'</div>':'';
+      var linkHtml='<a class="popup-link" href="/store?id='+s.id+'">詳細→</a>';
+
+      var popup='<div class="popup-name">'+s.name+'</div>'
+        +'<div class="popup-area">'+s.area+(s.neighborhood?' / '+s.neighborhood:'')+(s.style?' · '+s.style:'')+'</div>'
+        +addrHtml+hoursHtml+scoreHtml+linkHtml;
+
+      var m=L.marker(coords,{icon:icon}).bindPopup(popup);
+      m.storeData=s;
+      m.addTo(map);
+      markers.push(m);
+    });
+
+    document.getElementById('storeCount').textContent='\ud83c\udf2e '+markers.length+'店舗';
+
+    // --- Search ---
+    var searchEl=document.getElementById('search');
+    var debounce;
+    searchEl.addEventListener('input',function(){
+      clearTimeout(debounce);
+      debounce=setTimeout(function(){
+        var q=searchEl.value.trim().toLowerCase();
+        var visible=0;
+        markers.forEach(function(m){
+          var s=m.storeData;
+          var text=(s.name+' '+s.area+' '+(s.neighborhood||'')).toLowerCase();
+          if(!q||text.indexOf(q)>=0||text.includes(q)){
+            if(!map.hasLayer(m)) m.addTo(map);
+            visible++;
+          } else {
+            if(map.hasLayer(m)) map.removeLayer(m);
+          }
+        });
+        document.getElementById('storeCount').textContent='\ud83c\udf2e '+visible+'店舗';
+      },300);
+    });
+  }
+
+  // --- Load all stores (extra*.js + stores-meta.json) ---
+  var baseStores=window.stores||[];
+  var existingIds={};
+  baseStores.forEach(function(s){ existingIds[String(s.id)]=true; });
+
+  fetch('/stores-meta.json').then(function(r){ return r.json(); }).then(function(meta){
+    var allStores=baseStores.slice();
+    var keys=Object.keys(meta);
+    for(var i=0;i<keys.length;i++){
+      var id=keys[i];
+      if(!existingIds[id]){
+        var d=meta[id];
+        allStores.push({id:Number(id),name:d[0],area:d[1],neighborhood:d[2]||''});
+      }
+    }
+    renderMarkers(allStores);
+  }).catch(function(){
+    renderMarkers(baseStores);
   });
 })();
 </script>
