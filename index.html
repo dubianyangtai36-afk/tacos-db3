@@ -805,6 +805,18 @@ body.dark #register-btn{background:#7fdbca;color:#1a1a2e}
   #register-btn,#login-btn{font-size:11px!important;padding:4px 10px!important}
 }
 </style>
+
+<link rel="preload" href="/stores-extra.js" as="script">
+<link rel="preload" href="/stores-extra2.js" as="script">
+<link rel="preload" href="/stores-extra3.js" as="script">
+<link rel="preload" href="/stores-extra4.js" as="script">
+<link rel="preload" href="/stores-extra5.js" as="script">
+<link rel="preload" href="/stores-extra6.js" as="script">
+<link rel="preload" href="/stores-extra7.js" as="script">
+<link rel="preload" href="/stores-extra8.js" as="script">
+<link rel="preload" href="/stores-extra9.js" as="script">
+<link rel="preload" href="/stores-fixes.js" as="script">
+<link rel="preload" href="/stores-fixes2.js" as="script">
 </head>
 <body>
 <noscript>
@@ -2531,18 +2543,17 @@ try {
       if(_ogt) _ogt.setAttribute("content", "タコスコ - 日本中のタコスに出会えるサイト");
 }
 </script>
-<script src="/stores-extra.js"></script>
-<script src="/stores-extra2.js"></script>
-<script src="/stores-extra3.js"></script>
-<script src="/stores-extra4.js"></script>
-<script src="/stores-extra5.js"></script>
-<script src="/stores-extra6.js"></script>
-<script src="/stores-extra7.js"></script>
-<script src="/stores-extra8.js"></script>
-<script src="/stores-extra9.js"></script>
-<script src="/stores-fixes.js"></script>
-<script src="/stores-fixes2.js"></script>
-<script>if(typeof renderList==="function"&&window.stores)renderList(stores);</script>
+<script>
+(function(){
+var files=["/stores-extra.js","/stores-extra2.js","/stores-extra3.js","/stores-extra4.js","/stores-extra5.js","/stores-extra6.js","/stores-extra7.js","/stores-extra8.js","/stores-extra9.js","/stores-fixes.js","/stores-fixes2.js"];
+var loaded=0;
+files.forEach(function(f){
+var s=document.createElement("script");s.src=f;s.async=true;
+s.onload=function(){loaded++;if(loaded===files.length&&typeof renderList==="function"&&window.stores)renderList(stores);};
+document.head.appendChild(s);
+});
+})();
+</script>
 <script>checkURLOnLoad();
     // ===== Favorite Feature =====
     function getFavs(){try{return JSON.parse(localStorage.getItem("tacos_favs")||"[]")}catch(e){return[]}}
