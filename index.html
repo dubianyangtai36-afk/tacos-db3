@@ -30,7 +30,7 @@
   <meta name="twitter:description" content="全国のタコス専門店をこだわりで探せるグルメサイト" />
   <meta name="google-site-verification" content="_WpyCGhpVnAUmus3XGoXrpcKDHeJxykWKBU0ziBrHtY" />
   <!-- PWA -->
-  <meta name="theme-color" content="#0d7377" />
+  <meta name="theme-color" content="#e67e22" />
   <link rel="manifest" href="/manifest.json" />
   <link rel="icon" type="image/svg+xml" href="/taco-icon.svg" />
   <link rel="apple-touch-icon" href="/icon-192.png" />
@@ -47,12 +47,12 @@
 <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif; font-size: 13px; background: #f5f5f5; color: #333; min-height: 100vh; }
-    a { color: #0d7377; text-decoration: none; }
+    a { color: #e67e22; text-decoration: none; }
     a:hover { text-decoration: underline; }
 
     /* ========= HEADER ========= */
     #header {
-      background: #0d7377;
+      background: #e67e22;
       padding: 0;
     }
     #header-inner {
@@ -74,7 +74,7 @@
 
     /* ========= NAV TABS ========= */
     #nav-tabs {
-      background: #fff; border-bottom: 2px solid #0d7377;
+      background: #fff; border-bottom: 2px solid #e67e22;
       max-width: 100%;
     }
     #nav-tabs-inner {
@@ -87,8 +87,8 @@
       margin-bottom: -2px; transition: all 0.1s;
       display: flex; align-items: center; gap: 5px;
     }
-    .nav-tab:hover { color: #0d7377; }
-    .nav-tab.active { color: #0d7377; border-bottom-color: #0d7377; background: #f0faf9; }
+    .nav-tab:hover { color: #e67e22; }
+    .nav-tab.active { color: #e67e22; border-bottom-color: #e67e22; background: #fff8f0; }
 
     /* ========= LAYOUT ========= */
     #main { max-width: 980px; margin: 0 auto; padding: 14px 12px; display: flex; gap: 14px; }
@@ -100,19 +100,19 @@
       background: #fff; border: 1px solid #ddd; border-radius: 4px;
       padding: 12px 14px; margin-bottom: 12px;
     }
-    #search-box-title { font-size: 13px; font-weight: 700; color: #0d7377; margin-bottom: 8px; border-bottom: 1px solid #c0e8e0; padding-bottom: 6px; }
+    #search-box-title { font-size: 13px; font-weight: 700; color: #e67e22; margin-bottom: 8px; border-bottom: 1px solid #fde0c0; padding-bottom: 6px; }
     .search-row { display: flex; gap: 6px; margin-bottom: 8px; align-items: center; }
     .search-row input[type="text"] {
       flex: 1; padding: 6px 8px; border: 1px solid #ccc; border-radius: 3px;
       font-size: 13px; outline: none;
     }
-    .search-row input:focus { border-color: #0d7377; }
+    .search-row input:focus { border-color: #e67e22; }
     .search-btn {
-      padding: 6px 14px; background: #0d7377; color: #fff;
+      padding: 6px 14px; background: #e67e22; color: #fff;
       border: none; border-radius: 3px; font-size: 12px; font-weight: 700;
       cursor: pointer; white-space: nowrap;
     }
-    .search-btn:hover { background: #0a5c5f; }
+    .search-btn:hover { background: #c0600a; }
 
     /* FILTER CHIPS ROW */
     .filter-row { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px; }
@@ -122,17 +122,17 @@
       background: #fafafa; font-size: 11px; cursor: pointer; color: #555;
       transition: all 0.1s;
     }
-    .fchip:hover { border-color: #0d7377; color: #0d7377; }
-    .fchip.active { background: #0d7377; border-color: #0d7377; color: #fff; }
+    .fchip:hover { border-color: #e67e22; color: #e67e22; }
+    .fchip.active { background: #e67e22; border-color: #e67e22; color: #fff; }
 
     /* ========= RESULT HEADER ========= */
     #result-header {
       display: flex; justify-content: space-between; align-items: center;
       background: #fff; border: 1px solid #ddd; border-radius: 4px 4px 0 0;
-      padding: 8px 12px; border-bottom: 2px solid #0d7377;
+      padding: 8px 12px; border-bottom: 2px solid #e67e22;
     }
     #result-count { font-size: 12px; color: #666; }
-    #result-count strong { color: #0d7377; font-size: 15px; }
+    #result-count strong { color: #e67e22; font-size: 15px; }
     #sort-select {
       padding: 4px 6px; border: 1px solid #ccc; border-radius: 3px;
       font-size: 12px; cursor: pointer; background: #fff;
@@ -163,7 +163,7 @@
     .store-emoji {
       width: 64px; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
       font-size: 32px; padding: 10px 0; background: #f0faf7;
-      border-right: 1px solid #d0ece8;
+      border-right: 1px solid #fde8d0;
     }
 
     /* STORE INFO */
@@ -179,7 +179,7 @@
     .store-meta { font-size: 11px; color: #888; margin-bottom: 5px; }
     .store-tags { display: flex; gap: 4px; flex-wrap: wrap; }
     .store-tag {
-      font-size: 10px; background: #f0faf9; color: #0d7377;
+      font-size: 10px; background: #fff8f0; color: #e67e22;
       border: 1px solid #b0d8d0; padding: 1px 7px; border-radius: 2px;
     }
 
@@ -197,7 +197,7 @@
 
     /* score color */
     .score-s  { color: #e8a000; }  /* 4.5+ */
-    .score-a  { color: #0d7377; }  /* 4.0-4.4 */
+    .score-a  { color: #e67e22; }  /* 4.0-4.4 */
     .score-b  { color: #2a9d8f; }  /* 3.5-3.9 */
     .score-c  { color: #8b8b8b; }  /* 3.0-3.4 */
     .score-d  { color: #aaa; }     /* <3.0 */
@@ -206,7 +206,7 @@
     #api-banner { background: #f0fdf9; border-bottom: 1px solid #c0e0d8; padding: 7px 12px; font-size: 12px; color: #065a5c; }
     #api-banner-inner { max-width: 980px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
     #banner-sub { color: #0a7070; }
-    .real-badge { display:inline-block; background:#e0f5f0; border:1px solid #60c0b0; color:#0a5c5f; font-size:9px; font-weight:700; padding:1px 5px; border-radius:2px; vertical-align:middle; margin-left:4px; }
+    .real-badge { display:inline-block; background:#e0f5f0; border:1px solid #60c0b0; color:#c0600a; font-size:9px; font-weight:700; padding:1px 5px; border-radius:2px; vertical-align:middle; margin-left:4px; }
 
     /* EMPTY */
     #empty-state { text-align: center; padding: 50px 20px; color: #aaa; background: #fff; border: 1px solid #ddd; border-top: none; }
@@ -218,7 +218,7 @@
       margin-bottom: 12px; overflow: hidden;
     }
     .sidebar-box-title {
-      background: #0d7377; color: #fff; font-size: 12px; font-weight: 700;
+      background: #e67e22; color: #fff; font-size: 12px; font-weight: 700;
       padding: 6px 10px;
     }
     .sidebar-box-body { padding: 8px 10px; }
@@ -229,7 +229,7 @@
       border-bottom: 1px solid #f0f0f0; cursor: pointer;
     }
     .side-rank-item:last-child { border-bottom: none; }
-    .side-rank-item:hover .side-rank-name { text-decoration: underline; color: #0d7377; }
+    .side-rank-item:hover .side-rank-name { text-decoration: underline; color: #e67e22; }
     .side-rank-num { font-size: 13px; font-weight: 900; color: #ccc; min-width: 18px; text-align: center; }
     .side-rank-num.r1 { color: #e8a000; }
     .side-rank-num.r2 { color: #9ca3af; }
@@ -244,7 +244,7 @@
       border: 1px solid #e5e5e5; border-radius: 2px; cursor: pointer;
       color: #555; text-align: center; transition: all 0.1s;
     }
-    .area-link:hover, .area-link.active { background: #f0faf9; border-color: #0d7377; color: #0d7377; }
+    .area-link:hover, .area-link.active { background: #fff8f0; border-color: #e67e22; color: #e67e22; }
 
     /* ========= MODAL OVERLAY ========= */
     #modal-overlay {
@@ -265,14 +265,14 @@
     /* MODAL HEADER */
     #modal-head {
       display: flex; align-items: center;
-      background: #fff; border-bottom: 2px solid #0d7377;
+      background: #fff; border-bottom: 2px solid #e67e22;
       padding: 0;
     }
     #modal-emoji-box {
       width: 80px; height: 80px; flex-shrink: 0;
       background: #f0faf7; display: flex; align-items: center;
       justify-content: center; font-size: 40px;
-      border-right: 1px solid #d0ece8;
+      border-right: 1px solid #fde8d0;
     }
     #modal-head-info { flex: 1; padding: 10px 14px; }
     #modal-store-name { font-size: 20px; font-weight: 900; color: #1a1a1a; }
@@ -297,7 +297,7 @@
       color: #888; cursor: pointer; border-bottom: 2px solid transparent;
       transition: all 0.1s;
     }
-    .modal-tab.active { color: #0d7377; border-bottom-color: #0d7377; background: #fff; }
+    .modal-tab.active { color: #e67e22; border-bottom-color: #e67e22; background: #fff; }
 
     /* MODAL PANES */
     #modal-body { max-height: 60vh; overflow-y: auto; }
@@ -306,8 +306,8 @@
 
     /* INFO PANE */
     .info-section-title {
-      font-size: 12px; font-weight: 700; color: #0d7377;
-      border-bottom: 1px solid #c0e8e0; padding-bottom: 4px; margin-bottom: 8px; margin-top: 14px;
+      font-size: 12px; font-weight: 700; color: #e67e22;
+      border-bottom: 1px solid #fde0c0; padding-bottom: 4px; margin-bottom: 8px; margin-top: 14px;
     }
     .info-section-title:first-child { margin-top: 0; }
     .info-table { width: 100%; border-collapse: collapse; margin-bottom: 2px; }
@@ -329,8 +329,8 @@
 
     /* MENU PANE */
     .menu-cat-title {
-      font-size: 13px; font-weight: 700; color: #0d7377;
-      background: #f0faf9; padding: 5px 10px; border-left: 3px solid #0d7377;
+      font-size: 13px; font-weight: 700; color: #e67e22;
+      background: #fff8f0; padding: 5px 10px; border-left: 3px solid #e67e22;
       margin-bottom: 0; margin-top: 14px;
     }
     .menu-cat-title:first-child { margin-top: 0; }
@@ -340,7 +340,7 @@
     .menu-table td { padding: 7px 8px; font-size: 13px; vertical-align: top; }
     .menu-item-name { font-weight: 700; color: #222; }
     .menu-item-desc { font-size: 11px; color: #888; margin-top: 2px; }
-    .menu-item-price { text-align: right; font-weight: 700; color: #0d7377; white-space: nowrap; }
+    .menu-item-price { text-align: right; font-weight: 700; color: #e67e22; white-space: nowrap; }
 
     /* REVIEW PANE */
     .review-count-bar {
@@ -363,8 +363,8 @@
 
     /* REVIEW FORM */
     .review-form-title {
-      font-size: 13px; font-weight: 700; color: #0d7377;
-      border-bottom: 1px solid #c0e8e0; padding-bottom: 5px; margin: 20px 0 10px;
+      font-size: 13px; font-weight: 700; color: #e67e22;
+      border-bottom: 1px solid #fde0c0; padding-bottom: 5px; margin: 20px 0 10px;
     }
     .rform-group { margin-bottom: 10px; }
     .rform-group label { display: block; font-size: 11px; color: #888; font-weight: 700; margin-bottom: 3px; }
@@ -372,21 +372,21 @@
       width: 100%; padding: 6px 8px; border: 1px solid #ccc; border-radius: 3px;
       font-size: 13px; outline: none; font-family: inherit;
     }
-    .rform-group input:focus, .rform-group textarea:focus { border-color: #0d7377; }
+    .rform-group input:focus, .rform-group textarea:focus { border-color: #e67e22; }
     .rform-group textarea { min-height: 70px; resize: vertical; }
     .score-picker { display: flex; align-items: center; gap: 8px; }
     .score-picker input[type="range"] {
-      flex: 1; accent-color: #0d7377; height: 4px;
+      flex: 1; accent-color: #e67e22; height: 4px;
     }
     .score-picker-val {
       font-size: 22px; font-weight: 900; min-width: 40px; text-align: right;
     }
     .rsubmit-btn {
-      padding: 8px 20px; background: #0d7377; color: #fff;
+      padding: 8px 20px; background: #e67e22; color: #fff;
       border: none; border-radius: 3px; font-size: 13px; font-weight: 700;
       cursor: pointer; transition: background 0.15s;
     }
-    .rsubmit-btn:hover { background: #0a5c5f; }
+    .rsubmit-btn:hover { background: #c0600a; }
     .submit-ok {
       display: none; background: #d1fae5; color: #065f46;
       padding: 8px 12px; border-radius: 3px; font-size: 13px; font-weight: 600;
@@ -406,11 +406,11 @@
 
     /* ========= PLACES API PANEL ========= */
     #places-panel {
-      background: #fff; border: 2px solid #0d7377; border-radius: 6px;
+      background: #fff; border: 2px solid #e67e22; border-radius: 6px;
       margin-bottom: 12px; overflow: hidden;
     }
     #places-panel-head {
-      background: linear-gradient(135deg, #0d7377, #065a5c);
+      background: linear-gradient(135deg, #e67e22, #065a5c);
       padding: 10px 14px; display: flex; align-items: center; justify-content: space-between;
       cursor: pointer;
     }
@@ -426,27 +426,27 @@
 
     .api-step { display: flex; gap: 10px; margin-bottom: 14px; align-items: flex-start; }
     .api-step-num {
-      width: 22px; height: 22px; border-radius: 50%; background: #0d7377; color: #fff;
+      width: 22px; height: 22px; border-radius: 50%; background: #e67e22; color: #fff;
       font-size: 11px; font-weight: 900; display: flex; align-items: center; justify-content: center;
       flex-shrink: 0; margin-top: 1px;
     }
     .api-step-content { flex: 1; font-size: 12px; color: #555; line-height: 1.6; }
     .api-step-content strong { color: #333; }
-    .api-step-content a { color: #0d7377; }
+    .api-step-content a { color: #e67e22; }
 
     .api-key-row { display: flex; gap: 6px; margin-top: 8px; }
     .api-key-input {
       flex: 1; padding: 7px 10px; border: 1.5px solid #ccc; border-radius: 4px;
       font-size: 12px; font-family: monospace; outline: none; color: #333;
     }
-    .api-key-input:focus { border-color: #0d7377; }
+    .api-key-input:focus { border-color: #e67e22; }
     .api-key-input::placeholder { color: #bbb; font-family: sans-serif; }
     .api-fetch-btn {
-      padding: 7px 16px; background: #0d7377; color: #fff;
+      padding: 7px 16px; background: #e67e22; color: #fff;
       border: none; border-radius: 4px; font-size: 12px; font-weight: 700;
       cursor: pointer; white-space: nowrap; transition: background 0.15s;
     }
-    .api-fetch-btn:hover { background: #0a5c5f; }
+    .api-fetch-btn:hover { background: #c0600a; }
     .api-fetch-btn:disabled { background: #ccc; cursor: not-allowed; }
 
     #places-status {
@@ -463,7 +463,7 @@
       padding: 8px 0; border-bottom: 1px solid #f0f0f0; font-size: 12px;
     }
     .places-result-item:last-child { border-bottom: none; }
-    .places-result-item input[type="checkbox"] { margin-top: 2px; accent-color: #0d7377; }
+    .places-result-item input[type="checkbox"] { margin-top: 2px; accent-color: #e67e22; }
     .places-result-name { font-weight: 700; color: #222; margin-bottom: 2px; }
     .places-result-addr { color: #888; font-size: 11px; }
     .places-import-btn {
@@ -478,7 +478,7 @@
     /* RANKING PAGE */
     #ranking-header {
       background: #fff; border: 1px solid #ddd; border-radius: 4px 4px 0 0;
-      padding: 8px 12px; border-bottom: 2px solid #0d7377;
+      padding: 8px 12px; border-bottom: 2px solid #e67e22;
       font-size: 13px; font-weight: 700; color: #333; display: flex; align-items: center; gap: 6px;
     }
     #ranking-list { background: #fff; border: 1px solid #ddd; border-top: none; border-radius: 0 0 4px 4px; }
@@ -489,7 +489,7 @@
       font-size: 10px; font-weight: 700;
     }
     .badge-s { background: #fff3cd; color: #8a6500; }
-    .badge-a { background: #d0f0e8; color: #0a5c5f; }
+    .badge-a { background: #d0f0e8; color: #c0600a; }
     .badge-b { background: #e8f5f0; color: #0a6060; }
     .badge-c { background: #f5f5f5; color: #666; }
 
@@ -613,7 +613,7 @@ html{scroll-behavior:smooth}
 *{box-sizing:border-box}
 
 /* Header gradient */
-#header{background:linear-gradient(135deg,#0d7377 0%,#14919b 50%,#0d7377 100%) !important;box-shadow:0 2px 12px rgba(13,115,119,0.3)}
+#header{background:linear-gradient(135deg,#e67e22 0%,#f09030 50%,#e67e22 100%) !important;box-shadow:0 2px 12px rgba(13,115,119,0.3)}
 
 /* Nav links hover glow */
 #header-nav a{transition:all 0.25s ease;border-radius:6px;padding:6px 10px}
@@ -627,27 +627,27 @@ html{scroll-behavior:smooth}
 #search-box{background:#fff;border:2px solid #e0f0ee;border-radius:12px;box-shadow:0 2px 12px rgba(13,115,119,0.06);transition:all 0.3s ease;padding:16px 18px}
 #search-box:hover{box-shadow:0 4px 20px rgba(13,115,119,0.1);border-color:#b0ddd5}
 #customSearchInput{border:2px solid #ddd !important;border-radius:8px !important;padding:10px 14px !important;font-size:14px !important;transition:border-color 0.3s, box-shadow 0.3s}
-#customSearchInput:focus{border-color:#14919b !important;box-shadow:0 0 0 3px rgba(20,145,155,0.12) !important;outline:none}
+#customSearchInput:focus{border-color:#f09030 !important;box-shadow:0 0 0 3px rgba(20,145,155,0.12) !important;outline:none}
 
 /* Store cards - modern card style */
 .store-row{border-bottom:none !important;margin-bottom:6px;border-radius:10px;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,0.06);transition:all 0.25s cubic-bezier(0.4,0,0.2,1);overflow:hidden}
-.store-row:hover{background:#f8fffe !important;box-shadow:0 4px 16px rgba(13,115,119,0.12);transform:translateY(-2px)}
+.store-row:hover{background:#fffaf5 !important;box-shadow:0 4px 16px rgba(13,115,119,0.12);transform:translateY(-2px)}
 .store-row:active{transform:translateY(0);box-shadow:0 2px 8px rgba(13,115,119,0.1)}
 
 /* Rank number style */
-.store-rank{font-weight:800;font-size:15px;color:#14919b}
+.store-rank{font-weight:800;font-size:15px;color:#f09030}
 .store-rank.r1{color:#e8a000;font-size:18px;text-shadow:0 1px 2px rgba(232,160,0,0.2)}
 .store-rank.r2{color:#8a8a8a;font-size:17px}
 .store-rank.r3{color:#c97c3a;font-size:16px}
 
 /* Tags pill style */
 .store-tags{gap:5px !important}
-.store-tag{border-radius:12px !important;padding:2px 8px !important;font-size:11px !important;font-weight:500;background:linear-gradient(135deg,#f0faf9,#e5f5f3) !important;border:1px solid #d0ece8;transition:all 0.2s}
-.store-tag:hover{background:linear-gradient(135deg,#e0f5f0,#d0ece8) !important;border-color:#b0ddd5}
+.store-tag{border-radius:12px !important;padding:2px 8px !important;font-size:11px !important;font-weight:500;background:linear-gradient(135deg,#fff8f0,#e5f5f3) !important;border:1px solid #fde8d0;transition:all 0.2s}
+.store-tag:hover{background:linear-gradient(135deg,#e0f5f0,#fde8d0) !important;border-color:#b0ddd5}
 
 /* Score area */
 .store-score-area{border-left:2px solid #f0f0f0 !important;transition:all 0.2s}
-.store-row:hover .store-score-area{border-left-color:#14919b !important}
+.store-row:hover .store-score-area{border-left-color:#f09030 !important}
 
 /* Score label badge */
 .score-label{border-radius:6px;padding:2px 8px;font-size:11px;font-weight:600}
@@ -660,7 +660,7 @@ html{scroll-behavior:smooth}
 .store-area-badge{border-radius:6px;padding:1px 6px;font-size:11px;background:#f0f0f0;color:#666;font-weight:500}
 
 /* Footer */
-footer{background:linear-gradient(135deg,#0d7377,#14919b) !important;box-shadow:0 -2px 12px rgba(13,115,119,0.15)}
+footer{background:linear-gradient(135deg,#e67e22,#f09030) !important;box-shadow:0 -2px 12px rgba(13,115,119,0.15)}
 
 /* Modal overlay - frosted glass */
 #modal-overlay{backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
@@ -685,8 +685,8 @@ footer{background:linear-gradient(135deg,#0d7377,#14919b) !important;box-shadow:
 #nav-tabs a{transition:all 0.2s ease;border-radius:8px 8px 0 0}
 
 /* Result count area */
-#result-header{padding:10px 14px;background:linear-gradient(135deg,#f8fffe,#f0faf9);border-radius:10px 10px 0 0;border-bottom:2px solid #e0f0ee}
-#result-count{font-size:15px;font-weight:700;color:#0d7377}
+#result-header{padding:10px 14px;background:linear-gradient(135deg,#fffaf5,#fff8f0);border-radius:10px 10px 0 0;border-bottom:2px solid #e0f0ee}
+#result-count{font-size:15px;font-weight:700;color:#e67e22}
 
 /* Filter buttons */
 .filter-btn{border-radius:20px !important;transition:all 0.2s ease !important}
@@ -697,7 +697,7 @@ footer{background:linear-gradient(135deg,#0d7377,#14919b) !important;box-shadow:
 ::-webkit-scrollbar{width:8px}
 ::-webkit-scrollbar-track{background:#f5f5f5;border-radius:4px}
 ::-webkit-scrollbar-thumb{background:#b0ddd5;border-radius:4px}
-::-webkit-scrollbar-thumb:hover{background:#14919b}
+::-webkit-scrollbar-thumb:hover{background:#f09030}
 
 /* Selection color */
 ::selection{background:rgba(20,145,155,0.2);color:inherit}
@@ -708,23 +708,23 @@ footer{background:linear-gradient(135deg,#0d7377,#14919b) !important;box-shadow:
 #mypage-overlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);z-index:9999;justify-content:center;align-items:flex-start;padding-top:60px}
 #mypage-overlay.open{display:flex}
 #mypage-panel{background:#fff;border-radius:16px;width:90%;max-width:600px;max-height:80vh;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.2);animation:fadeInUp 0.3s ease}
-#mypage-panel-head{background:linear-gradient(135deg,#0d7377,#14919b);color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center}
+#mypage-panel-head{background:linear-gradient(135deg,#e67e22,#f09030);color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center}
 #mypage-panel-head h2{margin:0;font-size:18px}
 #mypage-close{background:none;border:none;color:#fff;font-size:24px;cursor:pointer;padding:4px 8px;border-radius:6px;transition:background 0.2s}
 #mypage-close:hover{background:rgba(255,255,255,0.2)}
-#mypage-tabs{display:flex;border-bottom:2px solid #e0f0ee;background:#f8fffe}
+#mypage-tabs{display:flex;border-bottom:2px solid #e0f0ee;background:#fffaf5}
 .mypage-tab{flex:1;padding:12px;text-align:center;cursor:pointer;font-weight:600;font-size:14px;color:#666;border:none;background:none;transition:all 0.2s;border-bottom:3px solid transparent}
-.mypage-tab.active{color:#0d7377;border-bottom-color:#0d7377;background:#fff}
-.mypage-tab:hover{color:#14919b;background:#f0faf9}
+.mypage-tab.active{color:#e67e22;border-bottom-color:#e67e22;background:#fff}
+.mypage-tab:hover{color:#f09030;background:#fff8f0}
 #mypage-content{overflow-y:auto;max-height:calc(80vh - 140px);padding:0}
 .mypage-list{list-style:none;padding:0;margin:0}
 .mypage-list-item{display:flex;align-items:center;padding:12px 16px;border-bottom:1px solid #f0f0f0;cursor:pointer;transition:all 0.2s;gap:12px}
-.mypage-list-item:hover{background:#f8fffe}
+.mypage-list-item:hover{background:#fffaf5}
 .mypage-list-item .mp-emoji{font-size:28px;flex-shrink:0}
 .mypage-list-item .mp-info{flex:1;min-width:0}
 .mypage-list-item .mp-name{font-weight:600;font-size:14px;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mypage-list-item .mp-sub{font-size:12px;color:#888;margin-top:2px}
-.mypage-list-item .mp-score{font-size:20px;font-weight:800;color:#0d7377;flex-shrink:0;width:40px;text-align:center}
+.mypage-list-item .mp-score{font-size:20px;font-weight:800;color:#e67e22;flex-shrink:0;width:40px;text-align:center}
 .mypage-list-item .mp-remove{background:none;border:none;color:#ccc;font-size:18px;cursor:pointer;padding:4px 8px;border-radius:6px;transition:all 0.2s;flex-shrink:0}
 .mypage-list-item .mp-remove:hover{color:#e74c3c;background:#fee2e2}
 .mypage-empty{text-align:center;padding:40px 20px;color:#999}
@@ -734,7 +734,7 @@ footer{background:linear-gradient(135deg,#0d7377,#14919b) !important;box-shadow:
 
 
 /* Scroll to top button */
-#scroll-top-btn{position:fixed;bottom:30px;right:30px;z-index:9999;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#2b9a8f,#1a7a6f);color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.2);opacity:0;visibility:hidden;transition:all 0.3s ease;display:flex;align-items:center;justify-content:center}
+#scroll-top-btn{position:fixed;bottom:30px;right:30px;z-index:9999;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#f0923a,#1a7a6f);color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.2);opacity:0;visibility:hidden;transition:all 0.3s ease;display:flex;align-items:center;justify-content:center}
 #scroll-top-btn.visible{opacity:1;visibility:visible}
 #scroll-top-btn:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,0.3)}
 /* SNS share buttons */
@@ -750,12 +750,12 @@ body.dark{background:#1a1a2e!important;color:#e0e0e0!important}
 body.dark #header{background:linear-gradient(135deg,#0f3460,#16213e)!important}
 body.dark .store-row{background:#16213e!important;color:#e0e0e0!important;border-color:#2a2a4a!important}
 body.dark .store-row:hover{background:#1a1a3e!important}
-body.dark .fchip,body.dark .tag{background:#2a2a4a!important;color:#7fdbca!important;border-color:#3a3a5a!important}
-body.dark .fchip.active{background:#2b9a8f!important;color:#fff!important}
+body.dark .fchip,body.dark .tag{background:#2a2a4a!important;color:#fcc88a!important;border-color:#3a3a5a!important}
+body.dark .fchip.active{background:#f0923a!important;color:#fff!important}
 body.dark input,body.dark select{background:#16213e!important;color:#e0e0e0!important;border-color:#3a3a5a!important}
 body.dark .search-panel,body.dark .filter-group{background:#16213e!important;border-color:#2a2a4a!important}
 body.dark #modal-overlay .modal-inner,body.dark .modal-content{background:#1a1a2e!important;color:#e0e0e0!important}
-body.dark a{color:#7fdbca!important}
+body.dark a{color:#fcc88a!important}
 body.dark .score-cell{color:#f0c040!important}
 body.dark footer{background:#0f3460!important}
 #dark-toggle{background:none;border:2px solid rgba(255,255,255,0.5);color:#fff;border-radius:20px;padding:4px 12px;cursor:pointer;font-size:13px;margin-left:8px;transition:all 0.2s}
@@ -770,36 +770,36 @@ body.dark #search-suggest div:hover{background:#2a2a4a}
 #search-suggest .sg-cat{color:#999;font-size:11px;margin-left:6px}
 .search-wrap{position:relative}
 /* Area badge */
-.area-count{display:inline-block;background:#2b9a8f;color:#fff;font-size:10px;border-radius:8px;padding:0 5px;margin-left:3px;min-width:16px;text-align:center;line-height:16px;vertical-align:middle}
-body.dark .area-count{background:#7fdbca;color:#1a1a2e}
+.area-count{display:inline-block;background:#f0923a;color:#fff;font-size:10px;border-radius:8px;padding:0 5px;margin-left:3px;min-width:16px;text-align:center;line-height:16px;vertical-align:middle}
+body.dark .area-count{background:#fcc88a;color:#1a1a2e}
 
 #fav-list-section{display:none;padding:20px;max-width:900px;margin:0 auto}
 #fav-list-section.active{display:block}
-#fav-list-section h2{font-size:22px;margin-bottom:15px;color:#2b9a8f}
-body.dark #fav-list-section h2{color:#7fdbca}
+#fav-list-section h2{font-size:22px;margin-bottom:15px;color:#f0923a}
+body.dark #fav-list-section h2{color:#fcc88a}
 .fav-list-empty{text-align:center;padding:40px;color:#999;font-size:16px}
-.visited-btn{display:inline-flex;align-items:center;gap:5px;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;border:2px solid #2b9a8f;background:transparent;color:#2b9a8f;transition:all 0.2s;margin-left:8px}
-.visited-btn.checked{background:#2b9a8f;color:#fff}
+.visited-btn{display:inline-flex;align-items:center;gap:5px;padding:8px 16px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;border:2px solid #f0923a;background:transparent;color:#f0923a;transition:all 0.2s;margin-left:8px}
+.visited-btn.checked{background:#f0923a;color:#fff}
 .visited-btn:hover{transform:scale(1.05)}
-.visited-badge{position:absolute;top:8px;right:8px;background:#2b9a8f;color:#fff;font-size:10px;padding:2px 8px;border-radius:10px;z-index:2}
-body.dark .visited-btn{border-color:#7fdbca;color:#7fdbca}
-body.dark .visited-btn.checked{background:#7fdbca;color:#1a1a2e}
+.visited-badge{position:absolute;top:8px;right:8px;background:#f0923a;color:#fff;font-size:10px;padding:2px 8px;border-radius:10px;z-index:2}
+body.dark .visited-btn{border-color:#fcc88a;color:#fcc88a}
+body.dark .visited-btn.checked{background:#fcc88a;color:#1a1a2e}
 .review-score-input{display:flex;align-items:center;gap:10px;margin:10px 0}
-.score-slider{-webkit-appearance:none;width:200px;height:8px;border-radius:4px;background:linear-gradient(to right,#ff6b6b,#ffd93d,#2b9a8f);outline:none}
-.score-slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid #2b9a8f;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,0.2)}
+.score-slider{-webkit-appearance:none;width:200px;height:8px;border-radius:4px;background:linear-gradient(to right,#ff6b6b,#ffd93d,#f0923a);outline:none}
+.score-slider::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid #f0923a;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,0.2)}
 .score-display{font-size:28px;font-weight:800;min-width:50px;text-align:center}
 .score-display.low{color:#ff6b6b}
 .score-display.mid{color:#ffd93d}
-.score-display.high{color:#2b9a8f}
-.user-review-item{background:#f8f9fa;border-radius:10px;padding:12px;margin-bottom:8px;border-left:4px solid #2b9a8f}
+.score-display.high{color:#f0923a}
+.user-review-item{background:#f8f9fa;border-radius:10px;padding:12px;margin-bottom:8px;border-left:4px solid #f0923a}
 .user-review-item .review-score{font-size:20px;font-weight:800}
-body.dark .user-review-item{background:#1a2a4a;border-left-color:#7fdbca}
+body.dark .user-review-item{background:#1a2a4a;border-left-color:#fcc88a}
 .nav-fav-count{display:inline-block;background:#ff6b6b;color:#fff;font-size:10px;border-radius:8px;padding:0 5px;margin-left:2px;min-width:14px;text-align:center;line-height:16px;vertical-align:middle}
 
 #register-btn:hover{opacity:0.85;transform:scale(1.03)}
 #login-btn:hover{opacity:0.85;transform:scale(1.03)}
-body.dark #login-btn{color:#7fdbca;border-color:#7fdbca}
-body.dark #register-btn{background:#7fdbca;color:#1a1a2e}
+body.dark #login-btn{color:#fcc88a;border-color:#fcc88a}
+body.dark #register-btn{background:#fcc88a;color:#1a1a2e}
 @media(max-width:600px){
   #auth-area{gap:4px!important;padding:0 8px!important}
   #register-btn,#login-btn{font-size:11px!important;padding:4px 10px!important}
@@ -876,8 +876,8 @@ body.dark #register-btn{background:#7fdbca;color:#1a1a2e}
     }).catch(e => { if(e.code !== "auth/popup-closed-by-user") console.error(e); });
     </script>
     <div id="auth-area" style="display:flex;align-items:center;gap:8px;margin-left:auto;padding:0 16px;">
-      <button id="register-btn" onclick="window._fb.signInWithRedirect(window._fb.auth,window._fb.prov)" style="display:inline-flex;align-items:center;gap:4px;background:#2b9a8f;color:#fff;border:none;border-radius:20px;padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap">✍️ 新規登録</button>
-      <button id="login-btn" onclick="window._fb.signInWithRedirect(window._fb.auth,window._fb.prov)" style="display:inline-flex;align-items:center;gap:4px;background:transparent;color:#2b9a8f;border:2px solid #2b9a8f;border-radius:20px;padding:5px 14px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap">🔒 ログイン</button>
+      <button id="register-btn" onclick="window._fb.signInWithRedirect(window._fb.auth,window._fb.prov)" style="display:inline-flex;align-items:center;gap:4px;background:#f0923a;color:#fff;border:none;border-radius:20px;padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap">✍️ 新規登録</button>
+      <button id="login-btn" onclick="window._fb.signInWithRedirect(window._fb.auth,window._fb.prov)" style="display:inline-flex;align-items:center;gap:4px;background:transparent;color:#f0923a;border:2px solid #f0923a;border-radius:20px;padding:5px 14px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap">🔒 ログイン</button>
       <div id="user-menu" style="display:none;align-items:center;gap:8px;">
         <img id="user-avatar" src="" alt="" style="width:30px;height:30px;border-radius:50%;">
         <span id="user-name" style="color:#fff;font-size:13px;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
@@ -1014,7 +1014,7 @@ body.dark #register-btn{background:#7fdbca;color:#1a1a2e}
       <div class="sidebar-box-title">📊 スコアについて</div>
       <div class="sidebar-box-body" style="font-size:11px;color:#555;line-height:1.8;">
         <div>🥇 <strong style="color:#e8a000;">90〜100</strong> 殿堂入り</div>
-        <div>🌟 <strong style="color:#0d7377;">80〜89</strong> 超おすすめ</div>
+        <div>🌟 <strong style="color:#e67e22;">80〜89</strong> 超おすすめ</div>
         <div>⭐ <strong style="color:#2a9d8f;">70〜79</strong> おすすめ</div>
         <div>📝 <strong style="color:#8b8b8b;">60〜69</strong> 普通</div>
         <div>😐 <strong style="color:#aaa;">〜59</strong> 要改善</div>
@@ -1049,7 +1049,7 @@ body.dark #register-btn{background:#7fdbca;color:#1a1a2e}
 <div id="pp-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;justify-content:center;align-items:center;padding:20px;" onclick="if(event.target===this)this.classList.remove('open')">
   <div style="background:#fff;border-radius:10px;max-width:700px;width:100%;max-height:85vh;overflow-y:auto;padding:30px;position:relative;">
     <button onclick="document.getElementById('pp-overlay').classList.remove('open')" style="position:absolute;top:12px;right:14px;background:none;border:none;font-size:22px;cursor:pointer;color:#888;">✕</button>
-    <h2 style="font-size:20px;font-weight:900;color:#0d7377;margin-bottom:16px;">プライバシーポリシー</h2>
+    <h2 style="font-size:20px;font-weight:900;color:#e67e22;margin-bottom:16px;">プライバシーポリシー</h2>
     <div style="font-size:13px;line-height:1.9;color:#444;">
       <p>タコスコ（以下「当サイト」）は、ユーザーの個人情報の取扱いについて、以下のとおりプライバシーポリシーを定めます。</p>
       <h3 style="font-size:14px;font-weight:700;margin:16px 0 6px;color:#333;">1. 収集する情報</h3>
@@ -1081,7 +1081,7 @@ body.dark #register-btn{background:#7fdbca;color:#1a1a2e}
 <div id="terms-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;justify-content:center;align-items:center;padding:20px;" onclick="if(event.target===this)this.classList.remove('open')">
   <div style="background:#fff;border-radius:10px;max-width:700px;width:100%;max-height:85vh;overflow-y:auto;padding:30px;position:relative;">
     <button onclick="document.getElementById('terms-overlay').classList.remove('open')" style="position:absolute;top:12px;right:14px;background:none;border:none;font-size:22px;cursor:pointer;color:#888;">✕</button>
-    <h2 style="font-size:20px;font-weight:900;color:#0d7377;margin-bottom:16px;">利用規約</h2>
+    <h2 style="font-size:20px;font-weight:900;color:#e67e22;margin-bottom:16px;">利用規約</h2>
     <div style="font-size:13px;line-height:1.9;color:#444;">
       <p>本利用規約（以下「本規約」）は、タコスコ（以下「当サイト」）の利用条件を定めるものです。</p>
       <h3 style="font-size:14px;font-weight:700;margin:16px 0 6px;color:#333;">1. サービス内容</h3>
@@ -1105,11 +1105,11 @@ body.dark #register-btn{background:#7fdbca;color:#1a1a2e}
 <div id="contact-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;justify-content:center;align-items:center;padding:20px;" onclick="if(event.target===this)this.classList.remove('open')">
   <div style="background:#fff;border-radius:10px;max-width:700px;width:100%;max-height:85vh;overflow-y:auto;padding:30px;position:relative;">
     <button onclick="document.getElementById('contact-overlay').classList.remove('open')" style="position:absolute;top:12px;right:14px;background:none;border:none;font-size:22px;cursor:pointer;color:#888;">✕</button>
-    <h2 style="font-size:20px;font-weight:900;color:#0d7377;margin-bottom:16px;">お問い合わせ</h2>
+    <h2 style="font-size:20px;font-weight:900;color:#e67e22;margin-bottom:16px;">お問い合わせ</h2>
     <div style="font-size:13px;line-height:1.9;color:#444;">
       <p>タコスコに関するお問い合わせ、掲載情報の修正依頼、店舗掲載のご相談などは、以下のメールアドレスまでお気軽にご連絡ください。</p>
-      <div style="margin:20px 0;padding:16px;background:#f0faf9;border-radius:8px;border:1px solid #c0e8e0;">
-        <p style="font-weight:700;color:#0d7377;margin-bottom:4px;">メールアドレス</p>
+      <div style="margin:20px 0;padding:16px;background:#fff8f0;border-radius:8px;border:1px solid #fde0c0;">
+        <p style="font-weight:700;color:#e67e22;margin-bottom:4px;">メールアドレス</p>
         <p><a href="mailto:dubianyangtai36@gmail.com" style="font-size:15px;font-weight:600;">dubianyangtai36@gmail.com</a></p>
       </div>
       <h3 style="font-size:14px;font-weight:700;margin:16px 0 6px;color:#333;">お問い合わせ内容の例</h3>
@@ -1126,7 +1126,7 @@ body.dark #register-btn{background:#7fdbca;color:#1a1a2e}
 <div id="about-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;justify-content:center;align-items:center;padding:20px;" onclick="if(event.target===this)this.classList.remove('open')">
   <div style="background:#fff;border-radius:10px;max-width:700px;width:100%;max-height:85vh;overflow-y:auto;padding:30px;position:relative;">
     <button onclick="document.getElementById('about-overlay').classList.remove('open')" style="position:absolute;top:12px;right:14px;background:none;border:none;font-size:22px;cursor:pointer;color:#888;">✕</button>
-    <h2 style="font-size:20px;font-weight:900;color:#0d7377;margin-bottom:16px;">運営者情報</h2>
+    <h2 style="font-size:20px;font-weight:900;color:#e67e22;margin-bottom:16px;">運営者情報</h2>
     <div style="font-size:13px;line-height:1.9;color:#444;">
       <table style="width:100%;border-collapse:collapse;">
         <tr style="border-bottom:1px solid #eee;"><td style="padding:10px;font-weight:700;color:#555;width:120px;">サイト名</td><td style="padding:10px;">タコスコ</td></tr>
@@ -1186,7 +1186,7 @@ body.dark #register-btn{background:#7fdbca;color:#1a1a2e}
         </table>
         <div style="margin-top:10px;">
           <a class="map-link" id="mMapLink" href="#" target="_blank">📍 Google マップで見る</a>
-              <a class="map-link" id="mTacosMapLink" href="#" target="_blank" style="margin-top:6px;background:#0d7377;color:#fff;padding:8px 12px;border-radius:8px;text-decoration:none;display:inline-block;font-size:13px;font-weight:bold;">🗺️ タコスコマップで見る</a>
+              <a class="map-link" id="mTacosMapLink" href="#" target="_blank" style="margin-top:6px;background:#e67e22;color:#fff;padding:8px 12px;border-radius:8px;text-decoration:none;display:inline-block;font-size:13px;font-weight:bold;">🗺️ タコスコマップで見る</a>
               <button class="modal-fav-btn" id="mFavBtn" onclick="toggleFavoriteModal()">♡ お気に入りに追加</button>
         </div>
           <button class="visited-btn" id="visited-btn" onclick="toggleVisited(currentStoreId)">✓ 行った！</button>
@@ -1199,7 +1199,7 @@ body.dark #register-btn{background:#7fdbca;color:#1a1a2e}
 <span style="font-size:13px;color:#999">/ 100</span>
 </div>
 <textarea id="review-comment" placeholder="コメント（任意）" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:14px;resize:vertical;min-height:60px;box-sizing:border-box;margin-top:5px"></textarea>
-<button onclick="submitScore100()" style="margin-top:8px;padding:8px 24px;border:none;border-radius:20px;background:linear-gradient(135deg,#2b9a8f,#1a7a6f);color:#fff;font-weight:600;cursor:pointer;font-size:14px">投稿する</button>
+<button onclick="submitScore100()" style="margin-top:8px;padding:8px 24px;border:none;border-radius:20px;background:linear-gradient(135deg,#f0923a,#1a7a6f);color:#fff;font-weight:600;cursor:pointer;font-size:14px">投稿する</button>
 <div id="user-reviews-list" style="margin-top:12px"></div>
 </div>
 
@@ -2825,7 +2825,7 @@ if (mpOverlay) {
 
 <div id="fav-list-section">
 <h2>❤️ お気に入り一覧</h2>
-<button onclick="closeFavList()" style="margin-bottom:15px;padding:8px 20px;border-radius:20px;border:none;background:#2b9a8f;color:#fff;cursor:pointer;font-weight:600">← 一覧に戻る</button>
+<button onclick="closeFavList()" style="margin-bottom:15px;padding:8px 20px;border-radius:20px;border:none;background:#f0923a;color:#fff;cursor:pointer;font-weight:600">← 一覧に戻る</button>
 <div id="fav-list-cards"></div>
 <div id="fav-list-empty" class="fav-list-empty" style="display:none">お気に入りがまだありません</div>
 </div>
@@ -2995,7 +2995,7 @@ return '<div class="store-row" style="position:relative;cursor:pointer" onclick=
 +(v?'<span class="visited-badge">訪問済み</span>':'')
 +'<div style="font-weight:700;font-size:16px">'+s.emoji+' '+s.name+'</div>'
 +'<div style="color:#888;font-size:13px">'+s.area+' '+s.neighborhood+' | '+s.style+'</div>'
-+'<div style="margin-top:5px"><span style="background:#2b9a8f;color:#fff;padding:2px 10px;border-radius:10px;font-weight:700">'+s.score+'</span></div>'
++'<div style="margin-top:5px"><span style="background:#f0923a;color:#fff;padding:2px 10px;border-radius:10px;font-weight:700">'+s.score+'</span></div>'
 +'</div>'}).join('');
 }
 function closeFavList(){
