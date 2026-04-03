@@ -769,9 +769,6 @@ body.dark #search-suggest div{border-color:#2a2a4a}
 body.dark #search-suggest div:hover{background:#2a2a4a}
 #search-suggest .sg-cat{color:#999;font-size:11px;margin-left:6px}
 .search-wrap{position:relative}
-/* Area badge */
-.area-count{display:inline-block;background:#f0923a;color:#fff;font-size:10px;border-radius:8px;padding:0 5px;margin-left:3px;min-width:16px;text-align:center;line-height:16px;vertical-align:middle}
-body.dark .area-count{background:#fcc88a;color:#1a1a2e}
 
 #fav-list-section{display:none;padding:20px;max-width:900px;margin:0 auto}
 #fav-list-section.active{display:block}
@@ -2949,33 +2946,6 @@ function toggleDark(){
 })();
 
 // === Area Count Badges ===
-(function(){
-  var areaMap={'\u6771\u4EAC':'\u6771\u4EAC','\u5927\u962A':'\u5927\u962A','\u540D\u53E4\u5C4B':'\u540D\u53E4\u5C4B','\u611B\u77E5':'\u540D\u53E4\u5C4B','\u798F\u5CA1':'\u798F\u5CA1','\u5317\u6D77\u9053':'\u5317\u6D77\u9053','\u4EAC\u90FD':'\u4EAC\u90FD','\u795E\u5948\u5DDD':'\u795E\u5948\u5DDD','\u6A2A\u6D5C':'\u795E\u5948\u5DDD','\u6C96\u7E04':'\u6C96\u7E04','\u5E83\u5CF6':'\u5E83\u5CF6'};
-  var counts={};
-  stores.forEach(function(s){
-    var a=s.area;
-    Object.keys(areaMap).forEach(function(k){
-      if(a===k||a===areaMap[k]){
-        var label=areaMap[k]||k;
-        counts[label]=(counts[label]||0)+1;
-      }
-    });
-  });
-  // Also count by direct area match
-  var directCounts={};
-  stores.forEach(function(s){directCounts[s.area]=(directCounts[s.area]||0)+1});
-  
-  document.querySelectorAll('.fchip').forEach(function(chip){
-    var oc=chip.getAttribute('onclick')||'';
-    var m=oc.match(/setFilter\('area','([^']+)'/);
-    if(!m)return;
-    var area=m[1];
-    var count=counts[area]||directCounts[area]||0;
-    if(count>0){
-      chip.innerHTML=chip.textContent.trim()+' <span class="area-count">'+count+'</span>';
-    }
-  });
-})();
 </script>
 <script>
 try{
