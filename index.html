@@ -198,15 +198,15 @@
     /* score color */
     .score-s  { color: #e8a000; }  /* 4.5+ */
     .score-a  { color: #e67e22; }  /* 4.0-4.4 */
-    .score-b  { color: #2a9d8f; }  /* 3.5-3.9 */
+    .score-b  { color: #e68a22; }  /* 3.5-3.9 */
     .score-c  { color: #8b8b8b; }  /* 3.0-3.4 */
     .score-d  { color: #aaa; }     /* <3.0 */
 
     /* BANNER */
-    #api-banner { background: #f0fdf9; border-bottom: 1px solid #c0e0d8; padding: 7px 12px; font-size: 12px; color: #065a5c; }
+    #api-banner { background: #fff8f0; border-bottom: 1px solid #c0e0d8; padding: 7px 12px; font-size: 12px; color: #b85400; }
     #api-banner-inner { max-width: 980px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-    #banner-sub { color: #0a7070; }
-    .real-badge { display:inline-block; background:#e0f5f0; border:1px solid #60c0b0; color:#c0600a; font-size:9px; font-weight:700; padding:1px 5px; border-radius:2px; vertical-align:middle; margin-left:4px; }
+    #banner-sub { color: #c06000; }
+    .real-badge { display:inline-block; background:#e0f5f0; border:1px solid #f0b870; color:#c0600a; font-size:9px; font-weight:700; padding:1px 5px; border-radius:2px; vertical-align:middle; margin-left:4px; }
 
     /* EMPTY */
     #empty-state { text-align: center; padding: 50px 20px; color: #aaa; background: #fff; border: 1px solid #ddd; border-top: none; }
@@ -388,7 +388,7 @@
     }
     .rsubmit-btn:hover { background: #c0600a; }
     .submit-ok {
-      display: none; background: #d1fae5; color: #065f46;
+      display: none; background: #d1fae5; color: #b85400;
       padding: 8px 12px; border-radius: 3px; font-size: 13px; font-weight: 600;
       margin-top: 8px;
     }
@@ -396,7 +396,7 @@
     /* ========= SAVE NOTIFICATION ========= */
     #save-toast {
       position: fixed; bottom: 20px; right: 20px; z-index: 999;
-      background: #065f46; color: #fff; padding: 10px 18px;
+      background: #b85400; color: #fff; padding: 10px 18px;
       border-radius: 6px; font-size: 13px; font-weight: 600;
       box-shadow: 0 4px 20px rgba(0,0,0,0.3);
       transform: translateY(80px); opacity: 0;
@@ -410,7 +410,7 @@
       margin-bottom: 12px; overflow: hidden;
     }
     #places-panel-head {
-      background: linear-gradient(135deg, #e67e22, #065a5c);
+      background: linear-gradient(135deg, #e67e22, #b85400);
       padding: 10px 14px; display: flex; align-items: center; justify-content: space-between;
       cursor: pointer;
     }
@@ -453,8 +453,8 @@
       margin-top: 10px; font-size: 12px; padding: 8px 10px; border-radius: 4px;
       display: none;
     }
-    #places-status.loading { background: #f0fdf9; color: #065a5c; border: 1px solid #c0ddd5; display: block; }
-    #places-status.success { background: #d1fae5; color: #065f46; border: 1px solid #86efac; display: block; }
+    #places-status.loading { background: #fff8f0; color: #b85400; border: 1px solid #c0ddd5; display: block; }
+    #places-status.success { background: #d1fae5; color: #b85400; border: 1px solid #86efac; display: block; }
     #places-status.error { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; display: block; }
 
     .places-result-list { margin-top: 12px; max-height: 300px; overflow-y: auto; }
@@ -468,11 +468,11 @@
     .places-result-addr { color: #888; font-size: 11px; }
     .places-import-btn {
       display: none; margin-top: 10px;
-      padding: 7px 16px; background: #059669; color: #fff;
+      padding: 7px 16px; background: #d06800; color: #fff;
       border: none; border-radius: 4px; font-size: 12px; font-weight: 700;
       cursor: pointer;
     }
-    .places-import-btn:hover { background: #047857; }
+    .places-import-btn:hover { background: #c06000; }
     .places-import-btn.visible { display: inline-block; }
 
     /* RANKING PAGE */
@@ -489,8 +489,8 @@
       font-size: 10px; font-weight: 700;
     }
     .badge-s { background: #fff3cd; color: #8a6500; }
-    .badge-a { background: #d0f0e8; color: #c0600a; }
-    .badge-b { background: #e8f5f0; color: #0a6060; }
+    .badge-a { background: #fde8d0; color: #c0600a; }
+    .badge-b { background: #fef4ed; color: #c06000; }
     .badge-c { background: #f5f5f5; color: #666; }
 
     /* ========= ADS ========= */
@@ -734,7 +734,7 @@ footer{background:linear-gradient(135deg,#e67e22,#f09030) !important;box-shadow:
 
 
 /* Scroll to top button */
-#scroll-top-btn{position:fixed;bottom:30px;right:30px;z-index:9999;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#f0923a,#1a7a6f);color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.2);opacity:0;visibility:hidden;transition:all 0.3s ease;display:flex;align-items:center;justify-content:center}
+#scroll-top-btn{position:fixed;bottom:30px;right:30px;z-index:9999;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#f0923a,#d07020);color:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.2);opacity:0;visibility:hidden;transition:all 0.3s ease;display:flex;align-items:center;justify-content:center}
 #scroll-top-btn.visible{opacity:1;visibility:visible}
 #scroll-top-btn:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(0,0,0,0.3)}
 /* SNS share buttons */
@@ -816,7 +816,7 @@ body.dark #register-btn{background:#fcc88a;color:#1a1a2e}
 <link rel="preload" href="/stores-extra8.js" as="script">
 <link rel="preload" href="/stores-extra9.js" as="script">
 <link rel="preload" href="/stores-fixes.js" as="script">
-<link rel="preload" href="/stores-fixes2.js" as="script">
+<link rel="preload" href="/stores-fixes2.js","/stores-all.js" as="script">
 </head>
 <body>
 <noscript>
@@ -879,9 +879,9 @@ body.dark #register-btn{background:#fcc88a;color:#1a1a2e}
       <button id="register-btn" onclick="window._fb.signInWithRedirect(window._fb.auth,window._fb.prov)" style="display:inline-flex;align-items:center;gap:4px;background:#f0923a;color:#fff;border:none;border-radius:20px;padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap">✍️ 新規登録</button>
       <button id="login-btn" onclick="window._fb.signInWithRedirect(window._fb.auth,window._fb.prov)" style="display:inline-flex;align-items:center;gap:4px;background:transparent;color:#f0923a;border:2px solid #f0923a;border-radius:20px;padding:5px 14px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap">🔒 ログイン</button>
       <div id="user-menu" style="display:none;align-items:center;gap:8px;">
-        <img id="user-avatar" src="" alt="" style="width:30px;height:30px;border-radius:50%;">
+        <img id="user-avatar" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" style="width:30px;height:30px;border-radius:50%;">
         <span id="user-name" style="color:#fff;font-size:13px;max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
-        <button id="mypage-btn" onclick="document.getElementById('mypage-modal').style.display='flex';window._loadMyPage&&window._loadMyPage()" style="background:#2d6a4f;color:#fff;border:none;padding:5px 10px;border-radius:12px;cursor:pointer;font-size:12px;">マイページ</button>
+        <button id="mypage-btn" onclick="document.getElementById('mypage-modal').style.display='flex';window._loadMyPage&&window._loadMyPage()" style="background:#c06000;color:#fff;border:none;padding:5px 10px;border-radius:12px;cursor:pointer;font-size:12px;">マイページ</button>
         <button onclick="window._fb.signOut(window._fb.auth)" style="background:#555;color:#fff;border:none;padding:5px 10px;border-radius:12px;cursor:pointer;font-size:12px;">ログアウト</button>
       </div>
     </div>
@@ -1015,7 +1015,7 @@ body.dark #register-btn{background:#fcc88a;color:#1a1a2e}
       <div class="sidebar-box-body" style="font-size:11px;color:#555;line-height:1.8;">
         <div>🥇 <strong style="color:#e8a000;">90〜100</strong> 殿堂入り</div>
         <div>🌟 <strong style="color:#e67e22;">80〜89</strong> 超おすすめ</div>
-        <div>⭐ <strong style="color:#2a9d8f;">70〜79</strong> おすすめ</div>
+        <div>⭐ <strong style="color:#e68a22;">70〜79</strong> おすすめ</div>
         <div>📝 <strong style="color:#8b8b8b;">60〜69</strong> 普通</div>
         <div>😐 <strong style="color:#aaa;">〜59</strong> 要改善</div>
         <div style="margin-top:8px;font-size:10px;color:#aaa;">※ 口コミの平均点（5点満点）</div>
@@ -1199,7 +1199,7 @@ body.dark #register-btn{background:#fcc88a;color:#1a1a2e}
 <span style="font-size:13px;color:#999">/ 100</span>
 </div>
 <textarea id="review-comment" placeholder="コメント（任意）" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:14px;resize:vertical;min-height:60px;box-sizing:border-box;margin-top:5px"></textarea>
-<button onclick="submitScore100()" style="margin-top:8px;padding:8px 24px;border:none;border-radius:20px;background:linear-gradient(135deg,#f0923a,#1a7a6f);color:#fff;font-weight:600;cursor:pointer;font-size:14px">投稿する</button>
+<button onclick="submitScore100()" style="margin-top:8px;padding:8px 24px;border:none;border-radius:20px;background:linear-gradient(135deg,#f0923a,#d07020);color:#fff;font-weight:600;cursor:pointer;font-size:14px">投稿する</button>
 <div id="user-reviews-list" style="margin-top:12px"></div>
 </div>
 
@@ -2326,7 +2326,7 @@ function importSelectedPlaces() {
 
   // Update banner and UI
   const realCount = stores.filter(s => s.real).length;
-  document.getElementById('storeCountBadge').textContent = realCount + '店舗（実在確認済み）';
+  var _scb=document.getElementById('storeCountBadge');if(_scb)_scb.textContent = realCount + '店舗（実在確認済み）';
   applyFilters();
   renderSidebarTop5();
   saveToLocal();
@@ -2415,7 +2415,7 @@ function importData(event) {
 
 function updateUI() {
   const realCount = stores.filter(s => s.real).length;
-  document.getElementById('storeCountBadge').textContent = realCount + '店舗（実在確認済み）';
+  var _scb=document.getElementById('storeCountBadge');if(_scb)_scb.textContent = realCount + '店舗（実在確認済み）';
   applyFilters();
   renderSidebarTop5();
 }
@@ -2437,7 +2437,7 @@ if (loaded) {
 }
 (function initBanner() {
   const realCount = stores.filter(s => s.real).length;
-  document.getElementById('storeCountBadge').textContent = realCount + '店舗（実在確認済み）';
+  var _scb=document.getElementById('storeCountBadge');if(_scb)_scb.textContent = realCount + '店舗（実在確認済み）';
 })();
 applyFilters();
 renderSidebarTop5();
@@ -2549,7 +2549,7 @@ var files=["/stores-extra.js","/stores-extra2.js","/stores-extra3.js","/stores-e
 var loaded=0;
 files.forEach(function(f){
 var s=document.createElement("script");s.src=f;s.async=true;
-s.onload=function(){loaded++;if(loaded===files.length&&typeof renderList==="function"&&window.stores)renderList(stores);};
+s.onload=function(){loaded++;if(loaded===files.length){if(typeof renderList==="function"&&window.stores)renderList(stores);if(typeof applyFilters==="function")applyFilters();}};
 document.head.appendChild(s);
 });
 })();
@@ -2592,7 +2592,7 @@ document.head.appendChild(s);
     <button onclick="document.getElementById('mypage-modal').style.display='none'" style="position:absolute;top:10px;right:15px;background:none;border:none;color:#fff;font-size:24px;cursor:pointer;">&times;</button>
     <h2 style="color:#e8590c;margin:0 0 5px;font-size:22px;">&#x1F4DD; マイページ</h2>
     <div style="display:flex;align-items:center;gap:12px;margin:15px 0;padding:15px;background:#16213e;border-radius:12px;">
-      <img id="mp-avatar" src="" style="width:50px;height:50px;border-radius:50%;border:2px solid #e8590c;">
+      <img id="mp-avatar" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" style="width:50px;height:50px;border-radius:50%;border:2px solid #e8590c;">
       <div><div id="mp-name" style="color:#fff;font-weight:bold;"></div><div id="mp-email" style="color:#999;font-size:13px;"></div></div>
     </div>
     <h3 style="color:#fff;font-size:16px;border-bottom:1px solid #333;padding-bottom:8px;">&#x2B50; 投稿したレビュー</h3>
