@@ -1,4 +1,4 @@
-var CACHE='tacosco-v7';
+var CACHE='tacosco-v8';
 var ASSETS=[
   '/',
   '/index.html',
