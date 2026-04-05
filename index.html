@@ -884,14 +884,28 @@ document.addEventListener("DOMContentLoaded",updateAuthUI);
 })();
 </script>
 <script>
+function getFavs(){
+  var u=window._auth?window._auth.getUser():null;
+  if(u&&u.favorites&&u.favorites.length>0)return u.favorites;
+  return JSON.parse(localStorage.getItem("tacosco_favs")||"[]")
+}
+function saveFavs(favs){
+  localStorage.setItem("tacosco_favs",JSON.stringify(favs));
+  if(window._auth&&window._auth.getUser()){
+    var u=window._auth.getUser();
+    var uk="tacosco_users";
+    var users=JSON.parse(localStorage.getItem(uk)||"{}");
+    if(users[u.nick]){users[u.nick].favorites=favs;localStorage.setItem(uk,JSON.stringify(users));
+      localStorage.setItem("tacosco_current_user",JSON.stringify(users[u.nick]))}
+  }
+}
 function cardFav(storeId,btn){
-  var favs=JSON.parse(localStorage.getItem("tacosco_favs")||"[]");
-  var idx=favs.indexOf(storeId);
+  var favs=getFavs();var idx=favs.indexOf(storeId);
   if(idx>-1){favs.splice(idx,1);btn.textContent="♡";btn.classList.remove("active")}
   else{favs.push(storeId);btn.textContent="❤";btn.classList.add("active")}
-  localStorage.setItem("tacosco_favs",JSON.stringify(favs));
+  saveFavs(favs)
 }
-function isFav(id){var f=JSON.parse(localStorage.getItem("tacosco_favs")||"[]");return f.indexOf(id)>-1}
+function isFav(id){return getFavs().indexOf(id)>-1}
 </script>
         <div id="auth-area" style="display:flex;align-items:center;gap:8px;margin-left:auto;padding:0 16px;">
       <span id="user-nick" style="font-weight:600;color:#e67e22;font-size:13px"></span>
