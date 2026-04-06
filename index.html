@@ -2934,7 +2934,7 @@ if(!section){section=document.createElement('div');section.id='fav-list-section'
 else document.body.appendChild(section)}
 section.style.display='block';
 if(favs.length===0){section.innerHTML='<div style="text-align:center;padding:40px 20px"><p style="font-size:18px;color:#999">❤️ お気に入りはまだありません</p><p style="color:#bbb">店舗カードの♡ボタンを押して追加しよう</p></div>';return}
-var stores=window._allStores||[];
+var stores=window.stores||[];
 var html='<div style="padding:16px"><h2 style="color:#e67e22;margin-bottom:16px">❤️ お気に入り一覧（'+favs.length+'件）</h2>';
 favs.forEach(function(id){
 var s=null;
