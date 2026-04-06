@@ -856,35 +856,31 @@ function sC(u){localStorage.setItem(CK,JSON.stringify(u))}
 function cC(){localStorage.removeItem(CK)}
 function hsh(s){var h=0;for(var i=0;i<s.length;i++){h=((h<<5)-h)+s.charCodeAt(i);h|=0}return h.toString(36)}
 window._auth={
-register:function(n,p,e){if(!n||n.length<2){alert("ニックネーム2文字以上");return false}
-if(!p||p.length<4){alert("パスワード4文字以上");return false}
-if(!e||e.indexOf("@")<1){alert("メールアドレスを入力してください");return false}
-var us=gU();if(us[n]){alert("その名前は使用済み");return false}
-var u={nick:n,passHash:hsh(p),email:e,created:new Date().toISOString(),reviews:[],favorites:[]};us[n]=u;sU(us);sC(u);updateAuthUI();alert("登録完了！");return true},
-login:function(n,p){var us=gU(),u=us[n];if(!u){alert("ユーザーが見つかりません");return false}
-if(u.passHash!==hsh(p)){alert("パスワードが違います");return false}sC(u);updateAuthUI();return true},
-logout:function(){cC();updateAuthUI();},
-getUser:function(){return gC()},
-addReview:function(sid,sc,tx){var u=gC();if(!u)return false;var r={storeId:sid,score:sc,text:tx,date:new Date().toISOString(),author:u.nick};var us=gU();if(us[u.nick]){us[u.nick].reviews=us[u.nick].reviews||[];us[u.nick].reviews.push(r);sU(us);sC(us[u.nick])}return true},
-toggleFav:function(sid){var u=gC();if(!u)return false;var us=gU();if(!us[u.nick])return false;var f=us[u.nick].favorites||[];var i=f.indexOf(sid);if(i>-1)f.splice(i,1);else f.push(sid);us[u.nick].favorites=f;sU(us);sC(us[u.nick]);return true},
-isFav:function(sid){var u=gC();if(!u)return false;return(u.favorites||[]).indexOf(sid)>-1}};
+register:function(e,p){if(!e||e.indexOf("@")<1){alert("\u30e1\u30fc\u30eb\u30a2\u30c9\u30ec\u30b9\u3092\u5165\u529b\u3057\u3066\u304f\u3060\u3055\u3044");return false}
+if(!p||p.length<4){alert("\u30d1\u30b9\u30ef\u30fc\u30c94\u6587\u5b57\u4ee5\u4e0a");return false}
+var us=gU();if(us[e]){alert("\u305d\u306e\u30e1\u30fc\u30eb\u30a2\u30c9\u30ec\u30b9\u306f\u767b\u9332\u6e08\u307f");return false}
+var u={email:e,passHash:hsh(p),created:new Date().toISOString(),reviews:[],favorites:[]};us[e]=u;sU(us);sC(u);updateAuthUI();alert("\u767b\u9332\u5b8c\u4e86\uff01");return true},
+login:function(e,p){var us=gU();var u=us[e];
+if(!u||u.passHash!==hsh(p)){alert("\u30e1\u30fc\u30eb\u30a2\u30c9\u30ec\u30b9\u307e\u305f\u306f\u30d1\u30b9\u30ef\u30fc\u30c9\u304c\u9055\u3044\u307e\u3059");return false}
+sC(u);updateAuthUI();return true},
+logout:function(){localStorage.removeItem("tacosco_current_user");updateAuthUI()},
+getUser:function(){return gC()}
+};
 function updateAuthUI(){var u=gC();
 var rb=document.getElementById("register-btn"),lb=document.getElementById("login-btn"),lo=document.getElementById("logout-btn"),mp=document.getElementById("mypage-btn"),un=document.getElementById("user-nick");
 if(rb)rb.style.display=u?"none":"inline-block";
 if(lb)lb.style.display=u?"none":"inline-block";
 if(lo)lo.style.display=u?"inline-block":"none";
 if(mp)mp.style.display=u?"inline-block":"none";
-if(un){un.style.display=u?"inline":"none";un.textContent=u?u.nick+"\u3055\u3093":""}
-var ue=document.getElementById("user-email-display");
-if(ue){ue.style.display=u?"inline":"none";ue.textContent=u&&u.email?u.email:""}
+if(un){un.style.display=u?"inline":"none";un.textContent=u?u.email:""}
 }
 window.updateAuthUI=updateAuthUI;
 window.showRegModal=function(){document.getElementById("reg-modal").style.display="flex"};
 window.hideRegModal=function(){document.getElementById("reg-modal").style.display="none"};
 window.showLogModal=function(){document.getElementById("log-modal").style.display="flex"};
 window.hideLogModal=function(){document.getElementById("log-modal").style.display="none"};
-window.doRegister=function(){var n=document.getElementById("reg-nick").value.trim(),p=document.getElementById("reg-pass").value,e=document.getElementById("reg-email").value.trim();if(_auth.register(n,p,e)){hideRegModal()}};
-window.doLogin=function(){var n=document.getElementById("log-nick").value.trim(),p=document.getElementById("log-pass").value;if(_auth.login(n,p)){hideLogModal()}};
+window.doRegister=function(){var e=document.getElementById("reg-email").value.trim(),p=document.getElementById("reg-pass").value;if(_auth.register(e,p)){hideRegModal()}}
+doLogin=function(){var e=document.getElementById("login-email").value.trim(),p=document.getElementById("login-pass").value;if(_auth.login(e,p)){hideLoginModal()}};
 document.addEventListener("DOMContentLoaded",updateAuthUI);
 })();
 </script>
@@ -900,8 +896,8 @@ function saveFavs(favs){
     var u=window._auth.getUser();
     var uk="tacosco_users";
     var users=JSON.parse(localStorage.getItem(uk)||"{}");
-    if(users[u.nick]){users[u.nick].favorites=favs;localStorage.setItem(uk,JSON.stringify(users));
-      localStorage.setItem("tacosco_current_user",JSON.stringify(users[u.nick]))}
+    if(users[u.email]){users[u.email].favorites=favs;localStorage.setItem(uk,JSON.stringify(users));
+      localStorage.setItem("tacosco_current_user",JSON.stringify(users[u.email]))}
   }
 }
 function cardFav(storeId,btn){
@@ -914,7 +910,6 @@ function isFav(id){return getFavs().indexOf(id)>-1}
 </script>
         <div id="auth-area" style="display:flex;align-items:center;gap:8px;margin-left:auto;padding:0 16px;">
       <span id="user-nick" style="font-weight:600;color:#e67e22;font-size:13px"></span>
-<span id="user-email-display" style="display:none;color:#fff;font-size:11px;margin-left:4px;opacity:0.8"></span>
       <button id="register-btn" onclick="showRegModal()" style="display:inline-flex;align-items:center;gap:4px;background:#e67e22;color:#fff;border:none;border-radius:20px;padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap">✍️ 新規登録</button>
       <button id="login-btn" onclick="showLogModal()" style="display:inline-flex;align-items:center;gap:4px;background:#fff;color:#e67e22;border:2px solid #e67e22;border-radius:20px;padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap"> ログイン</button>
       <button id="mypage-btn" onclick="document.getElementById('mypage-overlay').style.display='flex'" style="display:none;align-items:center;gap:4px;background:#e67e22;color:#fff;border:none;border-radius:20px;padding:6px 14px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap">マイページ</button>
@@ -3102,22 +3097,24 @@ setTimeout(function(){generateJsonLd();},800);
 <!-- Register Modal -->
 <div id="reg-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:10000;justify-content:center;align-items:center">
 <div style="background:#fff;border-radius:16px;padding:32px;width:90%;max-width:360px;box-shadow:0 8px 32px rgba(0,0,0,0.2)">
-<h3 style="margin:0 0 20px;color:#e67e22;text-align:center">✍️ 新規登録</h3>
-<div style="margin-bottom:12px"><label style="font-size:13px;font-weight:600;color:#555">ニックネーム</label><input id="reg-nick" type="text" placeholder="タコス太郎" style="width:100%;padding:10px 12px;border:2px solid #ddd;border-radius:8px;font-size:15px;margin-top:4px;box-sizing:border-box" /></div>
-<div style="margin-bottom:20px"><label style="font-size:13px;font-weight:600;color:#555">パスワード</label><input id="reg-pass" type="password" placeholder="4文字以上" style="width:100%;padding:10px 12px;border:2px solid #ddd;border-radius:8px;font-size:15px;margin-top:4px;box-sizing:border-box" /></div>
-<div style="margin-bottom:16px"><label style="font-weight:bold;font-size:14px;color:#333">メールアドレス</label>
+<h3 style="text-align:center;color:#e67e22;margin:0 0 24px">\u2709 \u65b0\u898f\u767b\u9332</h3>
+<div style="margin-bottom:16px"><label style="font-weight:bold;font-size:14px;color:#333">\u30e1\u30fc\u30eb\u30a2\u30c9\u30ec\u30b9</label>
 <input id="reg-email" type="email" placeholder="example@mail.com" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-size:16px;box-sizing:border-box;margin-top:8px"></div>
-<button onclick="doRegister()" style="width:100%;padding:12px;background:#e67e22;color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer">登録する</button>
-<button onclick="hideRegModal()" style="width:100%;padding:10px;background:none;border:none;color:#999;font-size:14px;cursor:pointer;margin-top:8px">閉じる</button>
+<div style="margin-bottom:16px"><label style="font-weight:bold;font-size:14px;color:#333">\u30d1\u30b9\u30ef\u30fc\u30c9</label>
+<input id="reg-pass" type="password" placeholder="4\u6587\u5b57\u4ee5\u4e0a" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-size:16px;box-sizing:border-box;margin-top:8px"></div>
+<button onclick="doRegister()" style="width:100%;padding:14px;background:#e67e22;color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:bold;cursor:pointer;margin-top:8px">\u767b\u9332\u3059\u308b</button>
+<button onclick="hideRegModal()" style="width:100%;padding:10px;background:none;border:none;color:#999;font-size:14px;cursor:pointer;margin-top:8px">\u9589\u3058\u308b</button>
 </div></div>
 <!-- Login Modal -->
 <div id="log-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:10000;justify-content:center;align-items:center">
 <div style="background:#fff;border-radius:16px;padding:32px;width:90%;max-width:360px;box-shadow:0 8px 32px rgba(0,0,0,0.2)">
-<h3 style="margin:0 0 20px;color:#e67e22;text-align:center"> ログイン</h3>
-<div style="margin-bottom:12px"><label style="font-size:13px;font-weight:600;color:#555">ニックネーム</label><input id="log-nick" type="text" placeholder="ニックネーム" style="width:100%;padding:10px 12px;border:2px solid #ddd;border-radius:8px;font-size:15px;margin-top:4px;box-sizing:border-box" /></div>
-<div style="margin-bottom:20px"><label style="font-size:13px;font-weight:600;color:#555">パスワード</label><input id="log-pass" type="password" placeholder="パスワード" style="width:100%;padding:10px 12px;border:2px solid #ddd;border-radius:8px;font-size:15px;margin-top:4px;box-sizing:border-box" /></div>
-<button onclick="doLogin()" style="width:100%;padding:12px;background:#e67e22;color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer">ログイン</button>
-<button onclick="hideLogModal()" style="width:100%;padding:10px;background:none;border:none;color:#999;font-size:14px;cursor:pointer;margin-top:8px">閉じる</button>
+<h3 style="text-align:center;color:#e67e22;margin:0 0 24px">\u2709 \u30ed\u30b0\u30a4\u30f3</h3>
+<div style="margin-bottom:16px"><label style="font-weight:bold;font-size:14px;color:#333">\u30e1\u30fc\u30eb\u30a2\u30c9\u30ec\u30b9</label>
+<input id="login-email" type="email" placeholder="example@mail.com" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-size:16px;box-sizing:border-box;margin-top:8px"></div>
+<div style="margin-bottom:16px"><label style="font-weight:bold;font-size:14px;color:#333">\u30d1\u30b9\u30ef\u30fc\u30c9</label>
+<input id="login-pass" type="password" placeholder="\u30d1\u30b9\u30ef\u30fc\u30c9" style="width:100%;padding:12px;border:1px solid #ddd;border-radius:8px;font-size:16px;box-sizing:border-box;margin-top:8px"></div>
+<button onclick="doLogin()" style="width:100%;padding:14px;background:#e67e22;color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:bold;cursor:pointer;margin-top:8px">\u30ed\u30b0\u30a4\u30f3</button>
+<button onclick="hideLoginModal()" style="width:100%;padding:10px;background:none;border:none;color:#999;font-size:14px;cursor:pointer;margin-top:8px">\u9589\u3058\u308b</button>
 </div></div>
 </body>
 </html>
