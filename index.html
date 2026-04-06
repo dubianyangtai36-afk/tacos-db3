@@ -1835,7 +1835,8 @@ function showPage(p) {
   document.getElementById('page-ranking').style.display = p==='ranking'?'block':'none';
   document.getElementById('tab-search').classList.toggle('active', p==='search');
   document.getElementById('tab-ranking').classList.toggle('active', p==='ranking');
-  if (p==='ranking') renderRanking();
+  var fls=document.getElementById('fav-list-section');if(fls)fls.style.display='none';
+  window.scrollTo(0,0);
 }
 
 // =============================================
@@ -2928,28 +2929,25 @@ try{
 // currentStoreId already declared in main script
 function showFavList(){
 var favs=getFavs();
-document.querySelectorAll('.store-list,.filter-section,#load-more-btn,.search-area,.ranking-section,.category-section').forEach(function(el){el.style.display='none'});
-var section=document.getElementById('fav-list-section');
-if(!section){section=document.createElement('div');section.id='fav-list-section';var main=document.querySelector('.store-list')||document.querySelector('main');if(main&&main.parentNode)main.parentNode.insertBefore(section,main);
+document.getElementById("page-search").style.display="none";
+document.getElementById("page-ranking").style.display="none";
+var section=document.getElementById("fav-list-section");
+if(!section){section=document.createElement("div");section.id="fav-list-section";
+var content=document.getElementById("content");
+if(content)content.appendChild(section);
 else document.body.appendChild(section)}
-section.style.display='block';
-if(favs.length===0){section.innerHTML='<div style="text-align:center;padding:40px 20px"><p style="font-size:18px;color:#999">❤️ お気に入りはまだありません</p><p style="color:#bbb">店舗カードの♡ボタンを押して追加しよう</p></div>';return}
+section.style.display="block";
+if(favs.length===0){section.innerHTML='<div style="text-align:center;padding:40px 20px"><p style="font-size:18px;color:#999">\u2764\ufe0f \u304a\u6c17\u306b\u5165\u308a\u306f\u307e\u3060\u3042\u308a\u307e\u305b\u3093</p><p style="color:#bbb">\u5e97\u8217\u30ab\u30fc\u30c9\u306e\u2661\u30dc\u30bf\u30f3\u3092\u62bc\u3057\u3066\u8ffd\u52a0\u3057\u3088\u3046</p></div>';return}
 var stores=window.stores||[];
-var html='<div style="padding:16px"><h2 style="color:#e67e22;margin-bottom:16px">❤️ お気に入り一覧（'+favs.length+'件）</h2>';
+var html='<div style="padding:16px"><h2 style="color:#e67e22;margin-bottom:16px">\u2764\ufe0f \u304a\u6c17\u306b\u5165\u308a\u4e00\u89a7\uff08'+favs.length+'\u4ef6\uff09</h2>';
 favs.forEach(function(id){
 var s=null;
 for(var i=0;i<stores.length;i++){if(stores[i].id===id){s=stores[i];break}}
 if(!s)return;
-var tags=(s.tags||[]).map(function(t){return'<span style="background:#f0f0f0;padding:2px 8px;border-radius:10px;font-size:11px;margin-right:4px">'+t+'</span>'}).join('');
-html+='<div style="display:flex;gap:12px;padding:12px;margin-bottom:8px;background:#fff;border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,0.08);cursor:pointer;position:relative" onclick="location.href=\'/store?id='+s.id+'\'">'+
-'<div style="width:60px;height:60px;border-radius:8px;background:#f5f5f5;display:flex;align-items:center;justify-content:center;font-size:28px">🌮</div>'+
-'<div style="flex:1;min-width:0"><div style="font-weight:bold;font-size:14px;margin-bottom:4px">'+s.name+'</div>'+
-'<div style="font-size:12px;color:#888;margin-bottom:4px">'+( s.area||'')+'</div>'+
-'<div>'+tags+'</div></div>'+
-'<button class="fav-heart active" onclick="event.stopPropagation();cardFav('+s.id+',this);if(!isFav('+s.id+'))this.parentNode.remove()" style="position:absolute;top:8px;right:8px;background:rgba(255,255,255,0.9);border:none;border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer">❤</button>'+
-'</div>';
+var tags=(s.tags||[]).map(function(t){return'<span style="background:#f0f0f0;padding:2px 8px;border-radius:10px;font-size:11px;margin-right:4px">'+t+'</span>'}).join("");
+html+='<div style="display:flex;gap:12px;padding:12px;margin-bottom:8px;background:#fff;border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,0.08);cursor:pointer;position:relative" onclick="location.href=\x27/store?id='+s.id+'\x27"><div style="font-size:32px;display:flex;align-items:center">\ud83c\udf2e</div><div style="flex:1;min-width:0"><div style="font-weight:bold;font-size:15px;color:#333">'+s.name+'</div><div style="font-size:12px;color:#999;margin:2px 0">'+((s.area||"")+(s.station?" "+s.station:""))+'</div><div style="margin-top:4px">'+tags+'</div></div><div style="position:absolute;top:8px;right:8px;font-size:20px;cursor:pointer" onclick="event.stopPropagation();cardFav(\x27'+s.id+'\x27,this);setTimeout(showFavList,200)">\u2764\ufe0f</div></div>';
 });
-html+='</div>';
+html+="</div>";
 section.innerHTML=html;
 }
 function closeFavList(){
