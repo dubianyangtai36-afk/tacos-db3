@@ -1065,13 +1065,16 @@ function isFav(id){return getFavs().indexOf(id)>-1}
 <!-- ========= FOOTER ========= -->
 </main>
 
-<footer id="site-footer" style="background:#333;color:#ccc;text-align:center;padding:18px 12px;font-size:11px;margin-top:20px;">
+<footer id="site-footer" style="background:#333;color:#ccc;text-align:center;padding:24px 12px;font-size:12px;margin-top:20px;">
   <div style="max-width:980px;margin:0 auto;">
-    <a href="#" onclick="document.getElementById('pp-overlay').classList.add('open');return false;" style="color:#fff;text-decoration:underline;margin-right:16px;">プライバシーポリシー</a>
-    <a href="#" onclick="document.getElementById('terms-overlay').classList.add('open');return false;" style="color:#fff;text-decoration:underline;margin-right:16px;">利用規約</a>
-    <a href="#" onclick="document.getElementById('contact-overlay').classList.add('open');return false;" style="color:#fff;text-decoration:underline;margin-right:16px;">お問い合わせ</a>
-    <a href="#" onclick="document.getElementById('about-overlay').classList.add('open');return false;" style="color:#fff;text-decoration:underline;">運営者情報</a>
-    <p style="margin-top:8px;color:#999;">&copy; 2026 タコスコ All Rights Reserved.</p>
+    <div style="margin-bottom:12px;">
+      <a href="/about-tacos.html" style="color:#ffcc80;margin:0 8px;">タコスとは</a>
+      <a href="/blog-guide.html" style="color:#ffcc80;margin:0 8px;">選び方ガイド</a>
+      <a href="/privacy.html" style="color:#ffcc80;margin:0 8px;">プライバシーポリシー</a>
+      <a href="/terms.html" style="color:#ffcc80;margin:0 8px;">利用規約</a>
+    </div>
+    <a href="#" onclick="document.getElementById('pp-overlay').classList.add('open');return false;" style="color:#ffcc80;">プライバシーポリシー（サイト内）</a>
+    <p style="margin-top:8px;">&copy; 2026 Tacosco - 日本全国タコス専門店データベース</p>
   </div>
 </footer>
 
