@@ -137,6 +137,22 @@
       "dest": "/api/$1"
     },
     {
+      "src": "/about-tacos.html",
+      "dest": "/about-tacos.html"
+    },
+    {
+      "src": "/blog-guide.html",
+      "dest": "/blog-guide.html"
+    },
+    {
+      "src": "/privacy.html",
+      "dest": "/privacy.html"
+    },
+    {
+      "src": "/terms.html",
+      "dest": "/terms.html"
+    },
+        {
       "src": "/(.*)",
       "dest": "/index.html"
     }
