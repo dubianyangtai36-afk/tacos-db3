@@ -1741,8 +1741,8 @@ function applyFilters() {
   });
   if (sort === 'score') result.sort((a,b) => getBlendedScore(b) - getBlendedScore(a));
   else if (sort === 'reviews') result.sort((a,b) => b.reviews - a.reviews);
-  else result.sort((a,b) => a.name.localeCompare(b.name,'ja'));
   else if (sort === 'distance' && window._userLat) result.sort((a,b) => (a._dist||99999) - (b._dist||99999));
+  else result.sort((a,b) => a.name.localeCompare(b.name,'ja'));
   renderList(result);
 }
 
