@@ -944,6 +944,7 @@ function isFav(id){return getFavs().indexOf(id)>-1}
         <div class="search-row">
           <input type="text" id="searchInput" placeholder="店名・エリア・タグで検索..." oninput="applyFilters()" />
           <button class="search-btn" onclick="applyFilters()">検索</button>
+          <button id="gpsBtn" class="search-btn" onclick="gpsSearch()" style="background:#10b981;min-width:auto;padding:8px 12px;" title="現在地から探す"></button>
             <div id="search-suggest"></div>
         </div>
         <div class="filter-row">
@@ -975,7 +976,10 @@ function isFav(id){return getFavs().indexOf(id)>-1}
           <span class="fchip" onclick="setFilter('price','¥',this)">¥（〜1000円）</span>
           <span class="fchip" onclick="setFilter('price','¥¥',this)">¥¥（〜2000円）</span>
           <span class="fchip" onclick="setFilter('price','¥¥¥',this)">¥¥¥（2000円〜）</span>
-        </div>
+        
+        <div style="margin-top:10px;text-align:center;">
+          <button id="rankBtn" onclick="showRanking()" style="background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;border:none;padding:10px 24px;border-radius:24px;font-size:14px;font-weight:bold;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.15);"> 都道府県ランキング</button>
+        </div></div>
       </div>
 
       <!-- AD: Top Banner -->
@@ -991,6 +995,7 @@ function isFav(id){return getFavs().indexOf(id)>-1}
           <option value="score">スコア順</option>
           <option value="reviews">口コミ数順</option>
           <option value="name">名前順</option>
+            <option value="distance">距い順</option>
         </select>
       </div>
       <div id="store-list"></div>
@@ -1064,6 +1069,17 @@ function isFav(id){return getFavs().indexOf(id)>-1}
 
 <!-- ========= FOOTER ========= -->
 </main>
+
+
+      <!-- Ranking Modal -->
+      <div id="rankModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;overflow-y:auto;" onclick="if(event.target===this)this.style.display='none'">
+        <div style="background:#fff;max-width:600px;margin:40px auto;border-radius:16px;padding:24px;position:relative;">
+          <button onclick="document.getElementById('rankModal').style.display='none'" style="position:absolute;top:12px;right:16px;background:none;border:none;font-size:24px;cursor:pointer;color:#666;">✕</button>
+          <h2 style="margin:0 0 8px;font-size:22px;"> 都道府県ランキング</h2>
+          <p style="color:#666;margin:0 0 16px;font-size:14px;">タコス店が多い都道府県順</p>
+          <div id="rankList"></div>
+        </div>
+      </div>
 
 <footer id="site-footer" style="background:#333;color:#ccc;text-align:center;padding:24px 12px;font-size:12px;margin-top:20px;">
   <div style="max-width:980px;margin:0 auto;">
@@ -1726,6 +1742,7 @@ function applyFilters() {
   if (sort === 'score') result.sort((a,b) => getBlendedScore(b) - getBlendedScore(a));
   else if (sort === 'reviews') result.sort((a,b) => b.reviews - a.reviews);
   else result.sort((a,b) => a.name.localeCompare(b.name,'ja'));
+  else if (sort === 'distance' && window._userLat) result.sort((a,b) => (a._dist||99999) - (b._dist||99999));
   renderList(result);
 }
 
@@ -3095,6 +3112,79 @@ window.addEventListener('popstate',function(){
 
 // Generate JSON-LD after stores load
 setTimeout(function(){generateJsonLd();},800);
+
+
+// GPS Search
+var _userLat = null, _userLng = null;
+
+function gpsSearch() {
+  var btn = document.getElementById('gpsBtn');
+  btn.textContent = '...';
+  btn.disabled = true;
+  if (!navigator.geolocation) {
+    alert('このブラウザでは位置情報を取得できません');
+    btn.textContent = ''; btn.disabled = false;
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(function(pos) {
+    _userLat = pos.coords.latitude;
+    _userLng = pos.coords.longitude;
+    // Calculate distance for each store using address geocoding approximation
+    // Use area-based prefecture center coordinates
+    var prefCoords = {"北海道":[43.06,141.35],"青森":[40.82,140.74],"岩手":[39.7,141.15],"宮城":[38.27,140.87],"秋田":[39.72,140.1],"山形":[38.24,140.33],"福島":[37.75,140.47],"茨城":[36.34,140.45],"栃木":[36.57,139.88],"群馬":[36.39,139.06],"埼玉":[35.86,139.65],"千葉":[35.61,140.12],"東京":[35.68,139.69],"神奈川":[35.45,139.64],"新潟":[37.9,139.02],"富山":[36.7,137.21],"石川":[36.59,136.63],"福井":[36.07,136.22],"山梨":[35.66,138.57],"長野":[36.23,138.18],"岐阜":[35.39,136.72],"静岡":[34.98,138.38],"愛知":[35.18,136.91],"名古屋":[35.18,136.91],"三重":[34.73,136.51],"滋賀":[35,135.87],"京都":[35.01,135.77],"大阪":[34.69,135.5],"兵庫":[34.69,135.18],"奈良":[34.69,135.83],"和歌山":[34.23,135.17],"鳥取":[35.5,134.24],"島根":[35.47,133.05],"岡山":[34.66,133.93],"広島":[34.4,132.46],"山口":[34.19,131.47],"徳島":[34.07,134.56],"香川":[34.34,134.04],"愛媛":[33.84,132.77],"高知":[33.56,133.53],"福岡":[33.61,130.42],"佐賀":[33.25,130.3],"長崎":[32.74,129.87],"熊本":[32.79,130.74],"大分":[33.24,131.61],"宮崎":[31.91,131.42],"鹿児島":[31.56,130.56],"沖縄":[26.34,127.68]};
+    stores.forEach(function(s) {
+      var c = prefCoords[s.area];
+      if (c) {
+        var dlat = _userLat - c[0], dlng = _userLng - c[1];
+        s._dist = Math.sqrt(dlat*dlat + dlng*dlng) * 111;
+      } else {
+        s._dist = 99999;
+      }
+    });
+    document.getElementById('sortSelect').value = 'distance';
+    applyFilters();
+    btn.textContent = '';
+    btn.disabled = false;
+    // Show user location info
+    var nearestArea = '';
+    var minD = 99999;
+    Object.keys(prefCoords).forEach(function(k) {
+      var c = prefCoords[k];
+      var d = Math.sqrt(Math.pow(_userLat-c[0],2)+Math.pow(_userLng-c[1],2))*111;
+      if (d < minD) { minD = d; nearestArea = k; }
+    });
+    var rh = document.getElementById('result-header');
+    if (rh) rh.innerHTML = ' ' + nearestArea + '付近のタコス店を表示中';
+  }, function(err) {
+    alert('位置情報の取得に失敗しました。設定から位置情報を許可してください。');
+    btn.textContent = '';
+    btn.disabled = false;
+  }, {enableHighAccuracy: true, timeout: 10000});
+}
+
+
+// Prefecture Ranking
+function showRanking() {
+  var counts = {};
+  stores.forEach(function(s) { counts[s.area] = (counts[s.area]||0) + 1; });
+  var ranked = Object.entries(counts).sort(function(a,b){return b[1]-a[1];});
+  var maxCount = ranked[0][1];
+  var medals = ['\u{1F947}','\u{1F948}','\u{1F949}'];
+  var html = '';
+  ranked.forEach(function(r, i) {
+    var pct = Math.round(r[1] / maxCount * 100);
+    var medal = i < 3 ? medals[i] : (i+1)+'.';
+    var bg = i===0 ? '#fef3c7' : i===1 ? '#f3f4f6' : i===2 ? '#fef0e6' : '#fff';
+    html += '<div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid #eee;background:'+bg+';border-radius:8px;margin-bottom:4px;cursor:pointer;" onclick="document.getElementById(\'rankModal\').style.display=\'none\';document.getElementById(\'areaSelect\').value=\''+r[0]+'\';filters.area=\''+r[0]+'\';applyFilters();">';
+    html += '<span style="font-size:24px;min-width:40px;text-align:center;">'+medal+'</span>';
+    html += '<div style="flex:1;"><div style="font-weight:bold;font-size:15px;">'+r[0]+'</div>';
+    html += '<div style="background:#e5e7eb;border-radius:4px;height:8px;margin-top:4px;"><div style="background:linear-gradient(90deg,#f59e0b,#ef4444);height:100%;border-radius:4px;width:'+pct+'%;"></div></div></div>';
+    html += '<span style="font-weight:bold;color:#374151;font-size:16px;">'+r[1]+'<span style="font-size:12px;color:#666;">店</span></span></div>';
+  });
+  document.getElementById('rankList').innerHTML = html;
+  document.getElementById('rankModal').style.display = 'block';
+}
+
 </script>
 
 <!-- Register Modal -->
