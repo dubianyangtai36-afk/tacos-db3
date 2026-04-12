@@ -3145,7 +3145,7 @@ function gpsSearch() {
     applyFilters();
     btn.textContent = '';
     btn.disabled = false;
-    // Show user location info
+    // Calculate distance for each store based on prefecture center
     var nearestArea = '';
     var minD = 99999;
     Object.keys(prefCoords).forEach(function(k) {
@@ -3153,8 +3153,20 @@ function gpsSearch() {
       var d = Math.sqrt(Math.pow(_userLat-c[0],2)+Math.pow(_userLng-c[1],2))*111;
       if (d < minD) { minD = d; nearestArea = k; }
     });
+    // Set _dist on each store
+    stores.forEach(function(s) {
+      var pc = prefCoords[s.area];
+      if (pc) {
+        s._dist = Math.sqrt(Math.pow(_userLat-pc[0],2)+Math.pow(_userLng-pc[1],2))*111;
+      } else {
+        s._dist = 99999;
+      }
+    });
+    // Set sort to distance and apply
+    document.getElementById('sortSelect').value = 'distance';
+    applyFilters();
     var rh = document.getElementById('result-header');
-    if (rh) rh.innerHTML = ' ' + nearestArea + '付近のタコス店を表示中';
+    if (rh) rh.innerHTML = ' ' + nearestArea + '付近のタコス店を距い順に表示';
   }, function(err) {
     alert('位置情報の取得に失敗しました。設定から位置情報を許可してください。');
     btn.textContent = '';
