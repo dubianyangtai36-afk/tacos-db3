@@ -1134,5 +1134,3 @@
     stores.push(...newStores2);
   }
 });
-
-})();
